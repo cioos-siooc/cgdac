@@ -1,0 +1,23 @@
+*.pyc
+.*.swp
+.*.swo
+logs/*.txt
+test/*
+config.local.yml
+
+/.fab
+/.fab-production
+/.fabstage
+/.env
+.DS_Store
+
+ftp_temp
+tds_temp
+tds_catalogs
+data/
+
+# BerkeleyDB user database
+users.db
+.venv/
+activate
+src

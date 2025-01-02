@@ -1,0 +1,1365 @@
+logFileMaxSize=20000000
+*** Starting GenerateDatasetsXml 2024-12-13T21:08:06 erddapVersion=2.23
+logFile=/erddapData/logs/GenerateDatasetsXml.log
+Java 17.0.12 (64 bit, Eclipse Adoptium) on Linux (6.10.4-linuxkit).
+MemoryInUse=   110 MB (highWaterMark=   110 MB) (Xmx ~= 1000 MB)
+verbose=true
+
+*** GenerateDatasetsXml ***
+To enter a String with special characters or whitespace at the
+  beginning or end, enter a JSON-style string (with double quotes at
+  the beginning and end, and \-encoded special characters, e.g., "\t" .
+Just press Enter or type the word "default" (but without the quotes)
+  to get the default value.
+Type the word "nothing" (but without quotes) or "" (2 double quotes)
+  to change from a non-nothing default back to nothing (a 0-length string).
+Press ^D or ^C to exit this program at any time.
+Or, you can put all the answers as parameters on the command line.
+Results are shown on the screen and put in
+/erddapData/logs/GenerateDatasetsXml.out
+DISCLAIMER:
+  The chunk of datasets.xml made by GenerateDatasetsXml isn't perfect.
+  YOU MUST READ AND EDIT THE XML BEFORE USING IT IN A PUBLIC ERDDAP.
+  GenerateDatasetsXml relies on a lot of rules-of-thumb which aren't always
+  correct.  *YOU* ARE RESPONSIBLE FOR ENSURING THE CORRECTNESS OF THE XML
+  THAT YOU ADD TO ERDDAP'S datasets.xml FILE.
+For detailed information, see
+https://coastwatch.pfeg.noaa.gov/erddap/download/setupDatasetsXml.html
+
+The EDDType options are:
+EDDGridAggregateExistingDimension   EDDTableFromEML
+EDDGridFromAudioFiles               EDDTableFromEMLBatch
+EDDGridFromDap                      EDDTableFromErddap
+EDDGridFromEDDTable                 EDDTableFromFileNames
+EDDGridFromErddap                   EDDTableFromHttpGet
+EDDGridFromMergeIRFiles             EDDTableFromInPort
+EDDGridFromNcFiles                  EDDTableFromIoosSOS
+EDDGridFromNcFilesUnpacked          EDDTableFromJsonlCSVFiles
+EDDGridFromThreddsCatalog           EDDTableFromMultidimNcFiles
+EDDGridLonPM180FromErddapCatalog    EDDTableFromNcFiles
+EDDGridLon0360FromErddapCatalog     EDDTableFromNcCFFiles
+EDDTableFromAsciiFiles              EDDTableFromNccsvFiles
+EDDTableFromAudioFiles              EDDTableFromOBIS
+EDDTableFromAwsXmlFiles             EDDTableFromSOS
+EDDTableFromBCODMO                  EDDTableFromThreddsFiles
+EDDTableFromCassandra               EDDTableFromWFSFiles
+EDDTableFromColumnarAsciiFiles      EDDsFromFiles
+EDDTableFromDapSequence             addFillValueAttributes
+EDDTableFromDatabase                findDuplicateTime
+EDDTableFromEDDGrid                 ncdump
+
+Which EDDType? EDDTableFromNcFiles
+Starting directory? /datasets/dataset2
+File name regex (e.g., ".*\.nc")? nothing
+Full file name of one file (or leave empty to use first matching fileName)? nothing
+DimensionsCSV (or "" for default)? nothing
+ReloadEveryNMinutes (e.g., 10080)? nothing
+PreExtractRegex? nothing
+PostExtractRegex? nothing
+ExtractRegex? nothing
+Column name for extract? nothing
+Sorted column source name? nothing
+Sort files by sourceNames? nothing
+infoUrl? nothing
+institution? nothing
+summary? nothing
+title? nothing
+standardizeWhat (-1 to get the class' default)? nothing
+cacheFromUrl? nothing
+working...
+
+*** EDDTableFromNcFiles.generateDatasetsXml
+fileDir=/datasets/dataset2 fileNameRegex=
+sampleFileName=
+useDimensionsCSV= reloadEveryNMinutes=10080
+extract pre= post= regex= colName=
+sortedColumn= sortFilesBy=
+infoUrl=
+institution=
+summary=
+title=
+externalAddGlobalAttributes=null
+Found/using sampleFileName=/datasets/dataset2/sea076_20230906T0852_R.nc
+Let's see if netcdf-java can tell us the structure of the sample file:
+netcdf sea076_20230906T0852_R.nc {
+  dimensions:
+    N_MEASUREMENTS = 10;
+  variables:
+    float CNDC(N_MEASUREMENTS=10);
+      :_FillValue = NaNf; // float
+      :instrument = "instrument_ctd";
+      :long_name = "Electrical conductivity of the water body by CTD";
+      :observation_type = "measured";
+      :standard_name = "sea_water_electrical_conductivity";
+      :units = "mS cm-1";
+      :valid_max = 85.0f; // float
+      :valid_min = 0.0f; // float
+      :URI = "https://vocab.nerc.ac.uk/collection/OG1/current/CNDC/";
+      :ancillary_variables = "CNDC_QC";
+      :sensor = "SENSOR_CTD_206523";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    byte CNDC_QC(N_MEASUREMENTS=10);
+      :ioos_qc_module = "qartod";
+      :quality_control_conventions = "IOOS QARTOD standard flags";
+      :quality_control_set = 1L; // long
+      :valid_min = 1B; // byte
+      :valid_max = 9B; // byte
+      :flag_values = 1B, 2B, 3B, 4B, 9B; // byte
+      :flag_meanings = "GOOD UNKNOWN SUSPECT FAIL MISSING";
+      :long_name = "Electrical conductivity of the water body by CTD Quality Flag";
+      :standard_name = "status_flag";
+      :comment = "Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [<Call stream_id=conductivity function=qartod.gross_range_test(suspect_span=[6, 42], fail_span=[3, 45])>, <Call stream_id=conductivity function=qartod.location_test(bbox=[10, 50, 25, 70])>].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI http://dx.doi.org/10.25607/OBP-214.";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    float DOXY(N_MEASUREMENTS=10);
+      :_FillValue = NaNf; // float
+      :long_name = "oxygen concentration";
+      :observation_type = "calculated";
+      :standard_name = "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water";
+      :units = "mmol m-3";
+      :valid_max = 425.0f; // float
+      :valid_min = 0.0f; // float
+      :URI = "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/";
+      :ancillary_variables = "DOXY_QC";
+      :sensor = "SENSOR_DISSOLVED_GAS_SENSORS_0041";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    byte DOXY_QC(N_MEASUREMENTS=10);
+      :ioos_qc_module = "qartod";
+      :quality_control_conventions = "IOOS QARTOD standard flags";
+      :quality_control_set = 1L; // long
+      :valid_min = 1B; // byte
+      :valid_max = 9B; // byte
+      :flag_values = 1B, 2B, 3B, 4B, 9B; // byte
+      :flag_meanings = "GOOD UNKNOWN SUSPECT FAIL MISSING";
+      :long_name = "oxygen concentration Quality Flag";
+      :standard_name = "status_flag";
+      :comment = "Pilot QC: Following issues with the oxygen sensor, a 2-point calibration has been performed on date {2023-09-04}. The values at 0 and 100 % saturation are accurate. Absolute Values between these two extremes may be inaccurate. The relative variability is confirmed to be valid and no temporal drift occurs. During tests values that can be outside the manufacturer acceptance range have been observed when compared to the output from a reference sensor. This issue is particularly evident around 100μmol/l. More information on the history and updates regarding this issue (https://observations.voiceoftheocean.org/data/updates). . Minimum QC value set to 4. IOOS_QC: Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [<Call stream_id=oxygen_concentration function=qartod.gross_range_test(suspect_span=[0, 350], fail_span=[0, 500])>, <Call stream_id=oxygen_concentration function=qartod.spike_test(suspect_threshold=10, fail_threshold=50)>, <Call stream_id=oxygen_concentration function=qartod.location_test(bbox=[10, 50, 25, 70])>].";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    float PRES(N_MEASUREMENTS=10);
+      :_FillValue = NaNf; // float
+      :comment = "ctd pressure sensor";
+      :instrument = "instrument_ctd";
+      :long_name = "Pressure (spatial coordinate) exerted by the water body by profiling pressure sensor and correction to read zero at sea level";
+      :observation_type = "measured";
+      :positive = "down";
+      :reference_datum = "sea-surface";
+      :standard_name = "sea_water_pressure";
+      :units = "dbar";
+      :valid_max = 2000.0f; // float
+      :valid_min = 0.0f; // float
+      :URI = "https://vocab.nerc.ac.uk/collection/OG1/current/PRES";
+      :sensor = "SENSOR_CTD_206523";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    float PSAL(N_MEASUREMENTS=10);
+      :_FillValue = NaNf; // float
+      :long_name = "water salinity";
+      :standard_name = "sea_water_practical_salinity";
+      :units = "1e-3";
+      :comment = "Practical salinity of the water body by CTD and computation using UNESCO 1983 algorithm";
+      :sources = "CNDC, TEMP, PRES";
+      :observation_type = "calculated";
+      :instrument = "instrument_ctd";
+      :valid_max = 40.0f; // float
+      :valid_min = 0.0f; // float
+      :URI = "https://vocab.nerc.ac.uk/collection/OG1/current/PSAL/";
+      :ancillary_variables = "PSAL_QC";
+      :sensor = "SENSOR_CTD_206523";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    byte PSAL_QC(N_MEASUREMENTS=10);
+      :ioos_qc_module = "qartod";
+      :quality_control_conventions = "IOOS QARTOD standard flags";
+      :quality_control_set = 1L; // long
+      :valid_min = 1B; // byte
+      :valid_max = 9B; // byte
+      :flag_values = 1B, 2B, 3B, 4B, 9B; // byte
+      :flag_meanings = "GOOD UNKNOWN SUSPECT FAIL MISSING";
+      :long_name = "water salinity Quality Flag";
+      :standard_name = "status_flag";
+      :comment = "Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [<Call stream_id=conductivity function=qartod.gross_range_test(suspect_span=[6, 42], fail_span=[3, 45])>, <Call stream_id=salinity function=qartod.gross_range_test(suspect_span=[5, 38], fail_span=[2, 41])>, <Call stream_id=salinity function=qartod.spike_test(suspect_threshold=0.3, fail_threshold=0.9)>, <Call stream_id=salinity function=qartod.location_test(bbox=[10, 50, 25, 70])>].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI http://dx.doi.org/10.25607/OBP-214.";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    float TEMP(N_MEASUREMENTS=10);
+      :_FillValue = NaNf; // float
+      :long_name = "Temperature of the water body by CTD ";
+      :observation_type = "measured";
+      :standard_name = "sea_water_temperature";
+      :units = "Celsius";
+      :valid_max = 42.0f; // float
+      :valid_min = -5.0f; // float
+      :URI = "https://vocab.nerc.ac.uk/collection/OG1/current/TEMP/";
+      :ancillary_variables = "TEMP_QC";
+      :sensor = "SENSOR_CTD_206523";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    byte TEMP_QC(N_MEASUREMENTS=10);
+      :ioos_qc_module = "qartod";
+      :quality_control_conventions = "IOOS QARTOD standard flags";
+      :quality_control_set = 1L; // long
+      :valid_min = 1B; // byte
+      :valid_max = 9B; // byte
+      :flag_values = 1B, 2B, 3B, 4B, 9B; // byte
+      :flag_meanings = "GOOD UNKNOWN SUSPECT FAIL MISSING";
+      :long_name = "Temperature of the water body by CTD  Quality Flag";
+      :standard_name = "status_flag";
+      :comment = "Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [<Call stream_id=temperature function=qartod.gross_range_test(suspect_span=[0, 30], fail_span=[-2.5, 40])>, <Call stream_id=temperature function=qartod.spike_test(suspect_threshold=2.0, fail_threshold=6.0)>, <Call stream_id=temperature function=qartod.location_test(bbox=[10, 50, 25, 70])>].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI http://dx.doi.org/10.25607/OBP-214.";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    float DENSITY(N_MEASUREMENTS=10);
+      :_FillValue = NaNf; // float
+      :long_name = "The mass of a unit volume of any body of fresh or salt water";
+      :standard_name = "sea_water_density";
+      :units = "kg m-3";
+      :comment = "raw, uncorrected salinity";
+      :observation_type = "calculated";
+      :sources = "salinity temperature pressure";
+      :valid_min = 1000.0f; // float
+      :valid_max = 1040.0f; // float
+      :URI = "https://vocab.nerc.ac.uk/collection/OG1/current/DENSITY/";
+      :ancillary_variables = "DENSITY_QC";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    byte DENSITY_QC(N_MEASUREMENTS=10);
+      :ioos_qc_module = "qartod";
+      :quality_control_conventions = "IOOS QARTOD standard flags";
+      :quality_control_set = 1L; // long
+      :valid_min = 1B; // byte
+      :valid_max = 9B; // byte
+      :flag_values = 1B, 2B, 3B, 4B, 9B; // byte
+      :flag_meanings = "GOOD UNKNOWN SUSPECT FAIL MISSING";
+      :long_name = "The mass of a unit volume of any body of fresh or salt water Quality Flag";
+      :standard_name = "status_flag";
+      :comment = "Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [<Call stream_id=temperature function=qartod.gross_range_test(suspect_span=[0, 30], fail_span=[-2.5, 40])>, <Call stream_id=temperature function=qartod.spike_test(suspect_threshold=2.0, fail_threshold=6.0)>, <Call stream_id=temperature function=qartod.location_test(bbox=[10, 50, 25, 70])>, <Call stream_id=conductivity function=qartod.gross_range_test(suspect_span=[6, 42], fail_span=[3, 45])>, <Call stream_id=salinity function=qartod.gross_range_test(suspect_span=[5, 38], fail_span=[2, 41])>, <Call stream_id=salinity function=qartod.spike_test(suspect_threshold=0.3, fail_threshold=0.9)>, <Call stream_id=salinity function=qartod.location_test(bbox=[10, 50, 25, 70])>].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI http://dx.doi.org/10.25607/OBP-214.";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    double LATITUDE(N_MEASUREMENTS=10);
+      :_FillValue = NaN; // double
+      :coordinate_reference_frame = "urn:ogc:crs:EPSG::4326";
+      :long_name = "latitude of each measurement and GPS location";
+      :observation_type = "measured";
+      :platform = "platform";
+      :reference = "WGS84";
+      :standard_name = "latitude";
+      :units = "degrees_north";
+      :valid_max = 90.0; // double
+      :valid_min = -90.0; // double
+
+    double LONGITUDE(N_MEASUREMENTS=10);
+      :_FillValue = NaN; // double
+      :coordinate_reference_frame = "urn:ogc:crs:EPSG::4326";
+      :long_name = "longitude of each measurement and GPS location";
+      :observation_type = "measured";
+      :platform = "platform";
+      :reference = "WGS84";
+      :standard_name = "longitude";
+      :units = "degrees_east";
+      :valid_max = 180.0; // double
+      :valid_min = -180.0; // double
+
+    double TIME(N_MEASUREMENTS=10);
+      :_FillValue = NaN; // double
+      :long_name = "time of measurement";
+      :observation_type = "measured";
+      :standard_name = "time";
+      :URI = "https://vocab.nerc.ac.uk/collection/P02/current/AYMD/";
+      :units = "seconds since 1970-01-01T00:00:00Z";
+      :calendar = "gregorian";
+
+    short PROFILE_NUMBER(N_MEASUREMENTS=10);
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+      :long_name = "profile index";
+      :units = "1";
+
+    float DEPTH(N_MEASUREMENTS=10);
+      :_FillValue = NaNf; // float
+      :source = "pressure";
+      :long_name = "glider depth";
+      :standard_name = "depth";
+      :units = "m";
+      :comment = "from science pressure and interpolated";
+      :instrument = "instrument_ctd";
+      :observation_type = "calculated";
+      :accuracy = 1L; // long
+      :precision = 2L; // long
+      :resolution = 0.02; // double
+      :platform = "platform";
+      :valid_min = 0.0f; // float
+      :valid_max = 2000.0f; // float
+      :reference_datum = "surface";
+      :positive = "down";
+
+    double LATITUDE_GPS(N_MEASUREMENTS=10);
+      :_FillValue = NaN; // double
+      :coordinate_reference_frame = "urn:ogc:crs:EPSG::4326";
+      :long_name = "latitude of each GPS location";
+      :observation_type = "measured";
+      :platform = "platform";
+      :reference = "WGS84";
+      :standard_name = "latitude";
+      :units = "degrees_north";
+      :valid_max = 90.0; // double
+      :valid_min = -90.0; // double
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    double LONGITUDE_GPS(N_MEASUREMENTS=10);
+      :_FillValue = NaN; // double
+      :coordinate_reference_frame = "urn:ogc:crs:EPSG::4326";
+      :long_name = "longitude of each GPS location";
+      :observation_type = "measured";
+      :platform = "platform";
+      :reference = "WGS84";
+      :standard_name = "longitude";
+      :units = "degrees_east";
+      :valid_max = 180.0; // double
+      :valid_min = -180.0; // double
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    double TIME_GPS(N_MEASUREMENTS=10);
+      :_FillValue = NaN; // double
+      :long_name = "time of each GPS location";
+      :observation_type = "measured";
+      :standard_name = "time";
+      :URI = "https://vocab.nerc.ac.uk/collection/P02/current/AYMD/";
+      :units = "seconds since 1970-01-01T00:00:00Z";
+      :calendar = "gregorian";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    String TRAJECTORY;
+      :cf_role = "trajectory_id";
+      :long_name = "trajectory name";
+
+    String WMO_IDENTIFIER;
+      :long_name = "wmo id";
+
+    String PLATFORM_MODEL;
+      :long_name = "model of the glider";
+      :platform_model_vocabulary = "None";
+
+    String PLATFORM_SERIAL_NUMBER;
+      :long_name = "glider serial number";
+
+    double DEPLOYMENT_TIME;
+      :_FillValue = NaN; // double
+      :long_name = "date of deployment";
+      :standard_name = "time";
+      :units = "seconds since 1970-01-01T00:00:00Z";
+      :calendar = "gregorian";
+
+    double DEPLOYMENT_LATITUDE;
+      :_FillValue = NaN; // double
+      :long_name = "latitude of deployment";
+
+    double DEPLOYMENT_LONGITUDE;
+      :_FillValue = NaN; // double
+      :long_name = "longitude of deployment";
+
+    float PHASE(N_MEASUREMENTS=10);
+      :_FillValue = NaNf; // float
+      :long_name = "behavior of the glider at sea";
+      :phase_vocabulary = "https://github.com/OceanGlidersCommunity/OG-format-user-manual/blob/main/vocabularyCollection/phase.md";
+      :coordinates = "DEPTH LATITUDE LONGITUDE TIME";
+
+    float SENSOR_ADVS_AND_TURBULENCE_PROBES_103356;
+      :_FillValue = NaNf; // float
+      :sensor_type = "ADVs and turbulence probes";
+      :sensor_type_vocabulary = "https://vocab.nerc.ac.uk/collection/L05/current/384/";
+      :sensor_maker = "Nortek";
+      :sensor_maker_vocabulary = "https://vocab.nerc.ac.uk/collection/L35/current/MAN0068/";
+      :sensor_model = "Nortek Glider1000 AD2CP Acoustic Doppler Current Profiler";
+      :sensor_model_vocabulary = "https://vocab.nerc.ac.uk/collection/L22/current/TOOL1774/";
+      :long_name = "Nortek AD2CP:103356";
+      :serial_number = "103356";
+      :calibration_date = "2022-03-16";
+
+    float SENSOR_CTD_206523;
+      :_FillValue = NaNf; // float
+      :sensor_type = "CTD";
+      :sensor_type_vocabulary = "https://vocab.nerc.ac.uk/collection/L05/current/130/";
+      :sensor_maker = "RBR";
+      :sensor_maker_vocabulary = "https://vocab.nerc.ac.uk/collection/L35/current/MAN0049/";
+      :sensor_model = "RBR Legato3 CTD";
+      :sensor_model_vocabulary = "https://vocab.nerc.ac.uk/collection/L22/current/TOOL1745/";
+      :long_name = "RBR Legato3 CTD:206523";
+      :serial_number = "206523";
+      :calibration_date = "2021-03-01";
+
+    float SENSOR_FLUOROMETERS_7485;
+      :_FillValue = NaNf; // float
+      :sensor_type = "fluorometers";
+      :sensor_type_vocabulary = "https://vocab.nerc.ac.uk/collection/L05/current/113/";
+      :sensor_maker = "WET Labs";
+      :sensor_maker_vocabulary = "https://vocab.nerc.ac.uk/collection/L35/current/MAN0026/";
+      :sensor_model = "WET Labs {Sea-Bird WETLabs} ECO FLBBCD scattering fluorescence sensor";
+      :sensor_model_vocabulary = "https://vocab.nerc.ac.uk/collection/L22/current/TOOL1141/";
+      :long_name = "WET Labs ECO-FLBBCD:7485";
+      :serial_number = "7485";
+      :calibration_date = "2022-04-04";
+      :calibration_parameters = "{'CDOM_DarkCounts': 50, 'CDOM_SF': 0.0909, 'Chl_DarkCounts': 41, 'Chl_SF': 0.0121, 'SIG_DarkCounts': 48, 'SIG_SF': 3.118e-06}";
+
+    float SENSOR_DISSOLVED_GAS_SENSORS_0041;
+      :_FillValue = NaNf; // float
+      :sensor_type = "dissolved gas sensors";
+      :sensor_type_vocabulary = "https://vocab.nerc.ac.uk/collection/L05/current/351/";
+      :sensor_maker = "JFE Advantech";
+      :sensor_maker_vocabulary = "https://vocab.nerc.ac.uk/collection/L35/current/MAN0053/";
+      :sensor_model = "JFE Advantech Rinko FT ARO-FT oxygen sensor";
+      :sensor_model_vocabulary = "https://vocab.nerc.ac.uk/collection/L22/current/TOOL1783/";
+      :long_name = "JFE Rinko ARO-FT:0041";
+      :serial_number = "0041";
+      :calibration_date = "2020-02-05";
+
+  // global attributes:
+  :Conventions = "CF-1.10, OG-1.0";
+  :Metadata_Conventions = "CF-1.6, Unidata Dataset Discovery v1.0";
+  :acknowledgement = "This study used data collected and made freely available by Voice of the Ocean Foundation (https://voiceoftheocean.org) accessed from https://erddap.observations.voiceoftheocean.org/erddap/index.html";
+  :basin = "Western Gotland Basin";
+  :cdm_data_type = "Trajectory";
+  :comment = "Dataset for demonstration purposes only. Original dataset truncated for the sake of simplicity";
+  :contributor_name = "Callum Rollo, Louise Biddle, Olle Petersson, Aleksandra Mazur, Marcus Melin, Gunnar Johnsson, Andrew Birkett, Chiara Monforte";
+  :contributor_role = "Data scientist, PI, Operator, Operator, Operator, Operator, Operator, Operator,";
+  :creator_email = "callum.rollo@voiceoftheocean.org";
+  :creator_name = "Callum Rollo";
+  :creator_url = "https://observations.voiceoftheocean.org";
+  :dataset_id = "nrt_SEA076_M19";
+  :date_created = "2023-12-12T14:43:48Z";
+  :date_issued = "2023-12-12T14:43:48Z";
+  :date_modified = "2023-12-12T14:43:48Z";
+  :deployment_id = "19";
+  :deployment_name = "SAMBA";
+  :featureType = "trajectory";
+  :format_version = "IOOS_Glider_NetCDF_v2.0.nc";
+  :geospatial_lat_max = 58.5909; // double
+  :geospatial_lat_min = 58.33219999999999; // double
+  :geospatial_lat_units = "degrees_north";
+  :geospatial_lon_max = 18.945866666666667; // double
+  :geospatial_lon_min = 18.206583333333334; // double
+  :geospatial_lon_units = "degrees_east";
+  :glider_instrument_name = "seaexplorer";
+  :glider_model = "SeaExplorer";
+  :glider_name = "Fibbla";
+  :glider_serial = "76";
+  :history = "CPROOF glider toolbox version: pre-tag";
+  :id = "sea076_20230906T0852_R";
+  :institution = "Voice of the Ocean Foundation";
+  :keywords = "AUVS, Autonomous Underwater Vehicles, Oceans, Ocean Pressure, Water Pressure, Ocean Temperature, Water Temperature, Salinity/Density, Conductivity, Density, Salinity";
+  :keywords_vocabulary = "GCMD Science Keywords";
+  :license = "Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/) This study used data collected and made freely available by Voice of the Ocean Foundation (https://voiceoftheocean.org) accessed from https://erddap.observations.voiceoftheocean.org/erddap/index.html";
+  :metadata_link = "http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html";
+  :naming_authority = "Voice of the Ocean Foundation";
+  :netcdf_version = "4.0";
+  :platform = "sub-surface gliders";
+  :processing_level = "L1. Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0 ";
+  :project = "SAMBA";
+  :project_url = "https://voiceoftheocean.org/samba-smart-autonomous-monitoring-of-the-baltic-sea/";
+  :publisher_email = "callum.rollo@voiceoftheocean.org";
+  :publisher_name = "Callum Rollo";
+  :publisher_url = "https://voiceoftheocean.org";
+  :references = "created with pyglider https://github.com/c-proof/pyglider";
+  :sea_name = "Baltic";
+  :source = "Observational data from a profiling glider.";
+  :standard_name_vocabulary = "CF STandard Name Table v49";
+  :summary = " Part of SAMBA continuous monitoring";
+  :time_coverage_end = "2023-09-15T07:37:07.016000000";
+  :time_coverage_start = "2023-09-06T08:52:59.375000000";
+  :title = "OceanGliders example file for SeaExplorer data";
+  :total_dives = 64L; // long
+  :transmission_system = "IRIDIUM";
+  :variables = "time", "latitude", "longitude", "nav_state", "heading", "pitch", "roll", "dive_num", "security_level", "declination", "internal_temperature", "internal_pressure", "desired_heading", "ballast_cmd", "ballast_pos", "linear_cmd", "linear_pos", "angular_cmd", "angular_pos", "voltage", "altimeter", "dead_reckoning", "nav_resource", "conductivity", "temperature", "pressure", "salinity", "chlorophyll", "chlorophyll_raw", "cdom", "cdom_raw", "backscatter_scaled", "backscatter_raw", "oxygen_concentration", "temperature_oxygen", "ad2cp_heading", "ad2cp_pitch", "ad2cp_roll", "ad2cp_pressure", "ad2cp_time", "ad2cp_beam1_cell_number1", "ad2cp_beam2_cell_number1", "ad2cp_beam3_cell_number1", "ad2cp_beam4_cell_number1";
+  :wmo_id = "6801665";
+  :deployment_start = "2023-09-06T08:52:59.375000000";
+  :deployment_end = "2023-09-15T07:37:07.016000000";
+  :disclaimer = "Data, products and services from VOTO are provided 'as is' without any warranty as to fitness for a particular purpose.";
+  :platform_vocabulary = "https://vocab.nerc.ac.uk/collection/L06/current/27/";
+  :contributor_email = "callum.rollo@voiceoftheocean.org, louise.biddle@voiceoftheocean.org, , , , , , ";
+  :contributor_role_vocabulary = "https://vocab.nerc.ac.uk/collection/W08/";
+  :contributing_institutions = "Voice of the Ocean Foundation";
+  :contributing_institutions_role = "Operator";
+  :contributing_institutions_role_vocabulary = "https://vocab.nerc.ac.uk/collection/W08/current/";
+  :agency = "Voice of the Ocean";
+  :agency_role = "contact point";
+  :agency_role_vocabulary = "https://vocab.nerc.ac.uk/collection/C86/current/";
+  :data_url = "https://erddap.observations.voiceoftheocean.org/erddap/tabledap/nrt_SEA076_M19";
+  :rtqc_method = "IOOS QC QARTOD https://github.com/ioos/ioos_qc";
+  :rtqc_method_doi = "None";
+  :start_date = "2023-09-06T08:52:59.375000000";
+}
+
+  Table.readNDNC /datasets/dataset2/sea076_20230906T0852_R.nc finished. nRows=10 nCols=32 time=85ms
+  sourceName=N_MEASUREMENTS lcu=|n|measurements||||
+    tStandardName=
+    assigned tMin=NaN tMax=NaN
+  sourceName=CNDC lcu=|cndc|electrical|conductivity|of|the|water|body|by|ctd|sea|water|electrical|conductivity|ms|cm|1|
+    tStandardName=sea_water_electrical_conductivity
+    assigned tMin=30.0 tMax=40.0
+  sourceName=CNDC_QC lcu=|cndc|qc|electrical|conductivity|of|the|water|body|by|ctd|quality|flag|status|flag||
+    tStandardName=status_flag
+    assigned tMin=0.0 tMax=10.0
+  sourceName=DOXY lcu=|doxy|oxygen|concentration|mole|concentration|of|dissolved|molecular|oxygen|in|sea|water|mmol'|'m|3|
+    tStandardName=mole_concentration_of_dissolved_molecular_oxygen_in_sea_water
+    assigned tMin=0.0 tMax=500.0
+  sourceName=DOXY_QC lcu=|doxy|qc|oxygen|concentration|quality|flag|status|flag||
+    tStandardName=status_flag
+    assigned tMin=0.0 tMax=10.0
+  sourceName=PRES lcu=|pres|pressure|(spatial|coordinate)|exerted|by|the|water|body|by|profiling|pressure|sensor|and|correction|to|read|zero|at|sea|level|sea|water|pressure|dbar|
+    tStandardName=sea_water_pressure
+    assigned tMin=0.0 tMax=5000.0
+  sourceName=PSAL lcu=|psal|water|salinity|sea|water|practical|salinity|1e|3|
+    tStandardName=sea_water_practical_salinity
+    assigned tMin=32.0 tMax=37.0
+  sourceName=PSAL_QC lcu=|psal|qc|water|salinity|quality|flag|status|flag||
+    tStandardName=status_flag
+    assigned tMin=0.0 tMax=10.0
+  sourceName=TEMP lcu=|temp|temperature|of|the|water|body|by|ctd||sea|water|temperature|degree|c|
+    tStandardName=sea_water_temperature
+    assigned tMin=0.0 tMax=32.0
+  sourceName=TEMP_QC lcu=|temp|qc|temperature|of|the|water|body|by|ctd||quality|flag|status|flag||
+    tStandardName=status_flag
+    assigned tMin=0.0 tMax=10.0
+  sourceName=DENSITY lcu=|density|the|mass|of|a|unit|volume|of|any|body|of|fresh|or|salt|water|sea|water|density|kg|m|3|
+    tStandardName=sea_water_density
+    assigned tMin=20.0 tMax=28.0
+  sourceName=DENSITY_QC lcu=|density|qc|the|mass|of|a|unit|volume|of|any|body|of|fresh|or|salt|water|quality|flag|status|flag||
+    tStandardName=status_flag
+    assigned tMin=0.0 tMax=10.0
+  sourceName=PROFILE_NUMBER lcu=|profile|number|profile|index||1|
+    tStandardName=
+    assigned tMin=0.0 tMax=100.0
+  sourceName=PHASE lcu=|phase|behavior|of|the|glider|at|sea|||
+    tStandardName=
+    assigned tMin=NaN tMax=NaN
+    ioos_category=Unknown for |behavior|of|the|glider|at|sea|||phase|
+  sourceName=TRAJECTORY lcu=|trajectory|trajectory|name|||
+    tStandardName=
+  sourceName=WMO_IDENTIFIER lcu=|wmo|identifier|wmo|id|||
+    tStandardName=
+  sourceName=PLATFORM_MODEL lcu=|platform|model|model|of|the|glider|||
+    tStandardName=
+    ioos_category=Unknown for |model|of|the|glider|||platform|model|
+  sourceName=PLATFORM_SERIAL_NUMBER lcu=|platform|serial|number|glider|serial|number|||
+    tStandardName=
+  sourceName=SENSOR_ADVS_AND_TURBULENCE_PROBES_103356 lcu=|sensor|advs|and|turbulence|probes|103356|nortek|ad2cp:103356|||
+    tStandardName=
+    assigned tMin=NaN tMax=NaN
+    ioos_category=Unknown for |nortek|ad2cp:103356|||sensor|advs|and|turbulence|probes|103356|
+  sourceName=SENSOR_CTD_206523 lcu=|sensor|ctd|206523|rbr|legato3|ctd:206523|||
+    tStandardName=
+    assigned tMin=NaN tMax=NaN
+    ioos_category=Unknown for |rbr|legato3|ctd:206523|||sensor|ctd|206523|
+  sourceName=SENSOR_FLUOROMETERS_7485 lcu=|sensor|fluorometers|7485|wet|labs|eco|flbbcd:7485|||
+    tStandardName=
+    assigned tMin=NaN tMax=NaN
+  sourceName=SENSOR_DISSOLVED_GAS_SENSORS_0041 lcu=|sensor|dissolved|gas|sensors|0041|jfe|rinko|aro|ft:0041|||
+    tStandardName=
+    assigned tMin=NaN tMax=NaN
+    ioos_category=Unknown for |jfe|rinko|aro|ft:0041|||sensor|dissolved|gas|sensors|0041|
+makeReadyToUseAddGlobalAttributesForDatasetsXml
+  sourceAtts.title=OceanGliders example file for SeaExplorer data
+  externalAtts=
+    sourceUrl=(local files)
+
+  old Conventions=CF-1.10, OG-1.0
+  new Conventions=CF-1.10, OG-1.0, COARDS, ACDD-1.3
+  new keywords=ad2cp, any, aro, aro-ft, autonomous underwater vehicles, auvs, behavior, body, chemistry, CNDC, CNDC_QC, concentration, conductivity, coordinate, correction, ctd, data, date, density, DENSITY_QC, deployment, DEPLOYMENT_LATITUDE, DEPLOYMENT_LONGITUDE, DEPLOYMENT_TIME, depth, dissolved, dissolved o2, DOXY, DOXY_QC, each, earth, Earth Science > Oceans > Ocean Chemistry > Oxygen, Earth Science > Oceans > Ocean Pressure > Water Pressure, Earth Science > Oceans > Ocean Temperature > Water Temperature, Earth Science > Oceans > Salinity/Density > Conductivity, Earth Science > Oceans > Salinity/Density > Density, Earth Science > Oceans > Salinity/Density > Salinity, eco, eco-flbbcd, electrical, example, exerted, file, flag, flbbcd, foundation, fresh, glider, global, gps, identifier, index, jfe, labs, latitude, LATITUDE_GPS, legato3, level, longitude, LONGITUDE_GPS, mass, measurements, meteorological, model, mole, mole_concentration_of_dissolved_molecular_oxygen_in_sea_water, molecular, N_MEASUREMENTS, name, nortek, number, O2, ocean, ocean pressure, ocean temperature, oceangliders, oceans, optical, optical properties, organisation, oxygen, PHASE, PLATFORM_MODEL, PLATFORM_SERIAL_NUMBER, positioning, practical, PRES, pressure, profile, PROFILE_NUMBER, profiling, properties, PSAL, PSAL_QC, quality, rbr, read, rinko, salinity, salinity/density, salt, science, sea, sea level, sea_water_density, sea_water_electrical_conductivity, sea_water_practical_salinity, sea_water_pressure, sea_water_temperature, seaexplorer, seawater, sensor, SENSOR_ADVS_AND_TURBULENCE_PROBES_103356, SENSOR_CTD_206523, SENSOR_DISSOLVED_GAS_SENSORS_0041, SENSOR_FLUOROMETERS_7485, serial, sonde, spatial, statistics, status, status_flag, system, TEMP, TEMP_QC, temperature, time, TIME_GPS, trajectory, unit, voice, volume, water, water pressure, water temperature, wet, wmo, WMO_IDENTIFIER, world, zero
+
+
+*** generateDatasetsXml finished successfully.
+
+
+<dataset type="EDDTableFromNcFiles" datasetID="dataset2_45cc_f18c_59f1" active="true">
+    <reloadEveryNMinutes>10080</reloadEveryNMinutes>
+    <updateEveryNMillis>10000</updateEveryNMillis>
+    <fileDir>/datasets/dataset2/</fileDir>
+    <fileNameRegex>.*</fileNameRegex>
+    <recursive>true</recursive>
+    <pathRegex>.*</pathRegex>
+    <metadataFrom>last</metadataFrom>
+    <standardizeWhat>0</standardizeWhat>
+    <sortedColumnSourceName>TIME</sortedColumnSourceName>
+    <sortFilesBySourceNames>TIME</sortFilesBySourceNames>
+    <fileTableInMemory>false</fileTableInMemory>
+    <!-- sourceAttributes>
+        <att name="_NCProperties">version=2,netcdf=4.9.2,hdf5=1.14.3</att>
+        <att name="acknowledgement">This study used data collected and made freely available by Voice of the Ocean Foundation (https://voiceoftheocean.org) accessed from https://erddap.observations.voiceoftheocean.org/erddap/index.html</att>
+        <att name="agency">Voice of the Ocean</att>
+        <att name="agency_role">contact point</att>
+        <att name="agency_role_vocabulary">https://vocab.nerc.ac.uk/collection/C86/current/</att>
+        <att name="basin">Western Gotland Basin</att>
+        <att name="cdm_data_type">Trajectory</att>
+        <att name="comment">Dataset for demonstration purposes only. Original dataset truncated for the sake of simplicity</att>
+        <att name="contributing_institutions">Voice of the Ocean Foundation</att>
+        <att name="contributing_institutions_role">Operator</att>
+        <att name="contributing_institutions_role_vocabulary">https://vocab.nerc.ac.uk/collection/W08/current/</att>
+        <att name="contributor_email">callum.rollo@voiceoftheocean.org, louise.biddle@voiceoftheocean.org, , , , , , </att>
+        <att name="contributor_name">Callum Rollo, Louise Biddle, Olle Petersson, Aleksandra Mazur, Marcus Melin, Gunnar Johnsson, Andrew Birkett, Chiara Monforte</att>
+        <att name="contributor_role">Data scientist, PI, Operator, Operator, Operator, Operator, Operator, Operator,</att>
+        <att name="contributor_role_vocabulary">https://vocab.nerc.ac.uk/collection/W08/</att>
+        <att name="Conventions">CF-1.10, OG-1.0</att>
+        <att name="creator_email">callum.rollo@voiceoftheocean.org</att>
+        <att name="creator_name">Callum Rollo</att>
+        <att name="creator_url">https://observations.voiceoftheocean.org</att>
+        <att name="data_url">https://erddap.observations.voiceoftheocean.org/erddap/tabledap/nrt_SEA076_M19</att>
+        <att name="dataset_id">nrt_SEA076_M19</att>
+        <att name="date_created">2023-12-12T14:43:48Z</att>
+        <att name="date_issued">2023-12-12T14:43:48Z</att>
+        <att name="date_modified">2023-12-12T14:43:48Z</att>
+        <att name="deployment_end">2023-09-15T07:37:07.016000000</att>
+        <att name="deployment_id">19</att>
+        <att name="deployment_name">SAMBA</att>
+        <att name="deployment_start">2023-09-06T08:52:59.375000000</att>
+        <att name="disclaimer">Data, products and services from VOTO are provided &#39;as is&#39; without any warranty as to fitness for a particular purpose.</att>
+        <att name="featureType">trajectory</att>
+        <att name="format_version">IOOS_Glider_NetCDF_v2.0.nc</att>
+        <att name="geospatial_lat_max" type="double">58.5909</att>
+        <att name="geospatial_lat_min" type="double">58.33219999999999</att>
+        <att name="geospatial_lat_units">degrees_north</att>
+        <att name="geospatial_lon_max" type="double">18.945866666666667</att>
+        <att name="geospatial_lon_min" type="double">18.206583333333334</att>
+        <att name="geospatial_lon_units">degrees_east</att>
+        <att name="glider_instrument_name">seaexplorer</att>
+        <att name="glider_model">SeaExplorer</att>
+        <att name="glider_name">Fibbla</att>
+        <att name="glider_serial">76</att>
+        <att name="history">CPROOF glider toolbox version: pre-tag</att>
+        <att name="id">sea076_20230906T0852_R</att>
+        <att name="institution">Voice of the Ocean Foundation</att>
+        <att name="keywords">AUVS, Autonomous Underwater Vehicles, Oceans, Ocean Pressure, Water Pressure, Ocean Temperature, Water Temperature, Salinity/Density, Conductivity, Density, Salinity</att>
+        <att name="keywords_vocabulary">GCMD Science Keywords</att>
+        <att name="license">Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/) This study used data collected and made freely available by Voice of the Ocean Foundation (https://voiceoftheocean.org) accessed from https://erddap.observations.voiceoftheocean.org/erddap/index.html</att>
+        <att name="Metadata_Conventions">CF-1.6, Unidata Dataset Discovery v1.0</att>
+        <att name="metadata_link">http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html</att>
+        <att name="naming_authority">Voice of the Ocean Foundation</att>
+        <att name="netcdf_version">4.0</att>
+        <att name="platform">sub-surface gliders</att>
+        <att name="platform_vocabulary">https://vocab.nerc.ac.uk/collection/L06/current/27/</att>
+        <att name="processing_level">L1. Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0 </att>
+        <att name="project">SAMBA</att>
+        <att name="project_url">https://voiceoftheocean.org/samba-smart-autonomous-monitoring-of-the-baltic-sea/</att>
+        <att name="publisher_email">callum.rollo@voiceoftheocean.org</att>
+        <att name="publisher_name">Callum Rollo</att>
+        <att name="publisher_url">https://voiceoftheocean.org</att>
+        <att name="references">created with pyglider https://github.com/c-proof/pyglider</att>
+        <att name="rtqc_method">IOOS QC QARTOD https://github.com/ioos/ioos_qc</att>
+        <att name="rtqc_method_doi">None</att>
+        <att name="sea_name">Baltic</att>
+        <att name="source">Observational data from a profiling glider.</att>
+        <att name="standard_name_vocabulary">CF STandard Name Table v49</att>
+        <att name="start_date">2023-09-06T08:52:59.375000000</att>
+        <att name="summary"> Part of SAMBA continuous monitoring</att>
+        <att name="time_coverage_end">2023-09-15T07:37:07.016000000</att>
+        <att name="time_coverage_start">2023-09-06T08:52:59.375000000</att>
+        <att name="title">OceanGliders example file for SeaExplorer data</att>
+        <att name="total_dives" type="long">64</att>
+        <att name="transmission_system">IRIDIUM</att>
+        <att name="variables">time</att>
+        <att name="wmo_id">6801665</att>
+    </sourceAttributes -->
+    <!-- Please specify the actual cdm_data_type (TimeSeries?) and related info below, for example...
+        <att name="cdm_timeseries_variables">station_id, longitude, latitude</att>
+        <att name="subsetVariables">station_id, longitude, latitude</att>
+    -->
+    <addAttributes>
+        <att name="_NCProperties">null</att>
+        <att name="cdm_trajectory_variables">trajectory_id, ???</att>
+        <att name="contributor_email">callum.rollo@voiceoftheocean.org, louise.biddle@voiceoftheocean.org, , , , , ,</att>
+        <att name="Conventions">CF-1.10, OG-1.0, COARDS, ACDD-1.3</att>
+        <att name="creator_type">person</att>
+        <att name="infoUrl">https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html</att>
+        <att name="keywords">ad2cp, any, aro, aro-ft, autonomous underwater vehicles, auvs, behavior, body, chemistry, CNDC, CNDC_QC, concentration, conductivity, coordinate, correction, ctd, data, date, density, DENSITY_QC, deployment, DEPLOYMENT_LATITUDE, DEPLOYMENT_LONGITUDE, DEPLOYMENT_TIME, depth, dissolved, dissolved o2, DOXY, DOXY_QC, each, earth, Earth Science &gt; Oceans &gt; Ocean Chemistry &gt; Oxygen, Earth Science &gt; Oceans &gt; Ocean Pressure &gt; Water Pressure, Earth Science &gt; Oceans &gt; Ocean Temperature &gt; Water Temperature, Earth Science &gt; Oceans &gt; Salinity/Density &gt; Conductivity, Earth Science &gt; Oceans &gt; Salinity/Density &gt; Density, Earth Science &gt; Oceans &gt; Salinity/Density &gt; Salinity, eco, eco-flbbcd, electrical, example, exerted, file, flag, flbbcd, foundation, fresh, glider, global, gps, identifier, index, jfe, labs, latitude, LATITUDE_GPS, legato3, level, longitude, LONGITUDE_GPS, mass, measurements, meteorological, model, mole, mole_concentration_of_dissolved_molecular_oxygen_in_sea_water, molecular, N_MEASUREMENTS, name, nortek, number, O2, ocean, ocean pressure, ocean temperature, oceangliders, oceans, optical, optical properties, organisation, oxygen, PHASE, PLATFORM_MODEL, PLATFORM_SERIAL_NUMBER, positioning, practical, PRES, pressure, profile, PROFILE_NUMBER, profiling, properties, PSAL, PSAL_QC, quality, rbr, read, rinko, salinity, salinity/density, salt, science, sea, sea level, sea_water_density, sea_water_electrical_conductivity, sea_water_practical_salinity, sea_water_pressure, sea_water_temperature, seaexplorer, seawater, sensor, SENSOR_ADVS_AND_TURBULENCE_PROBES_103356, SENSOR_CTD_206523, SENSOR_DISSOLVED_GAS_SENSORS_0041, SENSOR_FLUOROMETERS_7485, serial, sonde, spatial, statistics, status, status_flag, system, TEMP, TEMP_QC, temperature, time, TIME_GPS, trajectory, unit, voice, volume, water, water pressure, water temperature, wet, wmo, WMO_IDENTIFIER, world, zero</att>
+        <att name="Metadata_Conventions">null</att>
+        <att name="metadata_link">https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html</att>
+        <att name="processing_level">L1. Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0</att>
+        <att name="publisher_type">person</att>
+        <att name="rtqc_method_doi">null</att>
+        <att name="sourceUrl">(local files)</att>
+        <att name="standard_name_vocabulary">CF Standard Name Table v70</att>
+        <att name="start_date">null</att>
+        <att name="subsetVariables">CNDC_QC, DOXY_QC, PSAL, PSAL_QC, TEMP_QC, DENSITY, DENSITY_QC, PROFILE_NUMBER, PHASE, TRAJECTORY, WMO_IDENTIFIER, PLATFORM_MODEL, PLATFORM_SERIAL_NUMBER, DEPLOYMENT_TIME, DEPLOYMENT_LATITUDE, DEPLOYMENT_LONGITUDE, SENSOR_ADVS_AND_TURBULENCE_PROBES_103356, SENSOR_CTD_206523, SENSOR_FLUOROMETERS_7485, SENSOR_DISSOLVED_GAS_SENSORS_0041</att>
+        <att name="summary">Part of SAMBA continuous monitoring</att>
+        <att name="time_coverage_end">2023-09-15T07:37:07.016000000Z</att>
+        <att name="time_coverage_start">2023-09-06T08:52:59.375000000Z</att>
+    </addAttributes>
+    <dataVariable>
+        <sourceName>N_MEASUREMENTS</sourceName>
+        <destinationName>N_MEASUREMENTS</destinationName>
+        <dataType>byte</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_FillValue" type="byte">127</att>
+            <att name="ioos_category">Statistics</att>
+            <att name="long_name">N MEASUREMENTS</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>CNDC</sourceName>
+        <destinationName>CNDC</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="ancillary_variables">CNDC_QC</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">Electrical conductivity of the water body by CTD</att>
+            <att name="observation_type">measured</att>
+            <att name="sensor">SENSOR_CTD_206523</att>
+            <att name="standard_name">sea_water_electrical_conductivity</att>
+            <att name="units">mS cm-1</att>
+            <att name="URI">https://vocab.nerc.ac.uk/collection/OG1/current/CNDC/</att>
+            <att name="valid_max" type="float">85.0</att>
+            <att name="valid_min" type="float">0.0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">40.0</att>
+            <att name="colorBarMinimum" type="double">30.0</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Salinity</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>CNDC_QC</sourceName>
+        <destinationName>CNDC_QC</destinationName>
+        <dataType>byte</dataType>
+        <!-- sourceAttributes>
+            <att name="comment">Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [&lt;Call stream_id=conductivity function=qartod.gross_range_test(suspect_span=[6, 42], fail_span=[3, 45])&gt;, &lt;Call stream_id=conductivity function=qartod.location_test(bbox=[10, 50, 25, 70])&gt;].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI http://dx.doi.org/10.25607/OBP-214.</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="flag_meanings">GOOD UNKNOWN SUSPECT FAIL MISSING</att>
+            <att name="flag_values" type="byteList">1 2 3 4 9</att>
+            <att name="ioos_qc_module">qartod</att>
+            <att name="long_name">Electrical conductivity of the water body by CTD Quality Flag</att>
+            <att name="quality_control_conventions">IOOS QARTOD standard flags</att>
+            <att name="quality_control_set" type="long">1</att>
+            <att name="standard_name">status_flag</att>
+            <att name="valid_max" type="byte">9</att>
+            <att name="valid_min" type="byte">1</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_FillValue" type="byte">127</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="comment">Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [&lt;Call stream_id=conductivity function=qartod.gross_range_test(suspect_span=[6, 42], fail_span=[3, 45])&gt;, &lt;Call stream_id=conductivity function=qartod.location_test(bbox=[10, 50, 25, 70])&gt;].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI https://dx.doi.org/10.25607/OBP-214.</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Quality</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>DOXY</sourceName>
+        <destinationName>DOXY</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="ancillary_variables">DOXY_QC</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="long_name">oxygen concentration</att>
+            <att name="observation_type">calculated</att>
+            <att name="sensor">SENSOR_DISSOLVED_GAS_SENSORS_0041</att>
+            <att name="standard_name">mole_concentration_of_dissolved_molecular_oxygen_in_sea_water</att>
+            <att name="units">mmol m-3</att>
+            <att name="URI">https://vocab.nerc.ac.uk/collection/P02/current/DOXY/</att>
+            <att name="valid_max" type="float">425.0</att>
+            <att name="valid_min" type="float">0.0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">500.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Dissolved O2</att>
+            <att name="units">MMol&#39; &#39;M-3</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>DOXY_QC</sourceName>
+        <destinationName>DOXY_QC</destinationName>
+        <dataType>byte</dataType>
+        <!-- sourceAttributes>
+            <att name="comment">Pilot QC: Following issues with the oxygen sensor, a 2-point calibration has been performed on date {2023-09-04}. The values at 0 and 100 &#37; saturation are accurate. Absolute Values between these two extremes may be inaccurate. The relative variability is confirmed to be valid and no temporal drift occurs. During tests values that can be outside the manufacturer acceptance range have been observed when compared to the output from a reference sensor. This issue is particularly evident around 100μmol/l. More information on the history and updates regarding this issue (https://observations.voiceoftheocean.org/data/updates). . Minimum QC value set to 4. IOOS_QC: Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [&lt;Call stream_id=oxygen_concentration function=qartod.gross_range_test(suspect_span=[0, 350], fail_span=[0, 500])&gt;, &lt;Call stream_id=oxygen_concentration function=qartod.spike_test(suspect_threshold=10, fail_threshold=50)&gt;, &lt;Call stream_id=oxygen_concentration function=qartod.location_test(bbox=[10, 50, 25, 70])&gt;].</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="flag_meanings">GOOD UNKNOWN SUSPECT FAIL MISSING</att>
+            <att name="flag_values" type="byteList">1 2 3 4 9</att>
+            <att name="ioos_qc_module">qartod</att>
+            <att name="long_name">oxygen concentration Quality Flag</att>
+            <att name="quality_control_conventions">IOOS QARTOD standard flags</att>
+            <att name="quality_control_set" type="long">1</att>
+            <att name="standard_name">status_flag</att>
+            <att name="valid_max" type="byte">9</att>
+            <att name="valid_min" type="byte">1</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_FillValue" type="byte">127</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Quality</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>PRES</sourceName>
+        <destinationName>PRES</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="comment">ctd pressure sensor</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">Pressure (spatial coordinate) exerted by the water body by profiling pressure sensor and correction to read zero at sea level</att>
+            <att name="observation_type">measured</att>
+            <att name="positive">down</att>
+            <att name="reference_datum">sea-surface</att>
+            <att name="sensor">SENSOR_CTD_206523</att>
+            <att name="standard_name">sea_water_pressure</att>
+            <att name="units">dbar</att>
+            <att name="URI">https://vocab.nerc.ac.uk/collection/OG1/current/PRES</att>
+            <att name="valid_max" type="float">2000.0</att>
+            <att name="valid_min" type="float">0.0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">5000.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Sea Level</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>PSAL</sourceName>
+        <destinationName>PSAL</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="ancillary_variables">PSAL_QC</att>
+            <att name="comment">Practical salinity of the water body by CTD and computation using UNESCO 1983 algorithm</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">water salinity</att>
+            <att name="observation_type">calculated</att>
+            <att name="sensor">SENSOR_CTD_206523</att>
+            <att name="sources">CNDC, TEMP, PRES</att>
+            <att name="standard_name">sea_water_practical_salinity</att>
+            <att name="units">1e-3</att>
+            <att name="URI">https://vocab.nerc.ac.uk/collection/OG1/current/PSAL/</att>
+            <att name="valid_max" type="float">40.0</att>
+            <att name="valid_min" type="float">0.0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">37.0</att>
+            <att name="colorBarMinimum" type="double">32.0</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Salinity</att>
+            <att name="missing_value" type="float">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>PSAL_QC</sourceName>
+        <destinationName>PSAL_QC</destinationName>
+        <dataType>byte</dataType>
+        <!-- sourceAttributes>
+            <att name="comment">Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [&lt;Call stream_id=conductivity function=qartod.gross_range_test(suspect_span=[6, 42], fail_span=[3, 45])&gt;, &lt;Call stream_id=salinity function=qartod.gross_range_test(suspect_span=[5, 38], fail_span=[2, 41])&gt;, &lt;Call stream_id=salinity function=qartod.spike_test(suspect_threshold=0.3, fail_threshold=0.9)&gt;, &lt;Call stream_id=salinity function=qartod.location_test(bbox=[10, 50, 25, 70])&gt;].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI http://dx.doi.org/10.25607/OBP-214.</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="flag_meanings">GOOD UNKNOWN SUSPECT FAIL MISSING</att>
+            <att name="flag_values" type="byteList">1 2 3 4 9</att>
+            <att name="ioos_qc_module">qartod</att>
+            <att name="long_name">water salinity Quality Flag</att>
+            <att name="quality_control_conventions">IOOS QARTOD standard flags</att>
+            <att name="quality_control_set" type="long">1</att>
+            <att name="standard_name">status_flag</att>
+            <att name="valid_max" type="byte">9</att>
+            <att name="valid_min" type="byte">1</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_FillValue" type="byte">127</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="comment">Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [&lt;Call stream_id=conductivity function=qartod.gross_range_test(suspect_span=[6, 42], fail_span=[3, 45])&gt;, &lt;Call stream_id=salinity function=qartod.gross_range_test(suspect_span=[5, 38], fail_span=[2, 41])&gt;, &lt;Call stream_id=salinity function=qartod.spike_test(suspect_threshold=0.3, fail_threshold=0.9)&gt;, &lt;Call stream_id=salinity function=qartod.location_test(bbox=[10, 50, 25, 70])&gt;].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI https://dx.doi.org/10.25607/OBP-214.</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Quality</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>TEMP</sourceName>
+        <destinationName>TEMP</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="ancillary_variables">TEMP_QC</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="long_name">Temperature of the water body by CTD </att>
+            <att name="observation_type">measured</att>
+            <att name="sensor">SENSOR_CTD_206523</att>
+            <att name="standard_name">sea_water_temperature</att>
+            <att name="units">Celsius</att>
+            <att name="URI">https://vocab.nerc.ac.uk/collection/OG1/current/TEMP/</att>
+            <att name="valid_max" type="float">42.0</att>
+            <att name="valid_min" type="float">-5.0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">32.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Temperature</att>
+            <att name="long_name">Temperature of the water body by CTD</att>
+            <att name="units">degree_C</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>TEMP_QC</sourceName>
+        <destinationName>TEMP_QC</destinationName>
+        <dataType>byte</dataType>
+        <!-- sourceAttributes>
+            <att name="comment">Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [&lt;Call stream_id=temperature function=qartod.gross_range_test(suspect_span=[0, 30], fail_span=[-2.5, 40])&gt;, &lt;Call stream_id=temperature function=qartod.spike_test(suspect_threshold=2.0, fail_threshold=6.0)&gt;, &lt;Call stream_id=temperature function=qartod.location_test(bbox=[10, 50, 25, 70])&gt;].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI http://dx.doi.org/10.25607/OBP-214.</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="flag_meanings">GOOD UNKNOWN SUSPECT FAIL MISSING</att>
+            <att name="flag_values" type="byteList">1 2 3 4 9</att>
+            <att name="ioos_qc_module">qartod</att>
+            <att name="long_name">Temperature of the water body by CTD  Quality Flag</att>
+            <att name="quality_control_conventions">IOOS QARTOD standard flags</att>
+            <att name="quality_control_set" type="long">1</att>
+            <att name="standard_name">status_flag</att>
+            <att name="valid_max" type="byte">9</att>
+            <att name="valid_min" type="byte">1</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_FillValue" type="byte">127</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="comment">Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [&lt;Call stream_id=temperature function=qartod.gross_range_test(suspect_span=[0, 30], fail_span=[-2.5, 40])&gt;, &lt;Call stream_id=temperature function=qartod.spike_test(suspect_threshold=2.0, fail_threshold=6.0)&gt;, &lt;Call stream_id=temperature function=qartod.location_test(bbox=[10, 50, 25, 70])&gt;].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI https://dx.doi.org/10.25607/OBP-214.</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Quality</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>DENSITY</sourceName>
+        <destinationName>DENSITY</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="ancillary_variables">DENSITY_QC</att>
+            <att name="comment">raw, uncorrected salinity</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="long_name">The mass of a unit volume of any body of fresh or salt water</att>
+            <att name="observation_type">calculated</att>
+            <att name="sources">salinity temperature pressure</att>
+            <att name="standard_name">sea_water_density</att>
+            <att name="units">kg m-3</att>
+            <att name="URI">https://vocab.nerc.ac.uk/collection/OG1/current/DENSITY/</att>
+            <att name="valid_max" type="float">1040.0</att>
+            <att name="valid_min" type="float">1000.0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">28.0</att>
+            <att name="colorBarMinimum" type="double">20.0</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Salinity</att>
+            <att name="missing_value" type="float">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>DENSITY_QC</sourceName>
+        <destinationName>DENSITY_QC</destinationName>
+        <dataType>byte</dataType>
+        <!-- sourceAttributes>
+            <att name="comment">Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [&lt;Call stream_id=temperature function=qartod.gross_range_test(suspect_span=[0, 30], fail_span=[-2.5, 40])&gt;, &lt;Call stream_id=temperature function=qartod.spike_test(suspect_threshold=2.0, fail_threshold=6.0)&gt;, &lt;Call stream_id=temperature function=qartod.location_test(bbox=[10, 50, 25, 70])&gt;, &lt;Call stream_id=conductivity function=qartod.gross_range_test(suspect_span=[6, 42], fail_span=[3, 45])&gt;, &lt;Call stream_id=salinity function=qartod.gross_range_test(suspect_span=[5, 38], fail_span=[2, 41])&gt;, &lt;Call stream_id=salinity function=qartod.spike_test(suspect_threshold=0.3, fail_threshold=0.9)&gt;, &lt;Call stream_id=salinity function=qartod.location_test(bbox=[10, 50, 25, 70])&gt;].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI http://dx.doi.org/10.25607/OBP-214.</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="flag_meanings">GOOD UNKNOWN SUSPECT FAIL MISSING</att>
+            <att name="flag_values" type="byteList">1 2 3 4 9</att>
+            <att name="ioos_qc_module">qartod</att>
+            <att name="long_name">The mass of a unit volume of any body of fresh or salt water Quality Flag</att>
+            <att name="quality_control_conventions">IOOS QARTOD standard flags</att>
+            <att name="quality_control_set" type="long">1</att>
+            <att name="standard_name">status_flag</att>
+            <att name="valid_max" type="byte">9</att>
+            <att name="valid_min" type="byte">1</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_FillValue" type="byte">127</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="comment">Quality control flags from IOOS QC QARTOD https://github.com/ioos/ioos_qc Version: 2.1.0. Using config: [&lt;Call stream_id=temperature function=qartod.gross_range_test(suspect_span=[0, 30], fail_span=[-2.5, 40])&gt;, &lt;Call stream_id=temperature function=qartod.spike_test(suspect_threshold=2.0, fail_threshold=6.0)&gt;, &lt;Call stream_id=temperature function=qartod.location_test(bbox=[10, 50, 25, 70])&gt;, &lt;Call stream_id=conductivity function=qartod.gross_range_test(suspect_span=[6, 42], fail_span=[3, 45])&gt;, &lt;Call stream_id=salinity function=qartod.gross_range_test(suspect_span=[5, 38], fail_span=[2, 41])&gt;, &lt;Call stream_id=salinity function=qartod.spike_test(suspect_threshold=0.3, fail_threshold=0.9)&gt;, &lt;Call stream_id=salinity function=qartod.location_test(bbox=[10, 50, 25, 70])&gt;].  Threshold values from EuroGOOS DATA-MEQ Working Group (2010) Recommendations for in-situ data Near Real Time Quality Control [Version 1.2]. EuroGOOS, 23pp. DOI https://dx.doi.org/10.25607/OBP-214.</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Quality</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>LATITUDE</sourceName>
+        <destinationName>latitude</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="coordinate_reference_frame">urn:ogc:crs:EPSG::4326</att>
+            <att name="long_name">latitude of each measurement and GPS location</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="reference">WGS84</att>
+            <att name="standard_name">latitude</att>
+            <att name="units">degrees_north</att>
+            <att name="valid_max" type="double">90.0</att>
+            <att name="valid_min" type="double">-90.0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">90.0</att>
+            <att name="colorBarMinimum" type="double">-90.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="reference">null</att>
+            <att name="references">WGS84</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>LONGITUDE</sourceName>
+        <destinationName>longitude</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="coordinate_reference_frame">urn:ogc:crs:EPSG::4326</att>
+            <att name="long_name">longitude of each measurement and GPS location</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="reference">WGS84</att>
+            <att name="standard_name">longitude</att>
+            <att name="units">degrees_east</att>
+            <att name="valid_max" type="double">180.0</att>
+            <att name="valid_min" type="double">-180.0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">180.0</att>
+            <att name="colorBarMinimum" type="double">-180.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="reference">null</att>
+            <att name="references">WGS84</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>TIME</sourceName>
+        <destinationName>time</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="calendar">gregorian</att>
+            <att name="long_name">time of measurement</att>
+            <att name="observation_type">measured</att>
+            <att name="standard_name">time</att>
+            <att name="units">seconds since 1970-01-01T00:00:00Z</att>
+            <att name="URI">https://vocab.nerc.ac.uk/collection/P02/current/AYMD/</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Time</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>PROFILE_NUMBER</sourceName>
+        <destinationName>PROFILE_NUMBER</destinationName>
+        <dataType>short</dataType>
+        <!-- sourceAttributes>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="long_name">profile index</att>
+            <att name="units">1</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_FillValue" type="short">32767</att>
+            <att name="colorBarMaximum" type="double">100.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Statistics</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>DEPTH</sourceName>
+        <destinationName>depth</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="accuracy" type="long">1</att>
+            <att name="comment">from science pressure and interpolated</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">glider depth</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="positive">down</att>
+            <att name="precision" type="long">2</att>
+            <att name="reference_datum">surface</att>
+            <att name="resolution" type="double">0.02</att>
+            <att name="source">pressure</att>
+            <att name="standard_name">depth</att>
+            <att name="units">m</att>
+            <att name="valid_max" type="float">2000.0</att>
+            <att name="valid_min" type="float">0.0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">8000.0</att>
+            <att name="colorBarMinimum" type="double">-8000.0</att>
+            <att name="colorBarPalette">TopographyDepth</att>
+            <att name="ioos_category">Location</att>
+            <att name="resolution">null</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>LATITUDE_GPS</sourceName>
+        <destinationName>LATITUDE_GPS</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="coordinate_reference_frame">urn:ogc:crs:EPSG::4326</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="long_name">latitude of each GPS location</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="reference">WGS84</att>
+            <att name="standard_name">latitude</att>
+            <att name="units">degrees_north</att>
+            <att name="valid_max" type="double">90.0</att>
+            <att name="valid_min" type="double">-90.0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">90.0</att>
+            <att name="colorBarMinimum" type="double">-90.0</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="reference">null</att>
+            <att name="references">WGS84</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>LONGITUDE_GPS</sourceName>
+        <destinationName>LONGITUDE_GPS</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="coordinate_reference_frame">urn:ogc:crs:EPSG::4326</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="long_name">longitude of each GPS location</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="reference">WGS84</att>
+            <att name="standard_name">longitude</att>
+            <att name="units">degrees_east</att>
+            <att name="valid_max" type="double">180.0</att>
+            <att name="valid_min" type="double">-180.0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">180.0</att>
+            <att name="colorBarMinimum" type="double">-180.0</att>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="reference">null</att>
+            <att name="references">WGS84</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>TIME_GPS</sourceName>
+        <destinationName>TIME_GPS</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="calendar">gregorian</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="long_name">time of each GPS location</att>
+            <att name="observation_type">measured</att>
+            <att name="standard_name">time</att>
+            <att name="units">seconds since 1970-01-01T00:00:00Z</att>
+            <att name="URI">https://vocab.nerc.ac.uk/collection/P02/current/AYMD/</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Time</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>PHASE</sourceName>
+        <destinationName>PHASE</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="coordinates">DEPTH LATITUDE LONGITUDE TIME</att>
+            <att name="long_name">behavior of the glider at sea</att>
+            <att name="phase_vocabulary">https://github.com/OceanGlidersCommunity/OG-format-user-manual/blob/main/vocabularyCollection/phase.md</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="coordinates">null</att>
+            <att name="ioos_category">Unknown</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>TRAJECTORY</sourceName>
+        <destinationName>TRAJECTORY</destinationName>
+        <dataType>String</dataType>
+        <!-- sourceAttributes>
+            <att name="cf_role">trajectory_id</att>
+            <att name="long_name">trajectory name</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Identifier</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>WMO_IDENTIFIER</sourceName>
+        <destinationName>WMO_IDENTIFIER</destinationName>
+        <dataType>String</dataType>
+        <!-- sourceAttributes>
+            <att name="long_name">wmo id</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Identifier</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>PLATFORM_MODEL</sourceName>
+        <destinationName>PLATFORM_MODEL</destinationName>
+        <dataType>String</dataType>
+        <!-- sourceAttributes>
+            <att name="long_name">model of the glider</att>
+            <att name="platform_model_vocabulary">None</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Unknown</att>
+            <att name="platform_model_vocabulary">null</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>PLATFORM_SERIAL_NUMBER</sourceName>
+        <destinationName>PLATFORM_SERIAL_NUMBER</destinationName>
+        <dataType>String</dataType>
+        <!-- sourceAttributes>
+            <att name="long_name">glider serial number</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Statistics</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>DEPLOYMENT_TIME</sourceName>
+        <destinationName>DEPLOYMENT_TIME</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="calendar">gregorian</att>
+            <att name="long_name">date of deployment</att>
+            <att name="standard_name">time</att>
+            <att name="units">seconds since 1970-01-01T00:00:00Z</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Time</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>DEPLOYMENT_LATITUDE</sourceName>
+        <destinationName>DEPLOYMENT_LATITUDE</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="long_name">latitude of deployment</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">90.0</att>
+            <att name="colorBarMinimum" type="double">-90.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="standard_name">latitude</att>
+            <att name="units">degrees_north</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>DEPLOYMENT_LONGITUDE</sourceName>
+        <destinationName>DEPLOYMENT_LONGITUDE</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="long_name">longitude of deployment</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">180.0</att>
+            <att name="colorBarMinimum" type="double">-180.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="standard_name">longitude</att>
+            <att name="units">degrees_east</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>SENSOR_ADVS_AND_TURBULENCE_PROBES_103356</sourceName>
+        <destinationName>SENSOR_ADVS_AND_TURBULENCE_PROBES_103356</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="calibration_date">2022-03-16</att>
+            <att name="long_name">Nortek AD2CP:103356</att>
+            <att name="sensor_maker">Nortek</att>
+            <att name="sensor_maker_vocabulary">https://vocab.nerc.ac.uk/collection/L35/current/MAN0068/</att>
+            <att name="sensor_model">Nortek Glider1000 AD2CP Acoustic Doppler Current Profiler</att>
+            <att name="sensor_model_vocabulary">https://vocab.nerc.ac.uk/collection/L22/current/TOOL1774/</att>
+            <att name="sensor_type">ADVs and turbulence probes</att>
+            <att name="sensor_type_vocabulary">https://vocab.nerc.ac.uk/collection/L05/current/384/</att>
+            <att name="serial_number">103356</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Unknown</att>
+            <att name="missing_value" type="float">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>SENSOR_CTD_206523</sourceName>
+        <destinationName>SENSOR_CTD_206523</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="calibration_date">2021-03-01</att>
+            <att name="long_name">RBR Legato3 CTD:206523</att>
+            <att name="sensor_maker">RBR</att>
+            <att name="sensor_maker_vocabulary">https://vocab.nerc.ac.uk/collection/L35/current/MAN0049/</att>
+            <att name="sensor_model">RBR Legato3 CTD</att>
+            <att name="sensor_model_vocabulary">https://vocab.nerc.ac.uk/collection/L22/current/TOOL1745/</att>
+            <att name="sensor_type">CTD</att>
+            <att name="sensor_type_vocabulary">https://vocab.nerc.ac.uk/collection/L05/current/130/</att>
+            <att name="serial_number">206523</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Unknown</att>
+            <att name="missing_value" type="float">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>SENSOR_FLUOROMETERS_7485</sourceName>
+        <destinationName>SENSOR_FLUOROMETERS_7485</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="calibration_date">2022-04-04</att>
+            <att name="calibration_parameters">{&#39;CDOM_DarkCounts&#39;: 50, &#39;CDOM_SF&#39;: 0.0909, &#39;Chl_DarkCounts&#39;: 41, &#39;Chl_SF&#39;: 0.0121, &#39;SIG_DarkCounts&#39;: 48, &#39;SIG_SF&#39;: 3.118e-06}</att>
+            <att name="long_name">WET Labs ECO-FLBBCD:7485</att>
+            <att name="sensor_maker">WET Labs</att>
+            <att name="sensor_maker_vocabulary">https://vocab.nerc.ac.uk/collection/L35/current/MAN0026/</att>
+            <att name="sensor_model">WET Labs {Sea-Bird WETLabs} ECO FLBBCD scattering fluorescence sensor</att>
+            <att name="sensor_model_vocabulary">https://vocab.nerc.ac.uk/collection/L22/current/TOOL1141/</att>
+            <att name="sensor_type">fluorometers</att>
+            <att name="sensor_type_vocabulary">https://vocab.nerc.ac.uk/collection/L05/current/113/</att>
+            <att name="serial_number">7485</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Optical Properties</att>
+            <att name="missing_value" type="float">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>SENSOR_DISSOLVED_GAS_SENSORS_0041</sourceName>
+        <destinationName>SENSOR_DISSOLVED_GAS_SENSORS_0041</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="float">NaN</att>
+            <att name="calibration_date">2020-02-05</att>
+            <att name="long_name">JFE Rinko ARO-FT:0041</att>
+            <att name="sensor_maker">JFE Advantech</att>
+            <att name="sensor_maker_vocabulary">https://vocab.nerc.ac.uk/collection/L35/current/MAN0053/</att>
+            <att name="sensor_model">JFE Advantech Rinko FT ARO-FT oxygen sensor</att>
+            <att name="sensor_model_vocabulary">https://vocab.nerc.ac.uk/collection/L22/current/TOOL1783/</att>
+            <att name="sensor_type">dissolved gas sensors</att>
+            <att name="sensor_type_vocabulary">https://vocab.nerc.ac.uk/collection/L05/current/351/</att>
+            <att name="serial_number">0041</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Unknown</att>
+            <att name="missing_value" type="float">NaN</att>
+        </addAttributes>
+    </dataVariable>
+</dataset>
+
+

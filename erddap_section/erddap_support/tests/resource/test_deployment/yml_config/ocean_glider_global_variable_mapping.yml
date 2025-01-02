@@ -1,0 +1,49 @@
+global:
+  title: null
+  platform: null
+  platform_vocabulary: null
+  naming_authority: null
+  internal_mission_identifier: null
+  geospatial_lat_min: null
+  geospatial_lat_max: null
+  geospatial_lon_min: null
+  geospatial_lon_max: null
+  geospatial_vertical_min: null
+  geospatial_vertical_max: null
+  time_coverage_start: null
+  time_coverage_end: null
+  site: null
+  site_vocabulary: null
+  program: null
+  project: null
+  network: null
+  contributor_name: null
+  contributor_email: null
+  contributor_id: null
+  contributor_role: null
+  contributor_role_vocabulary: null
+  institution: null
+  institution_role: null
+  institution_role_vocabulary: null
+  uri: null
+  data_url: null
+  doi: null
+  rtqc_method: null
+  rtqc_method_doi: null
+  web_link: null
+  comment: null
+  date_created: null
+  featureType: null
+  Conventions: null
+
+
+variables:
+  latitude: null
+  longitude: null
+  time: null
+  trajectory: null
+  platform_model: null
+  vmo_identifier: null
+  deployment_time: null
+  deployment_latitude: null
+  deployment_longitude: null

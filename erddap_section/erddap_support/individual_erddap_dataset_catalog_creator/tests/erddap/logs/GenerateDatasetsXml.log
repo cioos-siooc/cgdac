@@ -1,0 +1,3898 @@
+logFileMaxSize=20000000
+*** Starting GenerateDatasetsXml 2024-12-17T16:22:51 erddapVersion=2.23
+logFile=/erddapData/logs/GenerateDatasetsXml.log
+Java 17.0.12 (64 bit, Eclipse Adoptium) on Linux (6.10.4-linuxkit).
+MemoryInUse=    81 MB (highWaterMark=    81 MB) (Xmx ~= 1000 MB)
+
+*** GenerateDatasetsXml ***
+To enter a String with special characters or whitespace at the
+  beginning or end, enter a JSON-style string (with double quotes at
+  the beginning and end, and \-encoded special characters, e.g., "\t" .
+Just press Enter or type the word "default" (but without the quotes)
+  to get the default value.
+Type the word "nothing" (but without quotes) or "" (2 double quotes)
+  to change from a non-nothing default back to nothing (a 0-length string).
+Press ^D or ^C to exit this program at any time.
+Or, you can put all the answers as parameters on the command line.
+Results are shown on the screen and put in
+/erddapData/logs/GenerateDatasetsXml.out
+DISCLAIMER:
+  The chunk of datasets.xml made by GenerateDatasetsXml isn't perfect.
+  YOU MUST READ AND EDIT THE XML BEFORE USING IT IN A PUBLIC ERDDAP.
+  GenerateDatasetsXml relies on a lot of rules-of-thumb which aren't always
+  correct.  *YOU* ARE RESPONSIBLE FOR ENSURING THE CORRECTNESS OF THE XML
+  THAT YOU ADD TO ERDDAP'S datasets.xml FILE.
+For detailed information, see
+https://coastwatch.pfeg.noaa.gov/erddap/download/setupDatasetsXml.html
+
+The EDDType options are:
+EDDGridAggregateExistingDimension   EDDTableFromEML
+EDDGridFromAudioFiles               EDDTableFromEMLBatch
+EDDGridFromDap                      EDDTableFromErddap
+EDDGridFromEDDTable                 EDDTableFromFileNames
+EDDGridFromErddap                   EDDTableFromHttpGet
+EDDGridFromMergeIRFiles             EDDTableFromInPort
+EDDGridFromNcFiles                  EDDTableFromIoosSOS
+EDDGridFromNcFilesUnpacked          EDDTableFromJsonlCSVFiles
+EDDGridFromThreddsCatalog           EDDTableFromMultidimNcFiles
+EDDGridLonPM180FromErddapCatalog    EDDTableFromNcFiles
+EDDGridLon0360FromErddapCatalog     EDDTableFromNcCFFiles
+EDDTableFromAsciiFiles              EDDTableFromNccsvFiles
+EDDTableFromAudioFiles              EDDTableFromOBIS
+EDDTableFromAwsXmlFiles             EDDTableFromSOS
+EDDTableFromBCODMO                  EDDTableFromThreddsFiles
+EDDTableFromCassandra               EDDTableFromWFSFiles
+EDDTableFromColumnarAsciiFiles      EDDsFromFiles
+EDDTableFromDapSequence             addFillValueAttributes
+EDDTableFromDatabase                findDuplicateTime
+EDDTableFromEDDGrid                 ncdump
+
+Which EDDType? EDDTableFromNcFiles
+Starting directory? /datasets/
+File name regex (e.g., ".*\.nc")? nothing
+Full file name of one file (or leave empty to use first matching fileName)? nothing
+DimensionsCSV (or "" for default)? nothing
+ReloadEveryNMinutes (e.g., 10080)? nothing
+PreExtractRegex? nothing
+PostExtractRegex? nothing
+ExtractRegex? nothing
+Column name for extract? nothing
+Sorted column source name? nothing
+Sort files by sourceNames? nothing
+infoUrl? nothing
+institution? nothing
+summary? nothing
+title? nothing
+standardizeWhat (-1 to get the class' default)? nothing
+cacheFromUrl? nothing
+working...
+
+*** EDDTableFromNcFiles.generateDatasetsXml
+fileDir=/datasets/ fileNameRegex=
+sampleFileName=
+useDimensionsCSV= reloadEveryNMinutes=10080
+extract pre= post= regex= colName=
+sortedColumn= sortFilesBy=
+infoUrl=
+institution=
+summary=
+title=
+externalAddGlobalAttributes=null
+Found/using sampleFileName=/datasets/test_user/test_dataset_id/sunfish-2021-294-2-4_delayed.nc
+Let's see if netcdf-java can tell us the structure of the sample file:
+netcdf sunfish-2021-294-2-4_delayed.nc {
+  dimensions:
+    time = 73;
+    traj_strlen = 1;
+  variables:
+    double time(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "time";
+      :long_name = "Time";
+      :units = "seconds since 1970-01-01T00:00:00Z";
+      :calendar = "gregorian";
+      :observation_type = "measured";
+      :comment = "glider time record seconds since 1970. Time is merged time between glider flight and science computers";
+      :valid_max = 1.634913977799E9; // double
+      :valid_min = 1.634913918794E9; // double
+
+    double lat(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "latitude";
+      :long_name = "latitude";
+      :units = "degree_north";
+      :comment = "glider platformGPS surface positions";
+      :ancillary_variables = "lat_qc";
+      :coordinate_reference_frame = "urn:ogc:crs:EPSG::4326";
+      :observation_type = "measured";
+      :platform = "platform";
+      :reference = "WGS84";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :_ChunkSizes = 73U; // uint
+
+    double lon(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "longitude";
+      :long_name = "longitude";
+      :units = "degree_east";
+      :comment = "glider platform GPS surface positions";
+      :ancillary_variables = "lon_qc";
+      :coordinate_reference_frame = "urn:ogc:crs:EPSG::4326";
+      :observation_type = "measured";
+      :platform = "platform";
+      :reference = "WGS84";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :_ChunkSizes = 73U; // uint
+
+    double u(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "eastward_sea_water_velocity";
+      :long_name = "eastward_sea_water_velocity";
+      :observation_type = "calculated";
+      :platform = "platform";
+      :units = "m s-1";
+      :accuracy = " ";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :ancillary_variables = "  ";
+      :comment = "measured depth-average of sea water velocity pointing positive East, computed as an average over a glider dive segement between surfacing locations. The value comes from m_water_final_vx";
+      :_ChunkSizes = 73U; // uint
+
+    double v(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "northward_sea_water_velocity";
+      :long_name = "northward_sea_water_velocity";
+      :observation_type = "calculated";
+      :units = "m s-1";
+      :accuracy = " ";
+      :platform = "platform";
+      :ancillary_variables = "  ";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :comment = "measured depth-average of sea water velocity pointing positive North, computed as an average over a glider dive segement between surfacing locations. The value comes from m_water_final_vy";
+      :_ChunkSizes = 73U; // uint
+
+    double time_uv(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "time";
+      :long_name = "Depth-Averaged Time";
+      :units = "seconds since 1970-01-01T00:00:00Z";
+      :calendar = "gregorian";
+      :observation_type = "measured";
+      :comment = "glider time record seconds since 1970. Time is merged time between glider flight and science computers";
+      :valid_max = 1.634913977799E9; // double
+      :valid_min = 1.634913918794E9; // double
+      :_ChunkSizes = 73U; // uint
+
+    double lat_uv(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "latitude";
+      :units = "degrees_north";
+      :long_name = "Profile Center Northward Current";
+      :comment = "Longitude corresponding to the mid-point of the profile";
+      :observation_type = "measured";
+      :platform = "platform";
+      :reference = "WGS84";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :_ChunkSizes = 73U; // uint
+
+    double lon_uv(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "longitude";
+      :units = "degrees_east";
+      :long_name = "Profile Center Eastward Current";
+      :comment = "Longitude corresponding to the mid-point of the profile";
+      :observation_type = "measured";
+      :platform = "platform";
+      :reference = "WGS84";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :_ChunkSizes = 73U; // uint
+
+    double conductivity(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "sea_water_electrical_conductivity";
+      :long_name = "sea_water_electrical_conductivity";
+      :units = "S m-1";
+      :accuracy = "0.005";
+      :ancillary_variables = "conductivity_qc";
+      :instrument = "instrument_ctd";
+      :observation_type = "measured";
+      :platform = "platform";
+      :precision = NaN; // double
+      :resolution = "0.00001";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :comment = "ambient seawater conductivity measured by glider CTD sensor sci_water_cond";
+      :_ChunkSizes = 73U; // uint
+
+    double temperature(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "sea_water_temperature";
+      :long_name = "sea_water_temperature";
+      :units = "degrees_C";
+      :accuracy = "0.005";
+      :ancillary_variables = "temperature_qc";
+      :instrument = "instrument_ctd";
+      :observation_type = "measured";
+      :platform = "platform";
+      :precision = NaN; // double
+      :resolution = "0.001";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :comment = "ambient seawater temperature measured by glider CTD sensor sci_water_temp";
+      :_ChunkSizes = 73U; // uint
+
+    double depth(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "depth";
+      :long_name = "depth";
+      :units = "meter";
+      :ancillary_variables = "depth_qc";
+      :instrument = "instrument_ctd";
+      :observation_type = "calculated";
+      :platform = "platform";
+      :positive = "down";
+      :accuracy = "0.01";
+      :reference_datum = "sea-surface";
+      :precision = NaN; // double
+      :resolution = "0.02";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :comment = "vertical distance below sea surface calculated from CTD pressure sensor sci_water_pressure";
+      :_ChunkSizes = 73U; // uint
+
+    double pressure(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "sea_water_pressure";
+      :long_name = "pressure";
+      :units = "dbar";
+      :accuracy = "0.01";
+      :ancillary_variables = "pressure_qc";
+      :instrument = "instrument_ctd";
+      :observation_type = "measured";
+      :platform = "platform";
+      :positive = "down";
+      :reference_datum = "sea-surface";
+      :precision = NaN; // double
+      :resolution = "0.02";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :comment = "measured by glider CTD pressure sensor";
+      :_ChunkSizes = 73U; // uint
+
+    double salinity(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "sea_water_practical_salinity";
+      :long_name = "sea_water_practical_salinity";
+      :units = "PSU";
+      :platform = "platform";
+      :instrument = "instrument_ctd";
+      :observation_type = "calculated";
+      :accuracy = "0.05";
+      :ancillary_variables = "salinity_qc";
+      :precision = NaN; // double
+      :resolution = "0.01";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :comment = "practical salinity computed from conductivity, temperature and pressure using the Gibbs-SeaWater (GSW) Oceanographic toolbox (https://www.teos-10.org/software.htm)";
+      :_ChunkSizes = 73U; // uint
+
+    double absolute_salinity(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "sea_water_absolute_salinity";
+      :long_name = "absolute_salinity_of_sea_water";
+      :units = "g kg-1";
+      :platform = "platform";
+      :instrument = "instrument_ctd";
+      :observation_type = "calculated";
+      :accuracy = "0.05";
+      :ancillary_variables = "    ";
+      :precision = NaN; // double
+      :resolution = "0.01";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :comment = "Absolute Salinity, S_A, is defined as the mass fraction of dissolved material in sea water. Absolute Salinity incorporates the spatial variations in the composition of sea water (TEOS-10).";
+      :_ChunkSizes = 73U; // uint
+
+    double conservative_temperature(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "sea_water_conservative_temperature";
+      :long_name = "sea_water_conservative_temperature";
+      :units = "degrees_C";
+      :accuracy = "0.01";
+      :ancillary_variables = "  ";
+      :instrument = "instrument_ctd";
+      :observation_type = "calculated";
+      :platform = "platform";
+      :precision = NaN; // double
+      :resolution = "0.01";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :comment = "Conservative Temperature is defined the specific potential enthalpy (which has the standard name sea_water_specific_potential_enthalpy) divided by a fixed value of the specific heat capacity of sea water, namely cp_0 = 3991.86795711963 J kg-1 K-1 (TEOS10).";
+      :_ChunkSizes = 73U; // uint
+
+    double density(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "sea_water_density";
+      :long_name = "sea_water_density";
+      :units = "kg m-3";
+      :accuracy = "0.05";
+      :ancillary_variables = "density_qc";
+      :instrument = "instrument_ctd";
+      :observation_type = "calculated";
+      :platform = "platform";
+      :precision = NaN; // double
+      :resolution = "0.01";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :comment = "in-situ seawater density calculated from salinity, temperature and pressure using the Gibbs-SeaWater (GSW) Oceanographic toolbox (https://www.teos-10.org/software.htm)";
+      :_ChunkSizes = 73U; // uint
+
+    double lat_qc(time=73);
+      :_FillValue = -127.0; // double
+      :flag_meanings = "no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value";
+      :flag_values = "0b, 1b, 2b, 3b, 4b, 5b, 6b, 7b, 8b, 9b";
+      :long_name = "latitude Quality Flag";
+      :standard_name = "latitude status_flag";
+      :valid_max = "9b";
+      :valid_min = "0b";
+      :_ChunkSizes = 73U; // uint
+
+    double lon_qc(time=73);
+      :_FillValue = -127.0; // double
+      :flag_meanings = "no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value";
+      :flag_values = "0b, 1b, 2b, 3b, 4b, 5b, 6b, 7b, 8b, 9b";
+      :long_name = "longitude Quality Flag";
+      :standard_name = "longitude status_flag";
+      :valid_max = "9b";
+      :valid_min = "0b";
+      :_ChunkSizes = 73U; // uint
+
+    double depth_qc(time=73);
+      :_FillValue = -127.0; // double
+      :flag_meanings = "no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value";
+      :flag_values = "0b, 1b, 2b, 3b, 4b, 5b, 6b, 7b, 8b, 9b";
+      :long_name = "depth Quality Flag";
+      :standard_name = "depth status_flag";
+      :valid_max = "9b";
+      :valid_min = "0b";
+      :_ChunkSizes = 73U; // uint
+
+    double oxygen_concentration(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water";
+      :long_name = "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water";
+      :units = "micro-mol L";
+      :comment = "oxygen concentration measured by glider sensor from sci_oxy4_oxygen, compensated for salinity using code from Bittig et al., (2018).";
+      :ancillary_variables = "  ";
+      :observation_type = "calculated";
+      :platform = "platform";
+      :precision = NaN; // double
+      :resolution = "1.0";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :_ChunkSizes = 73U; // uint
+
+    double oxygen_sensor_temperature(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "temperature_of_sensor_for_oxygen_in_sea_water";
+      :long_name = "temperature_of_sensor_for_oxygen_in_sea_water";
+      :units = "degree_C";
+      :comment = "temperature of oxygen sensor used to compute oxygen concentration duplicated from sci_oxy4_temperature";
+      :ancillary_variables = "temperature_qc";
+      :observation_type = "measured";
+      :platform = "platform";
+      :precision = NaN; // double
+      :resolution = "0.01";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :_ChunkSizes = 73U; // uint
+
+    double chlorophyll_a(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "mass_concentration_of_chlorophyll_in_sea_water";
+      :long_name = "mass_concentration_of_chlorophyll_in_sea_water";
+      :units = "kg m-3";
+      :ancillary_variables = "    ";
+      :observation_type = "measured";
+      :platform = "platform";
+      :precision = NaN; // double
+      :resolution = "0.1";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :comment = "Mass concentration means mass per unit volume and are several different forms of chlorophyll that occur naturally. All contain a chlorin ring (chemical formula C20H16N4) which gives the green pigment and a side chain whose structure varies. The naturally occurring forms of chlorophyll contain between 35 and 55 carbon atoms. Chlorophyll-a is the most commonly occurring form of natural chlorophyll. The chemical formula of chlorophyll-a is C55H72O5N4Mg.";
+      :_ChunkSizes = 73U; // uint
+
+    double cdom(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "concentration_of_colored_dissolved_organic_matter_in_sea_water_expressed_as_equivalent_mass_fraction_of_quinine_sulfate_dihydrate";
+      :long_name = "concentration_of_colored_dissolved_organic_matter_in_sea_water_expressed_as_equivalent_mass_fraction_of_quinine_sulfate_dihydrate";
+      :units = "1";
+      :ancillary_variables = "    ";
+      :observation_type = "measured";
+      :platform = "platform";
+      :precision = NaN; // double
+      :resolution = "0.001";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :comment = "The quantity with standard name concentration_of_colored_dissolved_organic_matter_in_sea_water_expressed_as_equivalent_mass_fraction_of_quinine_sulfate_dihydrate is also commonly known as Chromophoric Dissolved Organic Matter (CDOM). CDOM plays an important role in the carbon cycling and biogeochemistry of coastal waters. It occurs naturally in aquatic environments primarily as a result of tannins released from decaying plant and animal matter, which can enter coastal areas in river run-off containing organic materials leached from soils. When present in high concentrations, it imparts a brown or yellowish color to water. Its presence can negatively impact fish populations by reducing dissolved oxygen concentrations to harmful levels and by releasing nutrients and metals that contaminate the water. Increased understanding of the role of CDOM will further our ability to manage and protect coastal ecosystems. Sensors are commonly calibrated against a 100 parts per billion (ppb) quinine sulfate dihydrate solution, a fluorescent reference standard commonly used with CDOM sensors. CDOM sensors therefore report in QSDE (quinine sulfate dihydrate equivalents). It is important to note, however, that CDOM concentrations in QSDE are not necessarily equivalent to the in situ CDOM concentrations in ppb.";
+      :_ChunkSizes = 73U; // uint
+
+    long temperature_qc(time=73);
+      :flag_values = "1, 2, 3, 4, 9";
+      :long_name = "temperature Quality Flag";
+      :standard_name = "sea_water_temperature status_flag";
+      :flag_meanings = "no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value";
+      :valid_max = "9";
+      :valid_min = "0";
+      :comment = "Data underwent quartod range, spike, rate of change and flat line test (Flag 1: pass, 2: not tested, 3: suspicious, 4: fail, 9: missing data).";
+      :_ChunkSizes = 73U; // uint
+
+    long salinity_qc(time=73);
+      :flag_values = "1, 2, 3, 4, 9";
+      :long_name = "salinity Quality Flag";
+      :standard_name = "sea_water_practical_salinity status_flag";
+      :flag_meanings = "no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value";
+      :valid_max = "9";
+      :valid_min = "0";
+      :comment = "Data underwent quartod range, spike, rate of change and flat line test (Flag 1: pass, 2: not tested, 3: suspicious, 4: fail, 9: missing data).";
+      :_ChunkSizes = 73U; // uint
+
+    long pressure_qc(time=73);
+      :flag_values = "1, 2, 3, 4, 9";
+      :long_name = "pressure Quality Flag";
+      :standard_name = "sea_water_pressure status_flag";
+      :flag_meanings = "no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value";
+      :valid_max = "9";
+      :valid_min = "0";
+      :comment = "Data underwent quartod range, spike, rate of change and flat line test (Flag 1: pass, 2: not tested, 3: suspicious, 4: fail, 9: missing data).";
+      :_ChunkSizes = 73U; // uint
+
+    long conductivity_qc(time=73);
+      :flag_values = "1, 2, 3, 4, 9";
+      :long_name = "conductivity Quality Flag";
+      :standard_name = "sea_water_electrical_conductivity status_flag";
+      :flag_meanings = "no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value";
+      :valid_max = "9";
+      :valid_min = "0";
+      :comment = "Data underwent quartod range, spike, rate of change and flat line test (Flag 1: pass, 2: not tested, 3: suspicious, 4: fail, 9: missing data).";
+      :_ChunkSizes = 73U; // uint
+
+    long density_qc(time=73);
+      :flag_values = "1, 2, 3, 4, 9";
+      :long_name = "density Quality Flag";
+      :standard_name = "sea_water_density status_flag";
+      :flag_meanings = "no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value";
+      :valid_max = "9";
+      :valid_min = "0";
+      :comment = "Data underwent quartod range, spike, rate of change and flat line test (Flag 1: pass, 2: not tested, 3: suspicious, 4: fail, 9: missing data).";
+      :_ChunkSizes = 73U; // uint
+
+    double profile_time(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "time";
+      :units = "seconds since 1970-01-01T00:00:00Z";
+      :long_name = "Profile Center Time";
+      :comment = "Timestamp corresponding to the mid-point of the profile";
+      :observation_type = "calculated";
+      :platform = "platform";
+      :_ChunkSizes = 73U; // uint
+
+    double profile_lat(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "latitude";
+      :units = "degrees_north";
+      :long_name = "Profile Center Latitude";
+      :comment = "Latitude corresponding to the mid-point of the profile";
+      :observation_type = "calculated";
+      :platform = "platform";
+      :reference = "WGS84";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :coordinate_reference_frame = "urn:ogc:crs:EPSG::4326";
+      :_ChunkSizes = 73U; // uint
+
+    double profile_lon(time=73);
+      :_FillValue = NaN; // double
+      :standard_name = "longitude";
+      :units = "degrees_east";
+      :long_name = "Profile Center Longitude";
+      :comment = "Longitude corresponding to the mid-point of the profile";
+      :observation_type = "calculated";
+      :platform = "platform";
+      :reference = "WGS84";
+      :valid_max = NaN; // double
+      :valid_min = NaN; // double
+      :coordinate_reference_frame = "urn:ogc:crs:EPSG::4326";
+      :_ChunkSizes = 73U; // uint
+
+    int profile_id(time=73);
+      :_FillValue = -999; // int
+      :long_name = "Profile ID";
+      :comment = "Sequential profile number within the trajectory. This value is unique in each file that is part of a single trajectory/deployment.";
+      :valid_max = "2147483647";
+      :valid_min = "1";
+      :_ChunkSizes = 73U; // uint
+
+    int platform;
+      :_FillValue = -999; // int
+      :comment = "Our new glider for the Labrador Sea projects. In addition to CTD and Oxygen data, this glider has an ECO-PUC triplet measuring CDOM, chlorophyll and backscatter.";
+      :instrument = "instrument_ctd";
+      :long_name = "Memorial University Slocum Glider sunfish";
+      :type = "platform";
+      :wmo_id = "6801509";
+      :id = "sunfish";
+
+    int instrument_ctd;
+      :_FillValue = -999; // int
+      :sensor = "CTD";
+      :serial_number = "203790 - 805";
+      :comment = "";
+      :long_name = "Seabird Glider Payload CTD";
+      :platform = "platform";
+      :factory_calibrated = "";
+      :make_model = "RBR Legato 3";
+      :type = "platform";
+      :calibration_date = "2017-05-03";
+      :calibration_report = "";
+
+    long trajectory(traj_strlen=1);
+      :cf_role = "trajectory_id";
+      :comment = "A trajectory is a single deployment of a glider and may span multiple data files.";
+      :long_name = "Trajectory sunfish-2021-12-02T12:00:00Z";
+      :_ChunkSizes = 1U; // uint
+
+    long traj_strlen(traj_strlen=1);
+      :long_name = "Trajectory String Length";
+
+  group: glider_record {
+    dimensions:
+      time = 73;
+    variables:
+      double c_ballast_pumped(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double c_battpos(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double c_de_oil_vol(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double c_fin(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double c_gps_on(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double c_heading(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double c_pitch(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double c_wpt_lat(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double c_wpt_lon(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double cc_depth_state_mode(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_altimeter_status(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_altitude(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_ballast_pumped(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_battery(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_battpos(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_coulomb_amphr(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_coulomb_amphr_total(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_coulomb_current(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_coulomb_current_raw(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_de_oil_vol(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_depth(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_depth_state(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_dr_postfix_time(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_dr_time(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_dr_x_actual_err(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_dr_x_postfix_drift(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_dr_y_actual_err(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_dr_y_postfix_drift(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_fin(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_final_water_vx(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_final_water_vy(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_gps_heading(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_gps_lat(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_gps_lon(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_gps_mag_var(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_gps_on(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_gps_speed(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_gps_x_lmc(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_gps_y_lmc(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_heading(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_initial_water_vx(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_initial_water_vy(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_lat(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_leak(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_lon(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_pitch(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_raw_altitude(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_raw_altitude_rejected(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_roll(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_vacuum(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_water_delta_vx(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_water_delta_vy(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_water_depth(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_water_vx(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double m_water_vy(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_ad2cp_file_state(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_bb_ref(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_bb_sig(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_bb_units(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_cdom_ref(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_cdom_sig(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_cdom_units(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_chlor_ref(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_chlor_sig(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_chlor_units(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_is_installed(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_therm(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_flbbcd_timestamp(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_m_disk_free(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_m_disk_usage(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_m_free_heap(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_m_min_free_heap(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_m_present_secs_into_mission(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_m_science_on(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_c1amp(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_c1rph(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_c2amp(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_c2rph(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_calphase(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_is_installed(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_oxygen(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_rawtemp(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_saturation(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_tcphase(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_temp(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_oxy4_timestamp(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_proglet_time(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_rbrctd_cond_cell_temp_00(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_rbrctd_conductivity_00(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_rbrctd_count_00(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_rbrctd_depth_00(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_rbrctd_is_installed(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_rbrctd_pressure_00(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_rbrctd_salinity_00(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_rbrctd_seapressure_00(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_rbrctd_temperature_00(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_rbrctd_timestamp(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_sbmb_hw_ver(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_software_ver(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_wants_comms(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_wants_surface(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_water_cond(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_water_pressure(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_water_temp(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_x_disk_files_removed(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_x_sent_data_files(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double u_flbb_bb_do(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double u_flbb_bb_sf(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double u_flbb_chlor_do(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double u_flbb_chlor_sf(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double u_flbbcd_bb_cwo(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double u_flbbcd_bb_sf(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double u_flbbcd_cdom_cwo(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double u_flbbcd_cdom_sf(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double u_flbbcd_chlor_cwo(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double u_flbbcd_chlor_sf(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double x_dr_state(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double sci_water_depth(time=73);
+        :_FillValue = NaN; // double
+        :_ChunkSizes = 73U; // uint
+
+      double time(time=73);
+        :_FillValue = NaN; // double
+
+  }
+
+  // global attributes:
+  :project = "HOTSeALS";
+  :acknowledgment = "Funding provided by Ocean Frontier Institute Module O \"Transforming Ocean Observations\".";
+  :comment = "Project to measure and study the oxygen dynamics in the winter in the Labrador Sea. This glider was deployed near the 53N array maintained as part of the OSNAP program.";
+  :contributor_name = "Nicolai von Oppeln-Bronikowski, Mark Downey, Taimaz Bahadory, Brad de Young";
+  :contributor_role = "Glider Pilot, Technician, Data Manager, Principal Investigator";
+  :deployment_date = "2021-12-02T12:00:00Z";
+  :keywords = "Oceans > Ocean Pressure > Water Pressure, Oceans > Ocean Temperature > Water Temperature, Oceans > Salinity/Density > Conductivity, Oceans > Salinity/Density > Density, Oceans > Salinity/Density > Salinity";
+  :platform_type = "Slocum Glider";
+  :sea_name = "Labrador Sea";
+  :source = "00290004.dbd";
+  :summary = "Labrador Sea Glider Survey. Slocum gliders are small, free-swimming, unmanned vehicles that use changes in buoyancy to move vertically and horizontally through the water column in a saw-tooth pattern. They are deployed for days to several months and gather detailed information about the physical, chemical and biological processes of the world's oceans. The Slocum glider was designed and built by Teledyne Webb Research Corporation, Falmouth, MA, USA.";
+  :Conventions = "CF-1.6";
+  :Metadata_Conventions = "CF-1.6, Unidata Dataset Discovery v1.0";
+  :creator_email = "taimaz.bahadory@mun.ca";
+  :creator_name = "Taimaz Bahadory";
+  :creator_url = "www.mungliders.com";
+  :date_created = "2023-11-07T12:03:52Z";
+  :date_issued = "2023-11-07T12:03:52Z";
+  :date_modified = "2023-11-07T12:03:52Z";
+  :format_version = "IOOS_Glider_NetCDF_v2.0.nc";
+  :history = "2024-02-20T16:31:47Z: This file was created using the Python Glider Processing Toolbox.";
+  :id = "sunfish-2021-12-02T12:00:00Z";
+  :institution = "Memorial University";
+  :keywords_vocabulary = "GCMD Science Keywords";
+  :license = "This data may be redistributed without restriction. Data provided as is with no expressed or implied assurance of quality assurance or quality control";
+  :metadata_link = "www.mungliders.com";
+  :naming_authority = "ca.mun.www";
+  :publisher_email = "info@mungliders.com";
+  :publisher_name = "mungliders";
+  :publisher_url = "www.mungliders.com";
+  :references = "https://ioos.github.io/glider-dac/ngdac-netcdf-file-format-version-2.html#global-attributes";
+  :standard_name_vocabulary = "CF Standard Name Table v27";
+  :title = "sunfish-2021-12-02T12:00:00Z";
+  :wmo_id = "6801509";
+  :processingMode = "delayed";
+  :cdm_dataType = "profile";
+  :processing_level = "Delayed mode Slocum glider profile data converted from the native format. Limited and provisional quality control provided.";
+}
+
+    ioos_category=Unknown for |concentration|of|colored|dissolved|organic|matter|in|sea|water|expressed|as|equivalent|mass|fraction|of|quinine|sulfate|dihydrate|concentration|of|colored|dissolved|organic|matter|in|sea|water|expressed|as|equivalent|mass|fraction|of|quinine|sulfate|dihydrate|1|cdom|
+    ioos_category=Unknown for |glider|record|c|ballast|pumped|||glider|record|c|ballast|pumped|
+    ioos_category=Unknown for |glider|record|c|battpos|||glider|record|c|battpos|
+    ioos_category=Unknown for |glider|record|c|de|oil|vol|||glider|record|c|de|oil|vol|
+    ioos_category=Unknown for |glider|record|c|fin|||glider|record|c|fin|
+    ioos_category=Unknown for |glider|record|c|gps|on|||glider|record|c|gps|on|
+    ioos_category=Unknown for |glider|record|c|heading|||glider|record|c|heading|
+    ioos_category=Unknown for |glider|record|c|pitch|||glider|record|c|pitch|
+    ioos_category=Unknown for |glider|record|m|altimeter|status|||glider|record|m|altimeter|status|
+    ioos_category=Unknown for |glider|record|m|ballast|pumped|||glider|record|m|ballast|pumped|
+    ioos_category=Unknown for |glider|record|m|battery|||glider|record|m|battery|
+    ioos_category=Unknown for |glider|record|m|battpos|||glider|record|m|battpos|
+    ioos_category=Unknown for |glider|record|m|coulomb|amphr|||glider|record|m|coulomb|amphr|
+    ioos_category=Unknown for |glider|record|m|coulomb|amphr|total|||glider|record|m|coulomb|amphr|total|
+    ioos_category=Unknown for |glider|record|m|de|oil|vol|||glider|record|m|de|oil|vol|
+    ioos_category=Unknown for |glider|record|m|fin|||glider|record|m|fin|
+    ioos_category=Unknown for |glider|record|m|final|water|vx|||glider|record|m|final|water|vx|
+    ioos_category=Unknown for |glider|record|m|final|water|vy|||glider|record|m|final|water|vy|
+    ioos_category=Unknown for |glider|record|m|gps|heading|||glider|record|m|gps|heading|
+    ioos_category=Unknown for |glider|record|m|gps|mag|var|||glider|record|m|gps|mag|var|
+    ioos_category=Unknown for |glider|record|m|gps|on|||glider|record|m|gps|on|
+    ioos_category=Unknown for |glider|record|m|heading|||glider|record|m|heading|
+    ioos_category=Unknown for |glider|record|m|initial|water|vx|||glider|record|m|initial|water|vx|
+    ioos_category=Unknown for |glider|record|m|initial|water|vy|||glider|record|m|initial|water|vy|
+    ioos_category=Unknown for |glider|record|m|leak|||glider|record|m|leak|
+    ioos_category=Unknown for |glider|record|m|pitch|||glider|record|m|pitch|
+    ioos_category=Unknown for |glider|record|m|roll|||glider|record|m|roll|
+    ioos_category=Unknown for |glider|record|m|vacuum|||glider|record|m|vacuum|
+    ioos_category=Unknown for |glider|record|m|water|delta|vx|||glider|record|m|water|delta|vx|
+    ioos_category=Unknown for |glider|record|m|water|delta|vy|||glider|record|m|water|delta|vy|
+    ioos_category=Unknown for |glider|record|m|water|vx|||glider|record|m|water|vx|
+    ioos_category=Unknown for |glider|record|m|water|vy|||glider|record|m|water|vy|
+    ioos_category=Unknown for |glider|record|sci|flbbcd|bb|ref|||glider|record|sci|flbbcd|bb|ref|
+    ioos_category=Unknown for |glider|record|sci|flbbcd|bb|sig|||glider|record|sci|flbbcd|bb|sig|
+    ioos_category=Unknown for |glider|record|sci|flbbcd|bb|units|||glider|record|sci|flbbcd|bb|units|
+    ioos_category=Unknown for |glider|record|sci|flbbcd|cdom|ref|||glider|record|sci|flbbcd|cdom|ref|
+    ioos_category=Unknown for |glider|record|sci|flbbcd|cdom|sig|||glider|record|sci|flbbcd|cdom|sig|
+    ioos_category=Unknown for |glider|record|sci|flbbcd|cdom|units|||glider|record|sci|flbbcd|cdom|units|
+    ioos_category=Unknown for |glider|record|sci|flbbcd|is|installed|||glider|record|sci|flbbcd|is|installed|
+    ioos_category=Unknown for |glider|record|sci|flbbcd|therm|||glider|record|sci|flbbcd|therm|
+    ioos_category=Unknown for |glider|record|sci|m|disk|free|||glider|record|sci|m|disk|free|
+    ioos_category=Unknown for |glider|record|sci|m|disk|usage|||glider|record|sci|m|disk|usage|
+    ioos_category=Unknown for |glider|record|sci|m|free|heap|||glider|record|sci|m|free|heap|
+    ioos_category=Unknown for |glider|record|sci|m|min|free|heap|||glider|record|sci|m|min|free|heap|
+    ioos_category=Unknown for |glider|record|sci|m|present|secs|into|mission|||glider|record|sci|m|present|secs|into|mission|
+    ioos_category=Unknown for |glider|record|sci|m|science|on|||glider|record|sci|m|science|on|
+    ioos_category=Unknown for |glider|record|sci|oxy4|c1amp|||glider|record|sci|oxy4|c1amp|
+    ioos_category=Unknown for |glider|record|sci|oxy4|c1rph|||glider|record|sci|oxy4|c1rph|
+    ioos_category=Unknown for |glider|record|sci|oxy4|c2amp|||glider|record|sci|oxy4|c2amp|
+    ioos_category=Unknown for |glider|record|sci|oxy4|c2rph|||glider|record|sci|oxy4|c2rph|
+    ioos_category=Unknown for |glider|record|sci|oxy4|calphase|||glider|record|sci|oxy4|calphase|
+    ioos_category=Unknown for |glider|record|sci|oxy4|is|installed|||glider|record|sci|oxy4|is|installed|
+    ioos_category=Unknown for |glider|record|sci|oxy4|saturation|||glider|record|sci|oxy4|saturation|
+    ioos_category=Unknown for |glider|record|sci|oxy4|tcphase|||glider|record|sci|oxy4|tcphase|
+    ioos_category=Unknown for |glider|record|sci|oxy4|temp|||glider|record|sci|oxy4|temp|
+    ioos_category=Unknown for |glider|record|sci|rbrctd|cond|cell|temp|00|||glider|record|sci|rbrctd|cond|cell|temp|00|
+    ioos_category=Unknown for |glider|record|sci|rbrctd|is|installed|||glider|record|sci|rbrctd|is|installed|
+    ioos_category=Unknown for |glider|record|sci|sbmb|hw|ver|||glider|record|sci|sbmb|hw|ver|
+    ioos_category=Unknown for |glider|record|sci|software|ver|||glider|record|sci|software|ver|
+    ioos_category=Unknown for |glider|record|sci|wants|comms|||glider|record|sci|wants|comms|
+    ioos_category=Unknown for |glider|record|sci|wants|surface|||glider|record|sci|wants|surface|
+    ioos_category=Unknown for |glider|record|sci|water|cond|||glider|record|sci|water|cond|
+    ioos_category=Unknown for |glider|record|sci|water|temp|||glider|record|sci|water|temp|
+    ioos_category=Unknown for |glider|record|u|flbb|bb|do|||glider|record|u|flbb|bb|do|
+    ioos_category=Unknown for |glider|record|u|flbb|bb|sf|||glider|record|u|flbb|bb|sf|
+    ioos_category=Unknown for |glider|record|u|flbbcd|bb|cwo|||glider|record|u|flbbcd|bb|cwo|
+    ioos_category=Unknown for |glider|record|u|flbbcd|bb|sf|||glider|record|u|flbbcd|bb|sf|
+    ioos_category=Unknown for |glider|record|u|flbbcd|cdom|cwo|||glider|record|u|flbbcd|cdom|cwo|
+    ioos_category=Unknown for |glider|record|u|flbbcd|cdom|sf|||glider|record|u|flbbcd|cdom|sf|
+    ioos_category=Unknown for |memorial|university|slocum|glider|sunfish|||platform|
+    ioos_category=Unknown for |seabird|glider|payload|ctd|||instrument|ctd|
+
+
+*** generateDatasetsXml finished successfully.
+
+
+<dataset type="EDDTableFromNcFiles" datasetID="datasets_f93d_926a_4e63" active="true">
+    <reloadEveryNMinutes>10080</reloadEveryNMinutes>
+    <updateEveryNMillis>10000</updateEveryNMillis>
+    <fileDir>/datasets/</fileDir>
+    <fileNameRegex>.*</fileNameRegex>
+    <recursive>true</recursive>
+    <pathRegex>.*</pathRegex>
+    <metadataFrom>last</metadataFrom>
+    <standardizeWhat>0</standardizeWhat>
+    <sortedColumnSourceName>time</sortedColumnSourceName>
+    <sortFilesBySourceNames>time</sortFilesBySourceNames>
+    <fileTableInMemory>false</fileTableInMemory>
+    <!-- sourceAttributes>
+        <att name="_NCProperties">version=2,netcdf=4.9.3-development,hdf5=1.12.2</att>
+        <att name="acknowledgment">Funding provided by Ocean Frontier Institute Module O &quot;Transforming Ocean Observations&quot;.</att>
+        <att name="cdm_dataType">profile</att>
+        <att name="comment">Project to measure and study the oxygen dynamics in the winter in the Labrador Sea. This glider was deployed near the 53N array maintained as part of the OSNAP program.</att>
+        <att name="contributor_name">Nicolai von Oppeln-Bronikowski, Mark Downey, Taimaz Bahadory, Brad de Young</att>
+        <att name="contributor_role">Glider Pilot, Technician, Data Manager, Principal Investigator</att>
+        <att name="Conventions">CF-1.6</att>
+        <att name="creator_email">taimaz.bahadory@mun.ca</att>
+        <att name="creator_name">Taimaz Bahadory</att>
+        <att name="creator_url">www.mungliders.com</att>
+        <att name="date_created">2023-11-07T12:03:52Z</att>
+        <att name="date_issued">2023-11-07T12:03:52Z</att>
+        <att name="date_modified">2023-11-07T12:03:52Z</att>
+        <att name="deployment_date">2021-12-02T12:00:00Z</att>
+        <att name="format_version">IOOS_Glider_NetCDF_v2.0.nc</att>
+        <att name="history">2024-02-20T16:31:47Z: This file was created using the Python Glider Processing Toolbox.</att>
+        <att name="id">sunfish-2021-12-02T12:00:00Z</att>
+        <att name="institution">Memorial University</att>
+        <att name="keywords">Oceans &gt; Ocean Pressure &gt; Water Pressure, Oceans &gt; Ocean Temperature &gt; Water Temperature, Oceans &gt; Salinity/Density &gt; Conductivity, Oceans &gt; Salinity/Density &gt; Density, Oceans &gt; Salinity/Density &gt; Salinity</att>
+        <att name="keywords_vocabulary">GCMD Science Keywords</att>
+        <att name="license">This data may be redistributed without restriction. Data provided as is with no expressed or implied assurance of quality assurance or quality control</att>
+        <att name="Metadata_Conventions">CF-1.6, Unidata Dataset Discovery v1.0</att>
+        <att name="metadata_link">www.mungliders.com</att>
+        <att name="naming_authority">ca.mun.www</att>
+        <att name="platform_type">Slocum Glider</att>
+        <att name="processing_level">Delayed mode Slocum glider profile data converted from the native format. Limited and provisional quality control provided.</att>
+        <att name="processingMode">delayed</att>
+        <att name="project">HOTSeALS</att>
+        <att name="publisher_email">info@mungliders.com</att>
+        <att name="publisher_name">mungliders</att>
+        <att name="publisher_url">www.mungliders.com</att>
+        <att name="references">https://ioos.github.io/glider-dac/ngdac-netcdf-file-format-version-2.html#global-attributes</att>
+        <att name="sea_name">Labrador Sea</att>
+        <att name="source">00290004.dbd</att>
+        <att name="standard_name_vocabulary">CF Standard Name Table v27</att>
+        <att name="summary">Labrador Sea Glider Survey. Slocum gliders are small, free-swimming, unmanned vehicles that use changes in buoyancy to move vertically and horizontally through the water column in a saw-tooth pattern. They are deployed for days to several months and gather detailed information about the physical, chemical and biological processes of the world&#39;s oceans. The Slocum glider was designed and built by Teledyne Webb Research Corporation, Falmouth, MA, USA.</att>
+        <att name="title">sunfish-2021-12-02T12:00:00Z</att>
+        <att name="wmo_id">6801509</att>
+    </sourceAttributes -->
+    <!-- Please specify the actual cdm_data_type (TimeSeries?) and related info below, for example...
+        <att name="cdm_timeseries_variables">station_id, longitude, latitude</att>
+        <att name="subsetVariables">station_id, longitude, latitude</att>
+    -->
+    <addAttributes>
+        <att name="_NCProperties">null</att>
+        <att name="acknowledgement">Funding provided by Ocean Frontier Institute Module O &quot;Transforming Ocean Observations&quot;.</att>
+        <att name="acknowledgment">null</att>
+        <att name="cdm_data_type">Point</att>
+        <att name="Conventions">CF-1.10, COARDS, ACDD-1.3</att>
+        <att name="creator_type">person</att>
+        <att name="infoUrl">https://ioos.github.io/glider-dac/ngdac-netcdf-file-format-version-2.html#global-attributes</att>
+        <att name="keywords">00z, 02t12, absolute, absolute_salinity, actual, ad2cp, altimeter, altitude, amphr, averaged, ballast, battery, battpos, c1amp, c1rph, c2amp, c2rph, calphase, cdom, cell, center, chemistry, chlor, chlorophyll, chlorophyll_a, circulation, color, colored, comms, concentration, concentration_of_colored_dissolved_organic_matter_in_sea_water_expressed_as_equivalent_mass_fraction_of_quinine_sulfate_dihydrate, cond, conductivity, conductivity_qc, conservative, conservative_temperature, coulomb, count, ctd, current, currents, cwo, data, delta, density, density_qc, depth, depth-averaged, depth_qc, dihydrate, disk, dissolved, dissolved o2, drift, earth, Earth Science &gt; Oceans &gt; Ocean Chemistry &gt; Chlorophyll, Earth Science &gt; Oceans &gt; Ocean Chemistry &gt; Oxygen, Earth Science &gt; Oceans &gt; Ocean Circulation &gt; Ocean Currents, Earth Science &gt; Oceans &gt; Ocean Pressure &gt; Water Pressure, Earth Science &gt; Oceans &gt; Ocean Temperature &gt; Water Temperature, Earth Science &gt; Oceans &gt; Salinity/Density &gt; Conductivity, Earth Science &gt; Oceans &gt; Salinity/Density &gt; Density, Earth Science &gt; Oceans &gt; Salinity/Density &gt; Salinity, eastward, eastward_sea_water_velocity, electrical, equivalent, error, expressed, file, files, fin, final, flag, flbb, flbbcd, fraction, free, glider, glider_record_c_ballast_pumped, glider_record_c_battpos, glider_record_c_de_oil_vol, glider_record_c_fin, glider_record_c_gps_on, glider_record_c_heading, glider_record_c_pitch, glider_record_c_wpt_lat, glider_record_c_wpt_lon, glider_record_cc_depth_state_mode, glider_record_m_altimeter_status, glider_record_m_altitude, glider_record_m_ballast_pumped, glider_record_m_battery, glider_record_m_battpos, glider_record_m_coulomb_amphr, glider_record_m_coulomb_amphr_total, glider_record_m_coulomb_current, glider_record_m_coulomb_current_raw, glider_record_m_de_oil_vol, glider_record_m_depth, glider_record_m_depth_state, glider_record_m_dr_postfix_time, glider_record_m_dr_time, glider_record_m_dr_x_actual_err, glider_record_m_dr_x_postfix_drift, glider_record_m_dr_y_actual_err, glider_record_m_dr_y_postfix_drift, glider_record_m_fin, glider_record_m_final_water_vx, glider_record_m_final_water_vy, glider_record_m_gps_heading, glider_record_m_gps_lat, glider_record_m_gps_lon, glider_record_m_gps_mag_var, glider_record_m_gps_on, glider_record_m_gps_speed, glider_record_m_gps_x_lmc, glider_record_m_gps_y_lmc, glider_record_m_heading, glider_record_m_initial_water_vx, glider_record_m_initial_water_vy, glider_record_m_lat, glider_record_m_leak, glider_record_m_lon, glider_record_m_pitch, glider_record_m_raw_altitude, glider_record_m_raw_altitude_rejected, glider_record_m_roll, glider_record_m_vacuum, glider_record_m_water_delta_vx, glider_record_m_water_delta_vy, glider_record_m_water_depth, glider_record_m_water_vx, glider_record_m_water_vy, glider_record_sci_ad2cp_file_state, glider_record_sci_flbbcd_bb_ref, glider_record_sci_flbbcd_bb_sig, glider_record_sci_flbbcd_bb_units, glider_record_sci_flbbcd_cdom_ref, glider_record_sci_flbbcd_cdom_sig, glider_record_sci_flbbcd_cdom_units, glider_record_sci_flbbcd_chlor_ref, glider_record_sci_flbbcd_chlor_sig, glider_record_sci_flbbcd_chlor_units, glider_record_sci_flbbcd_is_installed, glider_record_sci_flbbcd_therm, glider_record_sci_flbbcd_timestamp, glider_record_sci_m_disk_free, glider_record_sci_m_disk_usage, glider_record_sci_m_free_heap, glider_record_sci_m_min_free_heap, glider_record_sci_m_present_secs_into_mission, glider_record_sci_m_science_on, glider_record_sci_oxy4_c1amp, glider_record_sci_oxy4_c1rph, glider_record_sci_oxy4_c2amp, glider_record_sci_oxy4_c2rph, glider_record_sci_oxy4_calphase, glider_record_sci_oxy4_is_installed, glider_record_sci_oxy4_oxygen, glider_record_sci_oxy4_rawtemp, glider_record_sci_oxy4_saturation, glider_record_sci_oxy4_tcphase, glider_record_sci_oxy4_temp, glider_record_sci_oxy4_timestamp, glider_record_sci_proglet_time, glider_record_sci_rbrctd_cond_cell_temp_00, glider_record_sci_rbrctd_conductivity_00, glider_record_sci_rbrctd_count_00, glider_record_sci_rbrctd_depth_00, glider_record_sci_rbrctd_is_installed, glider_record_sci_rbrctd_pressure_00, glider_record_sci_rbrctd_salinity_00, glider_record_sci_rbrctd_seapressure_00, glider_record_sci_rbrctd_temperature_00, glider_record_sci_rbrctd_timestamp, glider_record_sci_sbmb_hw_ver, glider_record_sci_software_ver, glider_record_sci_wants_comms, glider_record_sci_wants_surface, glider_record_sci_water_cond, glider_record_sci_water_depth, glider_record_sci_water_pressure, glider_record_sci_water_temp, glider_record_sci_x_disk_files_removed, glider_record_sci_x_sent_data_files, glider_record_time, glider_record_u_flbb_bb_do, glider_record_u_flbb_bb_sf, glider_record_u_flbb_chlor_do, glider_record_u_flbb_chlor_sf, glider_record_u_flbbcd_bb_cwo, glider_record_u_flbbcd_bb_sf, glider_record_u_flbbcd_cdom_cwo, glider_record_u_flbbcd_cdom_sf, glider_record_u_flbbcd_chlor_cwo, glider_record_u_flbbcd_chlor_sf, glider_record_x_dr_state, global, gps, heading, heap, identifier, initial, installed, instrument_ctd, into, lat_qc, lat_uv, latitude, leak, lmc, lon_qc, lon_uv, longitude, mag, mass, mass_concentration_of_chlorophyll_in_sea_water, matter, memorial, min, mission, mode, mole, mole_concentration_of_dissolved_molecular_oxygen_in_sea_water, molecular, northward, northward_sea_water_velocity, O2, ocean, ocean color, oceans, oil, organic, oxy4, oxygen, oxygen_concentration, oxygen_sensor_temperature, payload, pitch, platform, positioning, postfix, practical, present, pressure, pressure_qc, profile, profile_id, profile_lat, profile_lon, profile_time, proglet, pumped, quality, quinine, raw, rawtemp, rbrctd, record, record/c, record/cc, record/m, record/sci, record/time, record/u, record/x, ref, rejected, removed, roll, salinity, salinity/density, salinity_qc, saturation, sbmb, sci, science, sea, sea_water_absolute_salinity, sea_water_conservative_temperature, sea_water_density, sea_water_density status_flag, sea_water_electrical_conductivity, sea_water_electrical_conductivity status_flag, sea_water_practical_salinity, sea_water_practical_salinity status_flag, sea_water_pressure, sea_water_pressure status_flag, sea_water_temperature, sea_water_temperature status_flag, seabird, seapressure, seawater, secs, sensor, sent, sig, slocum, software, sonde, speed, state, statistics, status, sulfate, sunfish, sunfish-2021-12-02t12, surface, system, tcphase, temperature, temperature_of_sensor_for_oxygen_in_sea_water, temperature_qc, therm, time, time_uv, timestamp, total, u, units, university, usage, v, vacuum, velocity, vol, wants, water, wpt</att>
+        <att name="Metadata_Conventions">null</att>
+        <att name="sourceUrl">(local files)</att>
+        <att name="subsetVariables">latitude, longitude, u, v, lat_uv, lon_uv, conductivity, temperature, depth, pressure, salinity, absolute_salinity, conservative_temperature, density, lat_qc, lon_qc, depth_qc, oxygen_concentration, oxygen_sensor_temperature, chlorophyll_a, cdom, temperature_qc, salinity_qc, pressure_qc, conductivity_qc, density_qc, profile_time, profile_lat, profile_lon, profile_id, glider_record_c_ballast_pumped, glider_record_c_fin, glider_record_c_heading, glider_record_c_pitch, glider_record_c_wpt_lat, glider_record_c_wpt_lon, glider_record_cc_depth_state_mode, glider_record_m_altitude, glider_record_m_ballast_pumped, glider_record_m_depth_state, glider_record_m_dr_postfix_time, glider_record_m_dr_time, glider_record_m_dr_x_actual_err, glider_record_m_dr_x_postfix_drift, glider_record_m_dr_y_actual_err, glider_record_m_dr_y_postfix_drift, glider_record_m_final_water_vx, glider_record_m_final_water_vy, glider_record_m_gps_heading, glider_record_m_gps_lat, glider_record_m_gps_lon, glider_record_m_gps_mag_var, glider_record_m_gps_on, glider_record_m_gps_speed, glider_record_m_gps_x_lmc, glider_record_m_gps_y_lmc, glider_record_m_heading, glider_record_m_initial_water_vx, glider_record_m_initial_water_vy, glider_record_m_lat, glider_record_m_leak, glider_record_m_lon, glider_record_m_pitch, glider_record_m_raw_altitude, glider_record_m_raw_altitude_rejected, glider_record_m_roll, glider_record_m_water_delta_vx, glider_record_m_water_delta_vy, glider_record_m_water_depth, glider_record_m_water_vx, glider_record_m_water_vy, glider_record_sci_ad2cp_file_state, glider_record_sci_flbbcd_bb_ref, glider_record_sci_flbbcd_bb_sig, glider_record_sci_flbbcd_bb_units, glider_record_sci_flbbcd_cdom_ref, glider_record_sci_flbbcd_cdom_sig, glider_record_sci_flbbcd_cdom_units, glider_record_sci_flbbcd_chlor_ref, glider_record_sci_flbbcd_chlor_sig, glider_record_sci_flbbcd_chlor_units, glider_record_sci_flbbcd_therm, glider_record_sci_flbbcd_timestamp, glider_record_sci_oxy4_c1amp, glider_record_sci_oxy4_c1rph, glider_record_sci_oxy4_c2amp, glider_record_sci_oxy4_c2rph, glider_record_sci_oxy4_calphase, glider_record_sci_oxy4_oxygen, glider_record_sci_oxy4_rawtemp, glider_record_sci_oxy4_saturation, glider_record_sci_oxy4_tcphase, glider_record_sci_oxy4_temp, glider_record_sci_oxy4_timestamp, glider_record_sci_rbrctd_cond_cell_temp_00, glider_record_sci_rbrctd_conductivity_00, glider_record_sci_rbrctd_count_00, glider_record_sci_rbrctd_depth_00, glider_record_sci_rbrctd_pressure_00, glider_record_sci_rbrctd_salinity_00, glider_record_sci_rbrctd_seapressure_00, glider_record_sci_rbrctd_temperature_00, glider_record_sci_rbrctd_timestamp, glider_record_sci_software_ver, glider_record_sci_wants_comms, glider_record_sci_wants_surface, glider_record_sci_water_cond, glider_record_sci_water_pressure, glider_record_sci_water_temp, glider_record_sci_x_disk_files_removed, glider_record_sci_x_sent_data_files, glider_record_u_flbb_bb_do, glider_record_u_flbb_bb_sf, glider_record_u_flbb_chlor_do, glider_record_u_flbb_chlor_sf, glider_record_u_flbbcd_bb_cwo, glider_record_u_flbbcd_bb_sf, glider_record_u_flbbcd_cdom_cwo, glider_record_u_flbbcd_cdom_sf, glider_record_u_flbbcd_chlor_cwo, glider_record_u_flbbcd_chlor_sf, glider_record_sci_water_depth, platform, instrument_ctd</att>
+    </addAttributes>
+    <dataVariable>
+        <sourceName>time</sourceName>
+        <destinationName>time</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="calendar">gregorian</att>
+            <att name="comment">glider time record seconds since 1970. Time is merged time between glider flight and science computers</att>
+            <att name="long_name">Time</att>
+            <att name="observation_type">measured</att>
+            <att name="standard_name">time</att>
+            <att name="units">seconds since 1970-01-01T00:00:00Z</att>
+            <att name="valid_max" type="double">1.634913977799E9</att>
+            <att name="valid_min" type="double">1.634913918794E9</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">1.63491398E9</att>
+            <att name="colorBarMinimum" type="double">1.6349139E9</att>
+            <att name="ioos_category">Time</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>lat</sourceName>
+        <destinationName>latitude</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="ancillary_variables">lat_qc</att>
+            <att name="comment">glider platformGPS surface positions</att>
+            <att name="coordinate_reference_frame">urn:ogc:crs:EPSG::4326</att>
+            <att name="long_name">latitude</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="reference">WGS84</att>
+            <att name="standard_name">latitude</att>
+            <att name="units">degree_north</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">90.0</att>
+            <att name="colorBarMinimum" type="double">-90.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Latitude</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="reference">null</att>
+            <att name="references">WGS84</att>
+            <att name="units">degrees_north</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>lon</sourceName>
+        <destinationName>longitude</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="ancillary_variables">lon_qc</att>
+            <att name="comment">glider platform GPS surface positions</att>
+            <att name="coordinate_reference_frame">urn:ogc:crs:EPSG::4326</att>
+            <att name="long_name">longitude</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="reference">WGS84</att>
+            <att name="standard_name">longitude</att>
+            <att name="units">degree_east</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">180.0</att>
+            <att name="colorBarMinimum" type="double">-180.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Longitude</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="reference">null</att>
+            <att name="references">WGS84</att>
+            <att name="units">degrees_east</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>u</sourceName>
+        <destinationName>u</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="comment">measured depth-average of sea water velocity pointing positive East, computed as an average over a glider dive segement between surfacing locations. The value comes from m_water_final_vx</att>
+            <att name="long_name">eastward_sea_water_velocity</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="standard_name">eastward_sea_water_velocity</att>
+            <att name="units">m s-1</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">0.5</att>
+            <att name="colorBarMinimum" type="double">-0.5</att>
+            <att name="ioos_category">Currents</att>
+            <att name="long_name">Eastward Sea Water Velocity</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>v</sourceName>
+        <destinationName>v</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="comment">measured depth-average of sea water velocity pointing positive North, computed as an average over a glider dive segement between surfacing locations. The value comes from m_water_final_vy</att>
+            <att name="long_name">northward_sea_water_velocity</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="standard_name">northward_sea_water_velocity</att>
+            <att name="units">m s-1</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">0.5</att>
+            <att name="colorBarMinimum" type="double">-0.5</att>
+            <att name="ioos_category">Currents</att>
+            <att name="long_name">Northward Sea Water Velocity</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>time_uv</sourceName>
+        <destinationName>time_uv</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="calendar">gregorian</att>
+            <att name="comment">glider time record seconds since 1970. Time is merged time between glider flight and science computers</att>
+            <att name="long_name">Depth-Averaged Time</att>
+            <att name="observation_type">measured</att>
+            <att name="standard_name">time</att>
+            <att name="units">seconds since 1970-01-01T00:00:00Z</att>
+            <att name="valid_max" type="double">1.634913977799E9</att>
+            <att name="valid_min" type="double">1.634913918794E9</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">1.63491398E9</att>
+            <att name="colorBarMinimum" type="double">1.6349139E9</att>
+            <att name="ioos_category">Time</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>lat_uv</sourceName>
+        <destinationName>lat_uv</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="comment">Longitude corresponding to the mid-point of the profile</att>
+            <att name="long_name">Profile Center Northward Current</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="reference">WGS84</att>
+            <att name="standard_name">latitude</att>
+            <att name="units">degrees_north</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">90.0</att>
+            <att name="colorBarMinimum" type="double">-90.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="reference">null</att>
+            <att name="references">WGS84</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>lon_uv</sourceName>
+        <destinationName>lon_uv</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="comment">Longitude corresponding to the mid-point of the profile</att>
+            <att name="long_name">Profile Center Eastward Current</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="reference">WGS84</att>
+            <att name="standard_name">longitude</att>
+            <att name="units">degrees_east</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">180.0</att>
+            <att name="colorBarMinimum" type="double">-180.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="reference">null</att>
+            <att name="references">WGS84</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>conductivity</sourceName>
+        <destinationName>conductivity</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="accuracy">0.005</att>
+            <att name="ancillary_variables">conductivity_qc</att>
+            <att name="comment">ambient seawater conductivity measured by glider CTD sensor sci_water_cond</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">sea_water_electrical_conductivity</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="resolution">0.00001</att>
+            <att name="standard_name">sea_water_electrical_conductivity</att>
+            <att name="units">S m-1</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">40.0</att>
+            <att name="colorBarMinimum" type="double">30.0</att>
+            <att name="ioos_category">Salinity</att>
+            <att name="long_name">Sea Water Electrical Conductivity</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>temperature</sourceName>
+        <destinationName>temperature</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="accuracy">0.005</att>
+            <att name="ancillary_variables">temperature_qc</att>
+            <att name="comment">ambient seawater temperature measured by glider CTD sensor sci_water_temp</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">sea_water_temperature</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="resolution">0.001</att>
+            <att name="standard_name">sea_water_temperature</att>
+            <att name="units">degrees_C</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">32.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Temperature</att>
+            <att name="long_name">Sea Water Temperature</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+            <att name="units">degree_C</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>depth</sourceName>
+        <destinationName>depth</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="accuracy">0.01</att>
+            <att name="ancillary_variables">depth_qc</att>
+            <att name="comment">vertical distance below sea surface calculated from CTD pressure sensor sci_water_pressure</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">depth</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="positive">down</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="reference_datum">sea-surface</att>
+            <att name="resolution">0.02</att>
+            <att name="standard_name">depth</att>
+            <att name="units">meter</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">8000.0</att>
+            <att name="colorBarMinimum" type="double">-8000.0</att>
+            <att name="colorBarPalette">TopographyDepth</att>
+            <att name="ioos_category">Location</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+            <att name="units">m</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>pressure</sourceName>
+        <destinationName>pressure</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="accuracy">0.01</att>
+            <att name="ancillary_variables">pressure_qc</att>
+            <att name="comment">measured by glider CTD pressure sensor</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">pressure</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="positive">down</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="reference_datum">sea-surface</att>
+            <att name="resolution">0.02</att>
+            <att name="standard_name">sea_water_pressure</att>
+            <att name="units">dbar</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">5000.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Pressure</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>salinity</sourceName>
+        <destinationName>salinity</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="accuracy">0.05</att>
+            <att name="ancillary_variables">salinity_qc</att>
+            <att name="comment">practical salinity computed from conductivity, temperature and pressure using the Gibbs-SeaWater (GSW) Oceanographic toolbox (https://www.teos-10.org/software.htm)</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">sea_water_practical_salinity</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="resolution">0.01</att>
+            <att name="standard_name">sea_water_practical_salinity</att>
+            <att name="units">PSU</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">37.0</att>
+            <att name="colorBarMinimum" type="double">32.0</att>
+            <att name="ioos_category">Salinity</att>
+            <att name="long_name">Sea Water Practical Salinity</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>absolute_salinity</sourceName>
+        <destinationName>absolute_salinity</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="accuracy">0.05</att>
+            <att name="comment">Absolute Salinity, S_A, is defined as the mass fraction of dissolved material in sea water. Absolute Salinity incorporates the spatial variations in the composition of sea water (TEOS-10).</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">absolute_salinity_of_sea_water</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="resolution">0.01</att>
+            <att name="standard_name">sea_water_absolute_salinity</att>
+            <att name="units">g kg-1</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">37.0</att>
+            <att name="colorBarMinimum" type="double">32.0</att>
+            <att name="ioos_category">Salinity</att>
+            <att name="long_name">Absolute Salinity Of Sea Water</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>conservative_temperature</sourceName>
+        <destinationName>conservative_temperature</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="accuracy">0.01</att>
+            <att name="comment">Conservative Temperature is defined the specific potential enthalpy (which has the standard name sea_water_specific_potential_enthalpy) divided by a fixed value of the specific heat capacity of sea water, namely cp_0 = 3991.86795711963 J kg-1 K-1 (TEOS10).</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">sea_water_conservative_temperature</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="resolution">0.01</att>
+            <att name="standard_name">sea_water_conservative_temperature</att>
+            <att name="units">degrees_C</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">40.0</att>
+            <att name="colorBarMinimum" type="double">-10.0</att>
+            <att name="ioos_category">Temperature</att>
+            <att name="long_name">Sea Water Conservative Temperature</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+            <att name="units">degree_C</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>density</sourceName>
+        <destinationName>density</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="accuracy">0.05</att>
+            <att name="ancillary_variables">density_qc</att>
+            <att name="comment">in-situ seawater density calculated from salinity, temperature and pressure using the Gibbs-SeaWater (GSW) Oceanographic toolbox (https://www.teos-10.org/software.htm)</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">sea_water_density</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="resolution">0.01</att>
+            <att name="standard_name">sea_water_density</att>
+            <att name="units">kg m-3</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">28.0</att>
+            <att name="colorBarMinimum" type="double">20.0</att>
+            <att name="ioos_category">Salinity</att>
+            <att name="long_name">Sea Water Density</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>lat_qc</sourceName>
+        <destinationName>lat_qc</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">-127.0</att>
+            <att name="flag_meanings">no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value</att>
+            <att name="flag_values">0b, 1b, 2b, 3b, 4b, 5b, 6b, 7b, 8b, 9b</att>
+            <att name="long_name">latitude Quality Flag</att>
+            <att name="standard_name">latitude status_flag</att>
+            <att name="valid_max">9b</att>
+            <att name="valid_min">0b</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Quality</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="standard_name">latitude</att>
+            <att name="units">degrees_north</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>lon_qc</sourceName>
+        <destinationName>lon_qc</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">-127.0</att>
+            <att name="flag_meanings">no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value</att>
+            <att name="flag_values">0b, 1b, 2b, 3b, 4b, 5b, 6b, 7b, 8b, 9b</att>
+            <att name="long_name">longitude Quality Flag</att>
+            <att name="standard_name">longitude status_flag</att>
+            <att name="valid_max">9b</att>
+            <att name="valid_min">0b</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Quality</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="standard_name">longitude</att>
+            <att name="units">degrees_east</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>depth_qc</sourceName>
+        <destinationName>depth_qc</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">-127.0</att>
+            <att name="flag_meanings">no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value</att>
+            <att name="flag_values">0b, 1b, 2b, 3b, 4b, 5b, 6b, 7b, 8b, 9b</att>
+            <att name="long_name">depth Quality Flag</att>
+            <att name="standard_name">depth status_flag</att>
+            <att name="valid_max">9b</att>
+            <att name="valid_min">0b</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Quality</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="standard_name">depth</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>oxygen_concentration</sourceName>
+        <destinationName>oxygen_concentration</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="comment">oxygen concentration measured by glider sensor from sci_oxy4_oxygen, compensated for salinity using code from Bittig et al., (2018).</att>
+            <att name="long_name">mole_concentration_of_dissolved_molecular_oxygen_in_sea_water</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="resolution">1.0</att>
+            <att name="standard_name">mole_concentration_of_dissolved_molecular_oxygen_in_sea_water</att>
+            <att name="units">micro-mol L</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">500.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Dissolved O2</att>
+            <att name="long_name">Mole Concentration Of Dissolved Molecular Oxygen In Sea Water</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>oxygen_sensor_temperature</sourceName>
+        <destinationName>oxygen_sensor_temperature</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="ancillary_variables">temperature_qc</att>
+            <att name="comment">temperature of oxygen sensor used to compute oxygen concentration duplicated from sci_oxy4_temperature</att>
+            <att name="long_name">temperature_of_sensor_for_oxygen_in_sea_water</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="resolution">0.01</att>
+            <att name="standard_name">temperature_of_sensor_for_oxygen_in_sea_water</att>
+            <att name="units">degree_C</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">500.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Temperature</att>
+            <att name="long_name">Temperature Of Sensor For Oxygen In Sea Water</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>chlorophyll_a</sourceName>
+        <destinationName>chlorophyll_a</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="comment">Mass concentration means mass per unit volume and are several different forms of chlorophyll that occur naturally. All contain a chlorin ring (chemical formula C20H16N4) which gives the green pigment and a side chain whose structure varies. The naturally occurring forms of chlorophyll contain between 35 and 55 carbon atoms. Chlorophyll-a is the most commonly occurring form of natural chlorophyll. The chemical formula of chlorophyll-a is C55H72O5N4Mg.</att>
+            <att name="long_name">mass_concentration_of_chlorophyll_in_sea_water</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="resolution">0.1</att>
+            <att name="standard_name">mass_concentration_of_chlorophyll_in_sea_water</att>
+            <att name="units">kg m-3</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">30.0</att>
+            <att name="colorBarMinimum" type="double">0.03</att>
+            <att name="colorBarScale">Log</att>
+            <att name="ioos_category">Ocean Color</att>
+            <att name="long_name">Mass Concentration Of Chlorophyll In Sea Water</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>cdom</sourceName>
+        <destinationName>cdom</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="comment">The quantity with standard name concentration_of_colored_dissolved_organic_matter_in_sea_water_expressed_as_equivalent_mass_fraction_of_quinine_sulfate_dihydrate is also commonly known as Chromophoric Dissolved Organic Matter (CDOM). CDOM plays an important role in the carbon cycling and biogeochemistry of coastal waters. It occurs naturally in aquatic environments primarily as a result of tannins released from decaying plant and animal matter, which can enter coastal areas in river run-off containing organic materials leached from soils. When present in high concentrations, it imparts a brown or yellowish color to water. Its presence can negatively impact fish populations by reducing dissolved oxygen concentrations to harmful levels and by releasing nutrients and metals that contaminate the water. Increased understanding of the role of CDOM will further our ability to manage and protect coastal ecosystems. Sensors are commonly calibrated against a 100 parts per billion (ppb) quinine sulfate dihydrate solution, a fluorescent reference standard commonly used with CDOM sensors. CDOM sensors therefore report in QSDE (quinine sulfate dihydrate equivalents). It is important to note, however, that CDOM concentrations in QSDE are not necessarily equivalent to the in situ CDOM concentrations in ppb.</att>
+            <att name="long_name">concentration_of_colored_dissolved_organic_matter_in_sea_water_expressed_as_equivalent_mass_fraction_of_quinine_sulfate_dihydrate</att>
+            <att name="observation_type">measured</att>
+            <att name="platform">platform</att>
+            <att name="precision" type="double">NaN</att>
+            <att name="resolution">0.001</att>
+            <att name="standard_name">concentration_of_colored_dissolved_organic_matter_in_sea_water_expressed_as_equivalent_mass_fraction_of_quinine_sulfate_dihydrate</att>
+            <att name="units">1</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">1.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Concentration Of Colored Dissolved Organic Matter In Sea Water Expressed As Equivalent Mass Fraction Of Quinine Sulfate Dihydrate</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="resolution">null</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>temperature_qc</sourceName>
+        <destinationName>temperature_qc</destinationName>
+        <dataType>long</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="comment">Data underwent quartod range, spike, rate of change and flat line test (Flag 1: pass, 2: not tested, 3: suspicious, 4: fail, 9: missing data).</att>
+            <att name="flag_meanings">no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value</att>
+            <att name="flag_values">1, 2, 3, 4, 9</att>
+            <att name="long_name">temperature Quality Flag</att>
+            <att name="standard_name">sea_water_temperature status_flag</att>
+            <att name="valid_max">9</att>
+            <att name="valid_min">0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="_FillValue" type="long">9223372036854775807</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Quality</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>salinity_qc</sourceName>
+        <destinationName>salinity_qc</destinationName>
+        <dataType>long</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="comment">Data underwent quartod range, spike, rate of change and flat line test (Flag 1: pass, 2: not tested, 3: suspicious, 4: fail, 9: missing data).</att>
+            <att name="flag_meanings">no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value</att>
+            <att name="flag_values">1, 2, 3, 4, 9</att>
+            <att name="long_name">salinity Quality Flag</att>
+            <att name="standard_name">sea_water_practical_salinity status_flag</att>
+            <att name="valid_max">9</att>
+            <att name="valid_min">0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="_FillValue" type="long">9223372036854775807</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Quality</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>pressure_qc</sourceName>
+        <destinationName>pressure_qc</destinationName>
+        <dataType>long</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="comment">Data underwent quartod range, spike, rate of change and flat line test (Flag 1: pass, 2: not tested, 3: suspicious, 4: fail, 9: missing data).</att>
+            <att name="flag_meanings">no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value</att>
+            <att name="flag_values">1, 2, 3, 4, 9</att>
+            <att name="long_name">pressure Quality Flag</att>
+            <att name="standard_name">sea_water_pressure status_flag</att>
+            <att name="valid_max">9</att>
+            <att name="valid_min">0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="_FillValue" type="long">9223372036854775807</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Quality</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>conductivity_qc</sourceName>
+        <destinationName>conductivity_qc</destinationName>
+        <dataType>long</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="comment">Data underwent quartod range, spike, rate of change and flat line test (Flag 1: pass, 2: not tested, 3: suspicious, 4: fail, 9: missing data).</att>
+            <att name="flag_meanings">no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value</att>
+            <att name="flag_values">1, 2, 3, 4, 9</att>
+            <att name="long_name">conductivity Quality Flag</att>
+            <att name="standard_name">sea_water_electrical_conductivity status_flag</att>
+            <att name="valid_max">9</att>
+            <att name="valid_min">0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="_FillValue" type="long">9223372036854775807</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Quality</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>density_qc</sourceName>
+        <destinationName>density_qc</destinationName>
+        <dataType>long</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="comment">Data underwent quartod range, spike, rate of change and flat line test (Flag 1: pass, 2: not tested, 3: suspicious, 4: fail, 9: missing data).</att>
+            <att name="flag_meanings">no_qc_performed good_data probably_good_data bad_data_that_are_potentially_correctable bad_data value_changed not_used not_used interpolated_value missing_value</att>
+            <att name="flag_values">1, 2, 3, 4, 9</att>
+            <att name="long_name">density Quality Flag</att>
+            <att name="standard_name">sea_water_density status_flag</att>
+            <att name="valid_max">9</att>
+            <att name="valid_min">0</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="_FillValue" type="long">9223372036854775807</att>
+            <att name="colorBarMaximum" type="double">10.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Quality</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>profile_time</sourceName>
+        <destinationName>profile_time</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="comment">Timestamp corresponding to the mid-point of the profile</att>
+            <att name="long_name">Profile Center Time</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="standard_name">time</att>
+            <att name="units">seconds since 1970-01-01T00:00:00Z</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Time</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>profile_lat</sourceName>
+        <destinationName>profile_lat</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="comment">Latitude corresponding to the mid-point of the profile</att>
+            <att name="coordinate_reference_frame">urn:ogc:crs:EPSG::4326</att>
+            <att name="long_name">Profile Center Latitude</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="reference">WGS84</att>
+            <att name="standard_name">latitude</att>
+            <att name="units">degrees_north</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">90.0</att>
+            <att name="colorBarMinimum" type="double">-90.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="reference">null</att>
+            <att name="references">WGS84</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>profile_lon</sourceName>
+        <destinationName>profile_lon</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+            <att name="comment">Longitude corresponding to the mid-point of the profile</att>
+            <att name="coordinate_reference_frame">urn:ogc:crs:EPSG::4326</att>
+            <att name="long_name">Profile Center Longitude</att>
+            <att name="observation_type">calculated</att>
+            <att name="platform">platform</att>
+            <att name="reference">WGS84</att>
+            <att name="standard_name">longitude</att>
+            <att name="units">degrees_east</att>
+            <att name="valid_max" type="double">NaN</att>
+            <att name="valid_min" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">180.0</att>
+            <att name="colorBarMinimum" type="double">-180.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="reference">null</att>
+            <att name="references">WGS84</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>profile_id</sourceName>
+        <destinationName>profile_id</destinationName>
+        <dataType>int</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="int">-999</att>
+            <att name="comment">Sequential profile number within the trajectory. This value is unique in each file that is part of a single trajectory/deployment.</att>
+            <att name="long_name">Profile ID</att>
+            <att name="valid_max">2147483647</att>
+            <att name="valid_min">1</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">2.5E9</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Identifier</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/c_ballast_pumped</sourceName>
+        <destinationName>glider_record_c_ballast_pumped</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/c Ballast Pumped</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/c_battpos</sourceName>
+        <destinationName>glider_record_c_battpos</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/c Battpos</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/c_de_oil_vol</sourceName>
+        <destinationName>glider_record_c_de_oil_vol</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/c De Oil Vol</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/c_fin</sourceName>
+        <destinationName>glider_record_c_fin</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/c Fin</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/c_gps_on</sourceName>
+        <destinationName>glider_record_c_gps_on</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/c Gps On</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/c_heading</sourceName>
+        <destinationName>glider_record_c_heading</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/c Heading</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/c_pitch</sourceName>
+        <destinationName>glider_record_c_pitch</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/c Pitch</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/c_wpt_lat</sourceName>
+        <destinationName>glider_record_c_wpt_lat</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/c Wpt Lat</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/c_wpt_lon</sourceName>
+        <destinationName>glider_record_c_wpt_lon</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/c Wpt Lon</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/cc_depth_state_mode</sourceName>
+        <destinationName>glider_record_cc_depth_state_mode</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/cc Depth State Mode</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_altimeter_status</sourceName>
+        <destinationName>glider_record_m_altimeter_status</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Altimeter Status</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_altitude</sourceName>
+        <destinationName>glider_record_m_altitude</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Altitude</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_ballast_pumped</sourceName>
+        <destinationName>glider_record_m_ballast_pumped</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Ballast Pumped</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_battery</sourceName>
+        <destinationName>glider_record_m_battery</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Battery</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_battpos</sourceName>
+        <destinationName>glider_record_m_battpos</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Battpos</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_coulomb_amphr</sourceName>
+        <destinationName>glider_record_m_coulomb_amphr</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Coulomb Amphr</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_coulomb_amphr_total</sourceName>
+        <destinationName>glider_record_m_coulomb_amphr_total</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Coulomb Amphr Total</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_coulomb_current</sourceName>
+        <destinationName>glider_record_m_coulomb_current</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Currents</att>
+            <att name="long_name">Glider Record/m Coulomb Current</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_coulomb_current_raw</sourceName>
+        <destinationName>glider_record_m_coulomb_current_raw</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Currents</att>
+            <att name="long_name">Glider Record/m Coulomb Current Raw</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_de_oil_vol</sourceName>
+        <destinationName>glider_record_m_de_oil_vol</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m De Oil Vol</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_depth</sourceName>
+        <destinationName>glider_record_m_depth</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Depth</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_depth_state</sourceName>
+        <destinationName>glider_record_m_depth_state</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Depth State</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_dr_postfix_time</sourceName>
+        <destinationName>glider_record_m_dr_postfix_time</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Time</att>
+            <att name="long_name">Glider Record/m Dr Postfix Time</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_dr_time</sourceName>
+        <destinationName>glider_record_m_dr_time</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Time</att>
+            <att name="long_name">Glider Record/m Dr Time</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_dr_x_actual_err</sourceName>
+        <destinationName>glider_record_m_dr_x_actual_err</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Dr X Actual Err</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_dr_x_postfix_drift</sourceName>
+        <destinationName>glider_record_m_dr_x_postfix_drift</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Dr X Postfix Drift</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_dr_y_actual_err</sourceName>
+        <destinationName>glider_record_m_dr_y_actual_err</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Dr Y Actual Err</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_dr_y_postfix_drift</sourceName>
+        <destinationName>glider_record_m_dr_y_postfix_drift</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Dr Y Postfix Drift</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_fin</sourceName>
+        <destinationName>glider_record_m_fin</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Fin</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_final_water_vx</sourceName>
+        <destinationName>glider_record_m_final_water_vx</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Final Water Vx</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_final_water_vy</sourceName>
+        <destinationName>glider_record_m_final_water_vy</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Final Water Vy</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_gps_heading</sourceName>
+        <destinationName>glider_record_m_gps_heading</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Gps Heading</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_gps_lat</sourceName>
+        <destinationName>glider_record_m_gps_lat</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Gps Lat</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_gps_lon</sourceName>
+        <destinationName>glider_record_m_gps_lon</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Gps Lon</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_gps_mag_var</sourceName>
+        <destinationName>glider_record_m_gps_mag_var</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Gps Mag Var</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_gps_on</sourceName>
+        <destinationName>glider_record_m_gps_on</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Gps On</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_gps_speed</sourceName>
+        <destinationName>glider_record_m_gps_speed</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Currents</att>
+            <att name="long_name">Glider Record/m Gps Speed</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_gps_x_lmc</sourceName>
+        <destinationName>glider_record_m_gps_x_lmc</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Gps X Lmc</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_gps_y_lmc</sourceName>
+        <destinationName>glider_record_m_gps_y_lmc</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Gps Y Lmc</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_heading</sourceName>
+        <destinationName>glider_record_m_heading</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Heading</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_initial_water_vx</sourceName>
+        <destinationName>glider_record_m_initial_water_vx</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Initial Water Vx</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_initial_water_vy</sourceName>
+        <destinationName>glider_record_m_initial_water_vy</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Initial Water Vy</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_lat</sourceName>
+        <destinationName>glider_record_m_lat</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Lat</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_leak</sourceName>
+        <destinationName>glider_record_m_leak</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Leak</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_lon</sourceName>
+        <destinationName>glider_record_m_lon</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Lon</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_pitch</sourceName>
+        <destinationName>glider_record_m_pitch</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Pitch</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_raw_altitude</sourceName>
+        <destinationName>glider_record_m_raw_altitude</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Raw Altitude</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_raw_altitude_rejected</sourceName>
+        <destinationName>glider_record_m_raw_altitude_rejected</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Raw Altitude Rejected</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_roll</sourceName>
+        <destinationName>glider_record_m_roll</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Roll</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_vacuum</sourceName>
+        <destinationName>glider_record_m_vacuum</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Vacuum</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_water_delta_vx</sourceName>
+        <destinationName>glider_record_m_water_delta_vx</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Water Delta Vx</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_water_delta_vy</sourceName>
+        <destinationName>glider_record_m_water_delta_vy</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Water Delta Vy</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_water_depth</sourceName>
+        <destinationName>glider_record_m_water_depth</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/m Water Depth</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_water_vx</sourceName>
+        <destinationName>glider_record_m_water_vx</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Water Vx</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/m_water_vy</sourceName>
+        <destinationName>glider_record_m_water_vy</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/m Water Vy</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_ad2cp_file_state</sourceName>
+        <destinationName>glider_record_sci_ad2cp_file_state</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/sci Ad2cp File State</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_bb_ref</sourceName>
+        <destinationName>glider_record_sci_flbbcd_bb_ref</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Flbbcd Bb Ref</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_bb_sig</sourceName>
+        <destinationName>glider_record_sci_flbbcd_bb_sig</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Flbbcd Bb Sig</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_bb_units</sourceName>
+        <destinationName>glider_record_sci_flbbcd_bb_units</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Flbbcd Bb Units</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_cdom_ref</sourceName>
+        <destinationName>glider_record_sci_flbbcd_cdom_ref</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Flbbcd Cdom Ref</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_cdom_sig</sourceName>
+        <destinationName>glider_record_sci_flbbcd_cdom_sig</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Flbbcd Cdom Sig</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_cdom_units</sourceName>
+        <destinationName>glider_record_sci_flbbcd_cdom_units</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Flbbcd Cdom Units</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_chlor_ref</sourceName>
+        <destinationName>glider_record_sci_flbbcd_chlor_ref</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Ocean Color</att>
+            <att name="long_name">Glider Record/sci Flbbcd Chlor Ref</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_chlor_sig</sourceName>
+        <destinationName>glider_record_sci_flbbcd_chlor_sig</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Ocean Color</att>
+            <att name="long_name">Glider Record/sci Flbbcd Chlor Sig</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_chlor_units</sourceName>
+        <destinationName>glider_record_sci_flbbcd_chlor_units</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Ocean Color</att>
+            <att name="long_name">Glider Record/sci Flbbcd Chlor Units</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_is_installed</sourceName>
+        <destinationName>glider_record_sci_flbbcd_is_installed</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Flbbcd Is Installed</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_therm</sourceName>
+        <destinationName>glider_record_sci_flbbcd_therm</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Flbbcd Therm</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_flbbcd_timestamp</sourceName>
+        <destinationName>glider_record_sci_flbbcd_timestamp</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Time</att>
+            <att name="long_name">Glider Record/sci Flbbcd Timestamp</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_m_disk_free</sourceName>
+        <destinationName>glider_record_sci_m_disk_free</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci M Disk Free</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_m_disk_usage</sourceName>
+        <destinationName>glider_record_sci_m_disk_usage</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci M Disk Usage</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_m_free_heap</sourceName>
+        <destinationName>glider_record_sci_m_free_heap</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci M Free Heap</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_m_min_free_heap</sourceName>
+        <destinationName>glider_record_sci_m_min_free_heap</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci M Min Free Heap</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_m_present_secs_into_mission</sourceName>
+        <destinationName>glider_record_sci_m_present_secs_into_mission</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci M Present Secs Into Mission</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_m_science_on</sourceName>
+        <destinationName>glider_record_sci_m_science_on</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci M Science On</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_c1amp</sourceName>
+        <destinationName>glider_record_sci_oxy4_c1amp</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Oxy4 C1amp</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_c1rph</sourceName>
+        <destinationName>glider_record_sci_oxy4_c1rph</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Oxy4 C1rph</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_c2amp</sourceName>
+        <destinationName>glider_record_sci_oxy4_c2amp</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Oxy4 C2amp</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_c2rph</sourceName>
+        <destinationName>glider_record_sci_oxy4_c2rph</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Oxy4 C2rph</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_calphase</sourceName>
+        <destinationName>glider_record_sci_oxy4_calphase</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Oxy4 Calphase</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_is_installed</sourceName>
+        <destinationName>glider_record_sci_oxy4_is_installed</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Oxy4 Is Installed</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_oxygen</sourceName>
+        <destinationName>glider_record_sci_oxy4_oxygen</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Dissolved O2</att>
+            <att name="long_name">Glider Record/sci Oxy4 Oxygen</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_rawtemp</sourceName>
+        <destinationName>glider_record_sci_oxy4_rawtemp</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Temperature</att>
+            <att name="long_name">Glider Record/sci Oxy4 Rawtemp</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_saturation</sourceName>
+        <destinationName>glider_record_sci_oxy4_saturation</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Oxy4 Saturation</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_tcphase</sourceName>
+        <destinationName>glider_record_sci_oxy4_tcphase</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Oxy4 Tcphase</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_temp</sourceName>
+        <destinationName>glider_record_sci_oxy4_temp</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Oxy4 Temp</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_oxy4_timestamp</sourceName>
+        <destinationName>glider_record_sci_oxy4_timestamp</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Time</att>
+            <att name="long_name">Glider Record/sci Oxy4 Timestamp</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_proglet_time</sourceName>
+        <destinationName>glider_record_sci_proglet_time</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Time</att>
+            <att name="long_name">Glider Record/sci Proglet Time</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_rbrctd_cond_cell_temp_00</sourceName>
+        <destinationName>glider_record_sci_rbrctd_cond_cell_temp_00</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Rbrctd Cond Cell Temp 00</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_rbrctd_conductivity_00</sourceName>
+        <destinationName>glider_record_sci_rbrctd_conductivity_00</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">40.0</att>
+            <att name="colorBarMinimum" type="double">30.0</att>
+            <att name="ioos_category">Salinity</att>
+            <att name="long_name">Sea Water Electrical Conductivity</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="standard_name">sea_water_electrical_conductivity</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_rbrctd_count_00</sourceName>
+        <destinationName>glider_record_sci_rbrctd_count_00</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">100.0</att>
+            <att name="colorBarMinimum" type="double">0.0</att>
+            <att name="ioos_category">Statistics</att>
+            <att name="long_name">Glider Record/sci Rbrctd Count 00</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_rbrctd_depth_00</sourceName>
+        <destinationName>glider_record_sci_rbrctd_depth_00</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/sci Rbrctd Depth 00</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_rbrctd_is_installed</sourceName>
+        <destinationName>glider_record_sci_rbrctd_is_installed</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Rbrctd Is Installed</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_rbrctd_pressure_00</sourceName>
+        <destinationName>glider_record_sci_rbrctd_pressure_00</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Pressure</att>
+            <att name="long_name">Glider Record/sci Rbrctd Pressure 00</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_rbrctd_salinity_00</sourceName>
+        <destinationName>glider_record_sci_rbrctd_salinity_00</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="colorBarMaximum" type="double">37.0</att>
+            <att name="colorBarMinimum" type="double">32.0</att>
+            <att name="ioos_category">Salinity</att>
+            <att name="long_name">Sea Water Practical Salinity</att>
+            <att name="missing_value" type="double">NaN</att>
+            <att name="standard_name">sea_water_practical_salinity</att>
+            <att name="units">PSU</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_rbrctd_seapressure_00</sourceName>
+        <destinationName>glider_record_sci_rbrctd_seapressure_00</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Pressure</att>
+            <att name="long_name">Glider Record/sci Rbrctd Seapressure 00</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_rbrctd_temperature_00</sourceName>
+        <destinationName>glider_record_sci_rbrctd_temperature_00</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Temperature</att>
+            <att name="long_name">Glider Record/sci Rbrctd Temperature 00</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_rbrctd_timestamp</sourceName>
+        <destinationName>glider_record_sci_rbrctd_timestamp</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Time</att>
+            <att name="long_name">Glider Record/sci Rbrctd Timestamp</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_sbmb_hw_ver</sourceName>
+        <destinationName>glider_record_sci_sbmb_hw_ver</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Sbmb Hw Ver</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_software_ver</sourceName>
+        <destinationName>glider_record_sci_software_ver</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Software Ver</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_wants_comms</sourceName>
+        <destinationName>glider_record_sci_wants_comms</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Wants Comms</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_wants_surface</sourceName>
+        <destinationName>glider_record_sci_wants_surface</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Wants Surface</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_water_cond</sourceName>
+        <destinationName>glider_record_sci_water_cond</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Water Cond</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_water_pressure</sourceName>
+        <destinationName>glider_record_sci_water_pressure</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Pressure</att>
+            <att name="long_name">Glider Record/sci Water Pressure</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_water_temp</sourceName>
+        <destinationName>glider_record_sci_water_temp</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/sci Water Temp</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_x_disk_files_removed</sourceName>
+        <destinationName>glider_record_sci_x_disk_files_removed</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/sci X Disk Files Removed</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_x_sent_data_files</sourceName>
+        <destinationName>glider_record_sci_x_sent_data_files</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/sci X Sent Data Files</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/u_flbb_bb_do</sourceName>
+        <destinationName>glider_record_u_flbb_bb_do</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/u Flbb Bb Do</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/u_flbb_bb_sf</sourceName>
+        <destinationName>glider_record_u_flbb_bb_sf</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/u Flbb Bb Sf</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/u_flbb_chlor_do</sourceName>
+        <destinationName>glider_record_u_flbb_chlor_do</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Ocean Color</att>
+            <att name="long_name">Glider Record/u Flbb Chlor Do</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/u_flbb_chlor_sf</sourceName>
+        <destinationName>glider_record_u_flbb_chlor_sf</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Ocean Color</att>
+            <att name="long_name">Glider Record/u Flbb Chlor Sf</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/u_flbbcd_bb_cwo</sourceName>
+        <destinationName>glider_record_u_flbbcd_bb_cwo</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/u Flbbcd Bb Cwo</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/u_flbbcd_bb_sf</sourceName>
+        <destinationName>glider_record_u_flbbcd_bb_sf</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/u Flbbcd Bb Sf</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/u_flbbcd_cdom_cwo</sourceName>
+        <destinationName>glider_record_u_flbbcd_cdom_cwo</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/u Flbbcd Cdom Cwo</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/u_flbbcd_cdom_sf</sourceName>
+        <destinationName>glider_record_u_flbbcd_cdom_sf</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">Glider Record/u Flbbcd Cdom Sf</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/u_flbbcd_chlor_cwo</sourceName>
+        <destinationName>glider_record_u_flbbcd_chlor_cwo</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Ocean Color</att>
+            <att name="long_name">Glider Record/u Flbbcd Chlor Cwo</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/u_flbbcd_chlor_sf</sourceName>
+        <destinationName>glider_record_u_flbbcd_chlor_sf</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Ocean Color</att>
+            <att name="long_name">Glider Record/u Flbbcd Chlor Sf</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/x_dr_state</sourceName>
+        <destinationName>glider_record_x_dr_state</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/x Dr State</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/sci_water_depth</sourceName>
+        <destinationName>glider_record_sci_water_depth</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_ChunkSizes" type="uint">73</att>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_ChunkSizes">null</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Glider Record/sci Water Depth</att>
+            <att name="missing_value" type="double">NaN</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>glider_record/time</sourceName>
+        <destinationName>glider_record_time</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="double">NaN</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Time</att>
+            <att name="long_name">Glider Record/time</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>platform</sourceName>
+        <destinationName>platform</destinationName>
+        <dataType>int</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="int">-999</att>
+            <att name="comment">Our new glider for the Labrador Sea projects. In addition to CTD and Oxygen data, this glider has an ECO-PUC triplet measuring CDOM, chlorophyll and backscatter.</att>
+            <att name="id">sunfish</att>
+            <att name="instrument">instrument_ctd</att>
+            <att name="long_name">Memorial University Slocum Glider sunfish</att>
+            <att name="type">platform</att>
+            <att name="wmo_id">6801509</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Unknown</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>instrument_ctd</sourceName>
+        <destinationName>instrument_ctd</destinationName>
+        <dataType>int</dataType>
+        <!-- sourceAttributes>
+            <att name="_FillValue" type="int">-999</att>
+            <att name="calibration_date">2017-05-03</att>
+            <att name="long_name">Seabird Glider Payload CTD</att>
+            <att name="make_model">RBR Legato 3</att>
+            <att name="platform">platform</att>
+            <att name="sensor">CTD</att>
+            <att name="serial_number">203790 - 805</att>
+            <att name="type">platform</att>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Unknown</att>
+        </addAttributes>
+    </dataVariable>
+</dataset>
+
+

@@ -1,0 +1,5 @@
+from dac_backend.erddap_catalog.errdap_dataset_chunk.templates import check_dataset_yml_config_files
+
+
+check_dataset_yml_config_files('/Users/xiangling/code/glider_dac/dac_backend/tests/individual_erddap_dataset_catalog_creator/templates/output1')
+

@@ -1,0 +1,64 @@
+COMMON: &common
+  HOST: localhost
+  PORT: 5000
+  DEBUG: False
+  MONGODB_HOST: mongo
+  MONGODB_PORT: 27017
+  MONGODB_DATABASE: gliderdac
+
+  POSTGRES_HOST: 127.0.0.1
+  POSTGRES_PORT: 5432
+  POSTGRES_DATABASE: gliderdac
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+
+  APPLICATION_PREFIX: "/gliders/"
+  SECRET_KEY: thisisakey
+  LOG_FILE: yes
+  WEB_PASSWORD: password
+
+  MAIL_ENABLED: False
+  MAIL_SERVER: smtp-server
+  #MAIL_SERVER: localhost
+  MAIL_PORT: 25
+  #MAIL_PORT: 2525
+  MAIL_USERNAME: mail-username
+  MAIL_PASSWORD: mail-password
+  MAIL_USE_TLS: True
+  MAIL_DEFAULT_SENDER: sender@domain.com
+  # Must be numeric to operate properly?
+  #MAILER_DEBUG: True
+  MAILER_DEBUG: 1
+  MAIL_DEFAULT_TO: receiver@domain.com
+  #MAIL_DEFAULT_LIST: YOUR_EMAIL
+
+  # Google Analytics
+  GA_ENABLED: True
+  GA_TAG_ID: G-999999AAAA
+
+  PUBLIC_ERDDAP: gliders.ioos.us
+  THREDDS: gliders.ioos.us
+  DATA_ROOT: /data/submission
+  PRIV_DATA_ROOT: /data/data/priv_erddap
+  PUBLIC_DATA_ROOT: /data/data/pub_erddap
+  THREDDS_DATA_ROOT: /data/data/thredds
+  ARCHIVE_PATH: data/ftp/archive
+  DEV_CATALOG_ROOT: PATH_TO_CODE_ROOT/tds_catalogs
+  INFLUXDB_HOST: 127.0.0.1
+  INFLUXDB_PORT: 8086
+  ADMINS:
+   - admin
+  USER_DB_FILE: users.db
+
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
+  REDIS_DB: 8
+  COMPLIANCE_REPORTS_ROOT: COMPLIANCE_REPORTS_ROOT
+
+  GENERATE_DATASETS_XML_PROGRAM_PATH: ERDDAP_GENERATOR_SCRIPT
+  XML_TEMP_FOLDER: TEMPLATE_PATH_FOR_XML
+
+DEVELOPMENT: &development
+  <<: *common
+  DEBUG: True
+

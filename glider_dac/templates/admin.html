@@ -1,0 +1,102 @@
+{% from "macros.html" import render_field %}
+{% extends "layout.html" %}
+
+{% block title %}Admin{% endblock %}
+{% block page %}
+
+<div class="row">
+  <div class="col-lg-12">
+    {% if needs_approving == True %}
+    <div class="alert alert-warning">
+      <p>There are user(s) that need to be approved before they can login</p>
+    </div>
+    {% endif %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Organization</th>
+          <th>Deployments</th>
+        <th>ApiKey</th>
+        <th>Admin</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+      {%- for user in users %}
+      <tr>
+        <td>{{user.username}} {% if user.is_admin %}<span class="label label-success">ADMIN</span>{% endif %}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.organization}}</td>
+        <td>
+          {% if  deployment_counts %}
+          <a href="{{ url_for('list_user_deployments', username=user.username) }}"><span class="label label-success">{{ deployment_counts.get(user.id, '0') }}</span></a>
+          {% else %}
+            <span class="label label-default">0</span>
+          {% endif %}
+        </td>
+         <td>{{user.api_key}}</td>
+         <td>
+            <form class="form form-inline" style="display: inline" method="POST" action="{{ url_for('admin_change_user_admin', user_id=user.id, is_admin=not user.is_admin) }}">
+              {{ form.hidden_tag() }}
+              <input type="checkbox" {{ "checked" if user.is_admin == True }} onChange="this.form.submit()">
+          </form>
+         </td>
+        <td>
+          <a href="{{ url_for('admin_edit_user', user_id=user.id) }}" class="btn btn-default btn-xs">Edit</a>
+          <form class="form form-inline" style="display: inline" method="POST" action="{{ url_for('admin_delete_user', user_id=user.id) }}">
+            {{ form.hidden_tag() }}
+            <button class="btn btn-danger btn-xs delete-btn">Delete</button>
+          </form>
+          {% if not user.is_approved %}
+            <!-- approve form -->
+          <form class="form form-inline" style="display: inline" method="POST" action="{{ url_for('admin_approve_user', user_id=user.id) }}">
+              {{ form.hidden_tag() }}
+              <button class="btn btn-primary btn-xs approve-btn">Approve</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {%- endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $('.delete-btn').on('click', function(e) {
+      if (!confirm("Are you sure you want to delete this user?")) {
+        event.preventDefault();
+      }
+    });
+  });
+  $(function() {
+    $('.approve-btn').on('click', function(e) {
+      if (!confirm("Are you sure you want to approve this user?")) {
+        event.preventDefault();
+      }
+    });
+  });
+</script>
+
+<div class="row">
+
+<div class="col-lg-6">
+  <h3>Add New User</h3>
+  <form class="form" style="margin:0px;" method="POST" action="{{ url_for('admin') }}">
+    {{ form.hidden_tag() }}
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
+    {{ render_field(form.confirm) }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.email) }}
+    {{ render_field(form.organization) }}
+    {{ form.submit(class_="btn btn-primary") }}
+  </form>
+</div>
+</div>
+{% endblock %}
