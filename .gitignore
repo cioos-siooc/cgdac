@@ -21,3 +21,4 @@ users.db
 .venv/
 activate
 src
+.idea
