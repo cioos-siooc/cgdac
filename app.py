@@ -50,8 +50,10 @@ def site_map():
     # links is now a list of url, endpoint tuples
     return jsonify(rules=links)
 
-
 initialize_logs(app)
 
 if __name__ == '__main__':
     app.run(host=app.config['HOST'], port=app.config['PORT'], debug=app.config['DEBUG'])
+
+
+

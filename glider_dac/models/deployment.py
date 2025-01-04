@@ -38,6 +38,7 @@ class Deployment(db.Model):
     latest_file: Mapped[str] = mapped_column(String, nullable=True)
     latest_file_mtime: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
     activate: Mapped[bool] = mapped_column(Boolean, default=True)
+    metadata_file: Mapped[str] = mapped_column(String, nullable=True)
 
     def update_wmoid_file(self):
         # Keep the WMO file updated if it is edited via the web form

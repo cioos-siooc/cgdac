@@ -4,7 +4,7 @@ import os
 from datetime import datetime, timezone, timedelta
 from dateutil.parser import parse as dateparse
 from multidict import CIMultiDict
-from cf_units import Unit
+
 
 from flask import jsonify, request, make_response
 from flask_restx import Resource
@@ -16,6 +16,7 @@ from .api_parsers import deployment_get_parser, deployment_post_parser, deployme
     deployment_file_post_parser
 
 def parse_date(datestr):
+    from cf_units import Unit
     '''
     Parse the time query param
     '''
@@ -172,6 +173,7 @@ class DeploymentApi(Resource):
         deployment_date = parse_date(parse_args.get("deployment_date", None))
         delayed_mode = parse_args.get("delayed_mode", None)
         attribution = parse_args.get("attribution", None)
+        wmo_id = parse_args.get("wmo_id", None)
         try:
             api_key = request.headers["X-API-KEY"]
             verification(username, api_key)
@@ -179,7 +181,12 @@ class DeploymentApi(Resource):
             api.abort(403)
             return
 
-        new_deployment_creation(username, glider_name, deployment_date, delayed_mode, attribution)
+        new_deployment_creation(username,
+                                glider_name,
+                                deployment_date,
+                                delayed_mode,
+                                attribution=attribution,
+                                wmo_id=wmo_id)
 
     @api.expect(deployment_get_parser)
     def get(self):

@@ -1,8 +1,8 @@
 from typing import List
 
-from ceotr_file.file_system_controller import \
+from common.file_helper.file_system_controller import \
     LocalLinuxFileSystemController as BaseLocalLinuxFileSystemController
-from ceotr_file.file_system_controller import RemoteLinuxFileSystemController
+from common.file_helper.file_system_controller import RemoteLinuxFileSystemController
 
 
 class SvcServerController(RemoteLinuxFileSystemController):

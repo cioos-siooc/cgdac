@@ -4,10 +4,7 @@
 glider_dac/views/institution.py
 View definition for institutions
 '''
-import json
-
 from flask import render_template, redirect, flash, url_for, jsonify, request
-from flask_cors import cross_origin
 from flask_login import current_user
 
 from wtforms import StringField, SubmitField

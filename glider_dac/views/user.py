@@ -41,7 +41,9 @@ def register():
         form.populate_obj(user)
         user.save()
 
-        flash("Account for '%s' created, before you can login, your account needs to be approved by an admin" % user.username, 'success')
+        flash(
+            "Account for '%s' created, before you can login, your account needs to be approved by an admin" % user.username,
+            'success')
         return redirect(request.args.get("next") or url_for("index"))
     return render_template('register.html', form=form)
 
@@ -66,8 +68,6 @@ def edit_user(username):
     if form.validate_on_submit():
         form.populate_obj(user)
         user.save()
-        if form.password.data:
-            User.update(username=user.username, password=form.password.data)
         flash("Account updated", 'success')
         return redirect(url_for("index"))
 
@@ -101,11 +101,11 @@ def admin():
     deployment_counts = {m['_id']: m['count'] for m in deployment_counts_raw}
     needs_approving = User.query.filter_by(is_approved=False).first() is not None
 
-    return render_template('admin.html', 
-                            form=form, 
-                            users=users,
-                            deployment_counts=deployment_counts,
-                            needs_approving=needs_approving)
+    return render_template('admin.html',
+                           form=form,
+                           users=users,
+                           deployment_counts=deployment_counts,
+                           needs_approving=needs_approving)
 
 
 @app.route('/admin/<string:user_id>', methods=['GET', 'POST'])
@@ -123,8 +123,6 @@ def admin_edit_user(user_id):
     if form.validate_on_submit():
         form.populate_obj(user)
         user.save()
-        if form.password.data:
-            User.update(username=user.username, password=form.password.data)
         flash("Account updated", 'success')
         return redirect(url_for("admin"))
 
@@ -150,6 +148,7 @@ def admin_delete_user(user_id):
     flash("User deleted", "success")
     return redirect(url_for('admin'))
 
+
 # is_admin should be set to true/false
 @app.route('/admin/<string:user_id>/is_admin/<string:is_admin>', methods=['POST'])
 @login_required
@@ -160,7 +159,7 @@ def admin_change_user_admin(user_id, is_admin):
         # No permission
         flash("Permission denied", 'danger')
         return redirect(url_for("index"))
-    
+
     # making sure there is at least 1 admin 
     if len(User.query.filter_by(is_admin=True).all()) == 1 and not is_admin:
         flash(f"Cannot unset admin for {user.username}, there needs to be at least one", "danger")
@@ -170,6 +169,7 @@ def admin_change_user_admin(user_id, is_admin):
     db.session.commit()
     flash(f'User {user.username} has been changed to admin: {is_admin}', "success")
     return redirect(url_for('admin'))
+
 
 @app.route('/admin/<string:user_id>/approve', methods=['POST'])
 @login_required

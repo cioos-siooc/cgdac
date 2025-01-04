@@ -1,56 +1,41 @@
 """
-initializing everything needed for the dac_backend processing
+initializing everything needed for the backend processing
 """
-
-import os
-import yaml
 from flask import Flask
 from flask_session import Session
 from flask_migrate import Migrate
-""""
-Path initialize and config
-"""
-cur_dir = os.path.dirname(__file__)
-with open(os.path.join(cur_dir, '..', 'config.yml')) as base_config:
-    config_dict = yaml.load(base_config, Loader=yaml.Loader)
-
-extra_config_path = os.path.join(cur_dir, '..', 'config.local.yml')
-# merge in settings from config.local.yml, if it exists
-if os.path.exists(extra_config_path):
-    with open(extra_config_path) as extra_config:
-        config_dict = {**config_dict, **yaml.load(extra_config,
-                                                  Loader=yaml.Loader)}
-
-#############################
+from common.config import *
 
 """
 Flask app initialize
 """
 app = Flask(__name__)
 app.config['SWAGGER'] = {
-    'title': 'glider-dac',
+    'title': 'CGDAC',
     'uiversion': 3,
     'openapi': '3.0.2'
 }
 
-if app.config["ENV"].upper() == "PRODUCTION":
-    try:
-        app.config.update(config_dict["PRODUCTION"])
-    except KeyError:
-        app.config.update(config_dict["DEVELOPMENT"])
-else:
-    app.config.update(config_dict["DEVELOPMENT"])
-
-
 from glider_dac.models.shared_db import db
-POSTGRES_USER = app.config.get("POSTGRES_USER")
-POSTGRES_PW = app.config.get("POSTGRES_PASSWORD")
-POSTGRES_DB = app.config.get("POSTGRES_DATABASE")
-POSTGRES_HOST = app.config.get("POSTGRES_HOST")
 
-DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER,pw=POSTGRES_PW,url=POSTGRES_HOST,db=POSTGRES_DB)
-app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
-# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"
+app.config.update(DICT_CONFIG)
+
+POSTGRES_USER = app.config["POSTGRES_USER"]
+POSTGRES_PW = app.config["POSTGRES_PASSWORD"]
+POSTGRES_DB = app.config["POSTGRES_DATABASE"]
+POSTGRES_HOST = app.config["POSTGRES_HOST"]
+
+if app.config["USE_SQLITE_OVER_POSTGRES"]:
+    # Define the path for the SQLite database file
+    db_folder = check_create_dir(os.path.join(app.config["RESOURCE_FOLDER"], "db"))  # Example: ./data/db.sqlite3
+    db_path = os.path.join(db_folder, "db.sqlite3")
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
+
+else:
+    DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER, pw=POSTGRES_PW,
+                                                                   url=POSTGRES_HOST, db=POSTGRES_DB)
+    app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
+
 db.init_app(app)
 migrate = Migrate(app, db)
 
@@ -60,12 +45,3 @@ Session(app)
 
 with app.app_context():
     db.create_all()
-
-"""
-load the userDB
-"""
-
-if not os.path.exists(app.config.get('USER_DB_FILE')):
-    from glider_util.bdb import UserDB
-
-    UserDB.init_db(app.config.get('USER_DB_FILE'))

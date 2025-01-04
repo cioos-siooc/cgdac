@@ -1,3 +1,5 @@
+import os.path
+
 from flasgger import LazyString, LazyJSONEncoder
 from flask import request
 from flask_login import LoginManager
@@ -5,6 +7,7 @@ from flask_wtf import CSRFProtect
 
 from glider_dac.reverse_proxy import ReverseProxied
 from glider_dac.common import log_formatter
+from common import check_create_dir
 from glider_dac.backend_app import *
 from glider_dac.utils import *
 
@@ -14,7 +17,7 @@ app.wsgi_app = ReverseProxied(app.wsgi_app)
 
 csrf.init_app(app)
 app.config['SWAGGER'] = {
-    'title': 'glider-dac',
+    'title': PROJECT_NAME,
     'uiversion': 3,
     'openapi': '3.0.2'
 }
@@ -33,8 +36,8 @@ if app.config.get('LOG_FILE') == True:
     import logging
     from logging import FileHandler
 
-    file_handler = FileHandler(os.path.join(os.path.dirname(__file__),
-                                            '../logs/glider_dac.txt'))
+    logging_folder = check_create_dir(os.path.join(app.config["RESOURCE_FOLDER"], 'logs'))
+    file_handler = FileHandler(os.path.join(logging_folder, 'glider_dac.log'))
     file_handler.setFormatter(log_formatter)
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)

@@ -2,7 +2,7 @@ import os
 import shutil
 
 from pathlib import Path
-from ceotr_common_utilities.file_prepare import check_create_dir
+from common import check_create_dir
 
 def find_yml_file_name(folder_path):
     # Function to find YAML file names in a given folder

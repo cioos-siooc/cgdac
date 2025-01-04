@@ -1,0 +1,41 @@
+services:
+
+  erddap:
+    image: axiom/docker-erddap:${DOCKER_VERSION}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${ERDDAP_PORT}:8080"
+    volumes:
+      - ../erddap_section/erddap/conf/server.default.xml:/usr/local/tomcat/conf/server.xml
+      - ../erddap_section/erddap/conf/robots.txt:/usr/local/tomcat/webapps/ROOT/robots.txt
+      - ../erddap_section/erddap/content/setup.default.xml:/usr/local/tomcat/content/erddap/setup.xml
+      - ${ERDDAP_DATASETS_XML}:/usr/local/tomcat/content/erddap/datasets.xml
+      - ${ERDDAP_ERDDAP_DATA}:/erddapData
+      - ${ERDDAP_DATASET}:/data/cgdac/data_root
+    environment:
+      #note: these can also be set in /usr/local/tomcat/bin/config.sh
+      ERDDAP_MIN_MEMORY: ${ERDDAP_MIN_MEMORY}
+      ERDDAP_MAX_MEMORY: ${ERDDAP_MAX_MEMORY}
+      ERDDAP_bigParentDirectory: /erddapData/
+      ERDDAP_baseUrl: ${ERDDAP_HOST}
+      ERDDAP_baseHttpsUrl: ${ERDDAP_HOST_HTTPS}
+      ERDDAP_flagKeyKey: ${ERDDAP_FLAG_KEY}
+      ERDDAP_emailEverythingT: ${ERDDAP_emailEverythingTo}
+      ERDDAP_emailDailyReportsTo: ${ERDDAP_emailDailyReportsTo}
+      ERDDAP_emailFromAddress: ${ERDDAP_emailFromAddress}
+      ERDDAP_emailUserName: ${ERDDAP_emailUserName}
+      ERDDAP_emailPassword: ${ERDDAP_emailPassword}
+      ERDDAP_emailProperties: ${ERDDAP_emailProperties}
+      ERDDAP_emailSmtpHost: ${ERDDAP_emailSmtpHost}
+      ERDDAP_emailSmtpPort: ${ERDDAP_emailSmtpPort}
+      ERDDAP_adminInstitution: ${ERDDAP_adminInstitution}
+      ERDDAP_adminInstitutionUrl: ${ERDDAP_adminInstitutionUrl}
+      ERDDAP_adminIndividualName: ${ERDDAP_adminIndividualName}
+      ERDDAP_adminPosition: ${ERDDAP_adminPosition}
+      ERDDAP_adminPhone: ${ERDDAP_adminPhone}
+      ERDDAP_adminAddress: ${ERDDAP_adminAddress}
+      ERDDAP_adminCity: ${ERDDAP_adminCity}
+      ERDDAP_adminStateOrProvince: ${ERDDAP_adminStateOrProvince}
+      ERDDAP_adminPostalCode: ${ERDDAP_adminPostalCode}
+      ERDDAP_adminCountry: ${ERDDAP_adminCountry}
+      ERDDAP_adminEmail: ${ERDDAP_adminEmail}

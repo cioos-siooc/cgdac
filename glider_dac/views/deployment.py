@@ -8,22 +8,18 @@ import re
 import json
 import os
 
-from cf_units import Unit
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from dateutil.parser import parse as dateparse
-from flask import render_template, redirect, jsonify, flash, url_for, request, Markup
-from flask_cors import cross_origin
+from flask import render_template, redirect, jsonify, flash, url_for, request
+from markupsafe import Markup
 from flask_wtf import FlaskForm
 from flask_login import login_required, current_user
-
-from glider_dac.glider_emails import send_registration_email
-from multidict import CIMultiDict
-from pymongo.errors import DuplicateKeyError
 from wtforms import StringField, SubmitField, BooleanField, validators
 from glider_dac.backend_app import app
 from glider_dac.models.shared_db import db
 from glider_dac.models import User, Deployment
 from glider_dac.views.operation.deployment import new_deployment_creation
+
 
 def is_date_parseable(form, field):
     try:
@@ -53,6 +49,7 @@ class DeploymentForm(FlaskForm):
     completed = BooleanField('Completed')
     archive_safe = BooleanField("Submit to NCEI on Completion")
     attribution = StringField('Attribution')
+    wmo_id = StringField("WMO ID")
     submit = SubmitField('Submit')
 
 
@@ -61,6 +58,7 @@ class NewDeploymentForm(FlaskForm):
     deployment_date = StringField('Deployment Date', [is_date_parseable])
     attribution = StringField('Attribution')
     delayed_mode = BooleanField('Delayed Mode?')
+    wmo_id = StringField("WMO ID")
     submit = SubmitField("Create")
 
 
@@ -82,10 +80,16 @@ def list_user_deployments(username):
 
         m.updated = datetime.utcfromtimestamp(os.path.getmtime(m.full_path))
 
-    deployments = Deployment.query.filter_by(user_id=user.id).order_by(Deployment.updated).all()
+    # Pagination
+    page = request.args.get('page', 1, type=int)
+    page_length = request.args.get('page_length', 10, type=int)
+
+    deployments = Deployment.query.filter_by(user_id=user.id).order_by(Deployment.updated).paginate(page=page,
+                                                                                                    per_page=page_length,
+                                                                                                    error_out=False)
 
     return render_template('user_deployments.html', username=username,
-                           deployments=deployments, **kwargs)
+                           deployments=deployments, page_length=page_length, **kwargs)
 
 
 @app.route('/operators/<path:operator>/deployments')
@@ -105,7 +109,7 @@ def list_operator_deployments(operator):
 
 @app.route('/users/<string:username>/deployment/<string:deployment_id>')
 def show_deployment(username, deployment_id):
-    user = User.query.filter_by(username= username).first()
+    user = User.query.filter_by(username=username).first()
     deployment = Deployment.query.get(deployment_id)
 
     files = []
@@ -128,7 +132,19 @@ def show_deployment(username, deployment_id):
             kwargs['admin'] = True
 
     deployment_json = json.loads(deployment.to_json())
-    return render_template('show_deployment.html', username=username, form=form, deployment=deployment_json, files=files, **kwargs)
+
+    # Pagination
+    page = request.args.get('page', 1, type=int)
+    page_length = request.args.get('page_length', 10, type=int)
+
+    start_page = (page - 1) * page_length
+    end_page = start_page + page_length
+    total_pages = (len(files) + page_length - 1) // page_length
+    files_pagination = files[start_page:end_page]
+
+    return render_template('show_deployment.html', username=username, form=form, deployment=deployment_json,
+                           files=files_pagination,
+                           page_length=page_length, page=page, total_pages=total_pages, total_files=files, **kwargs)
 
 
 @app.route('/deployment/<string:deployment_id>')
@@ -153,7 +169,12 @@ def new_deployment(username):
     if form.validate_on_submit():
         deployment_date = dateparse(form.deployment_date.data)
         delayed_mode = form.delayed_mode.data
-        new_deployment_creation(username, form.glider_name.data, deployment_date, delayed_mode,attribution=form.attribution.data)
+        new_deployment_creation(username,
+                                form.glider_name.data,
+                                deployment_date,
+                                delayed_mode,
+                                attribution=form.attribution.data,
+                                wmo_id=form.wmo_id.data)
     else:
         error_str = ", ".join(["%s: %s" % (k, ", ".join(v))
                                for k, v in form.errors.items()])
@@ -184,19 +205,21 @@ def new_delayed_mode_deployment(username, deployment_id):
     # Need to check if the "real time" deployment is complete yet
     if not rt_deployment.completed:
         deployment_url = url_for('show_deployment', username=username, deployment_id=deployment_id)
-        flash(Markup('The real time deployment <a href="%s">%s</a> must be marked as complete before adding delayed mode data' %
-              (deployment_url, rt_deployment.name)), 'danger')
+        flash(Markup(
+            'The real time deployment <a href="%s">%s</a> must be marked as complete before adding delayed mode data' %
+            (deployment_url, rt_deployment.name)), 'danger')
         return redirect(url_for('list_user_deployments', username=username))
 
-    new_deployment_creation(username, rt_deployment.name, rt_deployment.deployment_date, rt_deployment.attribution, rt_deployment.operator,  rt_deployment.wmo_id)
+    new_deployment_creation(username, rt_deployment.name, rt_deployment.deployment_date, rt_deployment.attribution,
+                            rt_deployment.operator, rt_deployment.wmo_id)
 
     return redirect(url_for('list_user_deployments', username=username))
+
 
 @app.route('/users/<string:username>/deployment/<string:deployment_id>/edit', methods=['POST'])
 @login_required
 def edit_deployment(username, deployment_id):
-
-    user = User.query.filter_by(username= username).first()
+    user = User.query.filter_by(username=username).first()
     if user is None or (user is not None and not current_user.is_admin and
                         current_user != user):
         # No permission
@@ -224,7 +247,6 @@ def edit_deployment(username, deployment_id):
 @app.route('/users/<string:username>/deployment/<string:deployment_id>/files', methods=['POST'])
 @login_required
 def post_deployment_file(username, deployment_id):
-
     deployment = Deployment.query.get(deployment_id)
     user = User.query.filter_by(username=username).first()
 
@@ -249,7 +271,7 @@ def post_deployment_file(username, deployment_id):
 
         retval.append((safe_filename, datetime.utcnow()))
     editable = current_user and current_user.is_active and (
-        current_user.is_admin or current_user == user)
+            current_user.is_admin or current_user == user)
 
     return render_template("_deployment_files.html", files=retval, editable=editable)
 
@@ -257,9 +279,8 @@ def post_deployment_file(username, deployment_id):
 @app.route('/users/<string:username>/deployment/<string:deployment_id>/delete_files', methods=['POST'])
 @login_required
 def delete_deployment_files(username, deployment_id):
-
     deployment = Deployment.query.get(deployment_id)
-    user = User.query.filter_by(username= username).first()
+    user = User.query.filter_by(username=username).first()
     if deployment is None:
         # @TODO better response via ajax?
         raise Exception("Unauthorized")
@@ -277,6 +298,9 @@ def delete_deployment_files(username, deployment_id):
         # @TODO better response via ajax?
         raise Exception("Unauthorized")
 
+    if deployment.metadata_file in request.json['files']:
+        deployment.meta_file = None
+
     for name in request.json['files']:
         file_name = os.path.join(deployment.full_path, name)
         os.unlink(file_name)
@@ -287,9 +311,8 @@ def delete_deployment_files(username, deployment_id):
 @app.route('/users/<string:username>/deployment/<string:deployment_id>/delete', methods=['POST'])
 @login_required
 def delete_deployment(username, deployment_id):
-
     deployment = Deployment.query.get(deployment_id)
-    user = User.query.filter_by(username= username).first()
+    user = User.query.filter_by(username=username).first()
     if deployment is None:
         flash("Permission denied", 'danger')
         return redirect(url_for("show_deployment", username=username, deployment_id=deployment_id))
@@ -306,3 +329,37 @@ def delete_deployment(username, deployment_id):
     flash("Deployment queued for deletion", 'success')
 
     return redirect(url_for("list_user_deployments", username=username))
+
+
+@app.route('/users/<string:username>/deployment/<string:deployment_id>/select_nc_file/<nc_file>', methods=['POST'])
+@login_required
+def select_meta_nc_file(username, deployment_id, nc_file):
+    deployment = Deployment.query.get(deployment_id)
+    user = User.query.filter_by(username=username).first()
+
+    if deployment is None:
+        flash("Permission denied", 'danger')
+        return redirect(url_for("show_deployment", username=username, deployment_id=deployment_id))
+    if user is None:
+        flash("Permission denied", 'danger')
+        return redirect(url_for("show_deployment", username=username, deployment_id=deployment_id))
+    if not (current_user and current_user.is_active and (current_user.is_admin
+                                                         or current_user.id ==
+                                                         user.id)):
+        flash("Permission denied", 'danger')
+        return redirect(url_for("show_deployment", username=username, deployment_id=deployment_id))
+
+    # check to make sure the nc_file exists
+    files = []
+    for _dirpath, _dirnames, filenames in os.walk(deployment.full_path):
+        for f in filenames:
+            if f.endswith('.nc'):
+                files.append(f)
+
+    if nc_file not in files:
+        flash("Permission - File doesn't exist", 'danger')
+        return redirect(url_for("show_deployment", username=username, deployment_id=deployment_id))
+
+    deployment.metadata_file = nc_file
+    db.session.commit()
+    return 'OK', 200

@@ -1,0 +1,23 @@
+name: cgdac
+channels:
+  - conda-forge
+  - anaconda
+dependencies:
+- Flask
+- pip
+- cfunits
+- multidict
+- gunicorn
+- bsddb3
+- python-dotenv
+- pip:
+  - Flask-Login
+  - flasgger
+  - Flask-WTF
+  - flask_session
+  - flask_migrate
+  - psycopg2-binary
+  - dateutils
+  - flask_restx
+  - flask_cors
+  - passlib

@@ -1,23 +1,14 @@
-import re
-import json
 import os
 
-from cf_units import Unit
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from dateutil.parser import parse as dateparse
-from flask import render_template, redirect, jsonify, flash, url_for, request, Markup
-from flask_cors import cross_origin
-from flask_wtf import FlaskForm
-from flask_login import login_required, current_user
+from flask import redirect, flash, url_for
 
-from glider_dac.glider_emails import send_registration_email
-from multidict import CIMultiDict
-from pymongo.errors import DuplicateKeyError
-from wtforms import StringField, SubmitField, BooleanField, validators
-from glider_dac.backend_app import app
+from flask_login import current_user
+
+# from glider_dac.glider_emails import send_registration_email
+
 from glider_dac.models import User, Deployment
-from glider_dac.models.shared_db import db
-# from glider_dac.views.deployment import NewDeploymentForm, new_delayed_mode_deployment
 
 
 def new_deployment(username):
@@ -39,7 +30,7 @@ def new_deployment(username):
             deployment_name += '-delayed'
 
         try:
-            
+
             existing_deployment = Deployment.query.filter_by(name=deployment_name).first()
             if existing_deployment is None:
                 print()
@@ -58,7 +49,7 @@ def new_deployment(username):
                 deployment.name = deployment_name
                 deployment.attribution = form.attribution.data
                 deployment.delayed_mode = delayed_mode
- 
+
                 deployment.save()
                 flash("Deployment created", 'success')
                 send_registration_email(username, deployment)
@@ -101,7 +92,7 @@ def _deployment_creation(user, glider_name, deployment_date, deployment_name, de
 
     deployment.save()
     flash("Deployment created", 'success')
-    send_registration_email(user.username, deployment)
+    # send_registration_email(user.username, deployment)
 
 
 def new_deployment_creation(username, glider_name, deployment_date, delayed_mode, attribution=None, operator=None,

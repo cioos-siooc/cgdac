@@ -2,13 +2,13 @@ import os
 import secrets
 from glider_dac.backend_app import app
 from datetime import datetime
-from glider_util.bdb import UserDB
 
 from glider_dac.models.shared_db import db
 from sqlalchemy import Integer, String, DateTime, Boolean
 from sqlalchemy import func
 from sqlalchemy.orm import Mapped, mapped_column
 from passlib.hash import sha512_crypt
+
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -27,23 +27,19 @@ class User(db.Model):
 
     @classmethod
     def _check_login(cls, username, password):
+
         ret = False
         user = User.query.filter_by(username=username).first()
         if user:
             ret = sha512_crypt.verify(password, user.password)
         return ret
-    
+
     @classmethod
     def authenticate(cls, username, password):
         if cls._check_login(username, password):
             usr = User.query.filter_by(username=username).first()
             return usr
         return None
-    
-    @classmethod
-    def update(cls, username, password):
-        u = UserDB(app.config.get('USER_DB_FILE'))
-        return u.set(username.encode(), password.encode())
 
     @property
     def data_root(self):
@@ -56,6 +52,7 @@ class User(db.Model):
             usr = User.query.filter_by(api_key=api_key).first()
             if usr is None:
                 return api_key
+
     @classmethod
     def generate_password(cls, password):
         return sha512_crypt.hash(password)
@@ -98,4 +95,4 @@ class User(db.Model):
     def get_deployment_count_by_user(cls):
         from glider_dac.models.deployment import Deployment
         query = db.session.query(Deployment.user_id, func.count().label("count")).group_by(Deployment.user_id).all()
-        return [{"_id":user_id, "count":count} for user_id, count in query]
+        return [{"_id": user_id, "count": count} for user_id, count in query]
