@@ -45,6 +45,7 @@ services:
     ports:
       - 127.0.0.1:5432:5432
     restart: always
+    container_name: cgdac_postgres
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -59,8 +60,6 @@ services:
       context: ..
       dockerfile: docker/Dockerfile
     user: root
-    ports:
-      - 127.0.0.1:3000:5000
     volumes:
       - socket_folder:/var/run/socket
       - ${RESOURCE_DIR}/var:/var/www
@@ -68,9 +67,10 @@ services:
       - ${RESOURCE_DIR}/log:/home/cgdac/resource/cgdac/log
       - ${RESOURCE_DIR}/uploads:/home/cgdac/resource/cgdac/uploads
       - ${RESOURCE_DIR}:/home/cgdac/resource/cgdac/
-
+      - ${ERDDAP_DATASET}:/home/cgdac/resource/cgdac/data
     depends_on:
       - postgres
+
   nginx:
     image: nginx:1.25
     ports:
