@@ -237,7 +237,7 @@ class Deployment(db.Model):
 
     @property
     def full_path(self):
-        the_path = os.path.join(app.config.get('DATA_ROOT'), self.deployment_dir)
+        the_path = os.path.join(app.config.get('ERDDAP_DATASET'), self.deployment_dir)
         if not os.path.exists(the_path):
             try:
                 os.makedirs(the_path)
