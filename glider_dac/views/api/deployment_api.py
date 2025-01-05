@@ -14,9 +14,9 @@ from glider_dac.models import Deployment, User
 from glider_dac.views.operation.deployment import new_deployment_creation
 from .api_parsers import deployment_get_parser, deployment_post_parser, deployment_file_get_parser, \
     deployment_file_post_parser
+from cf_units import Unit
 
 def parse_date(datestr):
-    from cf_units import Unit
     '''
     Parse the time query param
     '''

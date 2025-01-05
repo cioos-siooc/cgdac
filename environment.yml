@@ -5,11 +5,11 @@ channels:
 dependencies:
 - Flask
 - pip
-- cfunits
 - multidict
 - gunicorn
 - bsddb3
 - python-dotenv
+- cf-units
 - pip:
   - Flask-Login
   - flasgger
