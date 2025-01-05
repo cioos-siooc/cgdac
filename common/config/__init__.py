@@ -71,7 +71,7 @@ def check_env_variables(example_path):
 
 
 
-PROJECT_NAME = "glider_dac"
+PROJECT_NAME = "cgdac"
 USER_DIR = os.path.expanduser("~")
 RESOURCE_DIR = check_create_dir(os.path.join(USER_DIR, "resource"))
 PROJECT_RESOURCE_DIR = check_create_dir(os.path.join(RESOURCE_DIR, PROJECT_NAME))
