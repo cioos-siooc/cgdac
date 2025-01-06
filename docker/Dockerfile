@@ -6,10 +6,10 @@ ARG cgdac_uid=10001
 ADD  ./environment.yml /tmp
 RUN conda env create -f /tmp/environment.yml
 
-RUN conda clean -afy
-RUN conda install -c conda-forge conda-pack
-RUN conda-pack -n $project_name -o /tmp/env.tar
-RUN mkdir /tmp/env_build && cd /tmp/env_build && tar xf /tmp/env.tar
+RUN conda clean -afy && \
+    conda install -c conda-forge conda-pack && \
+    conda-pack -n $project_name -o /tmp/env.tar && \
+    mkdir /tmp/env_build && cd /tmp/env_build && tar xf /tmp/env.tar
 
 
 
@@ -54,6 +54,6 @@ RUN mkdir -p "$project_resource" && \
 
 WORKDIR $project_home
 
-ADD --chown=$user_name:$user_name ./ $project_home
+COPY --chown=$user_name:$user_name ./ $project_home
 
 CMD ["/home/cgdac/miniconda3/envs/cgdac/bin/gunicorn", "-c", "/home/cgdac/code/cgdac/gunicorn/gunicorn.py", "app:app"]

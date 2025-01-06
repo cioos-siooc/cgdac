@@ -88,6 +88,5 @@ venv/
 # VS Code
 .vscode/
 
-.gitignore
 .gitlab_ci.yml
 README.md
