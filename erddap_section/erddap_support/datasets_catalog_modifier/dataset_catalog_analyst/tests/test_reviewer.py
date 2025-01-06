@@ -1,22 +1,23 @@
 import os
 import unittest
-from ..dataset_catalog_analyst import DATASET_ID, DatasetHeaderAnalyst, DatasetConfigAnalyst
-from ..format_reviewer import BaseStaticValueReviewer, HeaderReviewer
+from ..format_reviewer import BaseStaticValueReviewer
 from ..erddap_dataset_name_constants import DATASET_HEADER, DATASET_CONFIG, DATASET_CONFIG_FILE_DIR, \
-    DATASET_CONFIG_FILE_NAME_REGEX, DATASET_CONFIG_UPDATE_EVERY_N_MILLIS, ActionDictConstants
-from ..dataset_xml_container import DatasetXmlContainer, DatasetCatalogHeader, DatasetConfig
-from ..dataset_xml_container_generator import DatasetXmlContainerGenerator
+    DATASET_CONFIG_FILE_NAME_REGEX, DATASET_CONFIG_UPDATE_EVERY_N_MILLIS, ActionDictConstants, DATASET_ID
+from ..dataset_xml_container import DatasetCatalogHeader, DatasetConfig
 from ..format_reviewer import TrajectoryCFRoleVariableReviewer, TrajectoryCdmTrajectoryVariableReviewer
+from ..dataset_xml_container_generator import DatasetXmlContainerGenerator
 
 
 class TestStaticValueReviewer(unittest.TestCase):
     def setUp(self):
         self.current_folder_path = os.path.dirname(os.path.abspath(__file__))
         self.resource_path = os.path.join(self.current_folder_path, 'resource')
+        self.draft_dataset_xml_path = os.path.join(self.resource_path, 'dataset_draft.xml')
         self.deployment_dict = {}
         self.dataset_dict = {
             DATASET_ID: "expect_dataset_id",
-            DATASET_CONFIG_FILE_DIR: "expect_dataset_folder"
+            DATASET_CONFIG_FILE_DIR: "expect_dataset_folder",
+            DATASET_CONFIG_UPDATE_EVERY_N_MILLIS: "test_update_number"
         }
         self.dataset_header: DatasetCatalogHeader = {
             "type": "actual_dataset_type",
@@ -39,11 +40,7 @@ class TestStaticValueReviewer(unittest.TestCase):
         }
         self.data_variable_list = []
 
-        self.data_container = DatasetXmlContainer(self.dataset_header, self.dataset_config, {}, self.data_variable_list,
-                                                  None)
-
-        # self.header_analyst = DatasetHeaderAnalyst(self.data_container, self.deployment_dict, self.dataset_dict)
-        # self.dataset_config_analyst = DatasetConfigAnalyst(self.data_container, self.deployment_dict, self.dataset_dict)
+        self.data_container = DatasetXmlContainerGenerator(self.draft_dataset_xml_path).generate()
 
     def tearDown(self):
         ...
@@ -59,7 +56,7 @@ class TestStaticValueReviewer(unittest.TestCase):
             },
         }
         feedback_list = reviewer._review()
-        expect_value = {ActionDictConstants.ACTUAL_VALUE: 'actual_dataset_id',
+        expect_value = {ActionDictConstants.ACTUAL_VALUE: 'datasets_f93d_926a_4e63',
                         ActionDictConstants.DATA_FIELD_NAME: DATASET_ID,
                         ActionDictConstants.EXPECTED_VALUE: 'expect_dataset_id',
                         ActionDictConstants.SECTION: DATASET_HEADER}

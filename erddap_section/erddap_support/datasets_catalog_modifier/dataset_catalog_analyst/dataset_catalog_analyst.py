@@ -64,15 +64,14 @@ class BaseStaticDatasetCatalogAnalyst(BaseAnalyst):
         super().__init__(dataset_xml_container, deployment_dict, dataset_dict)
 
     def analyse(self):
-        """
-         When we want the dataset to adhere to static standards,
-         there is no need to review the value. Since we do not offer customization options,
-         we can simply set the value to comply with the standard, such as the dataset ID.
-        """
-        feedback = None
-        advisor = self.reviewer_advisor[self.REVIEWER_POSITION_INDEX][self.ADVISOR_POSITION_INDEX]
-        action_list_dict = advisor.suggest(feedback)
-        return action_list_dict
+        return list(self.analyse_generator())
+
+    def analyse_generator(self):
+        for value in self.reviewer_advisor:
+            reviewer = value[self.REVIEWER_POSITION_INDEX]
+            advisor = value[self.ADVISOR_POSITION_INDEX]
+            feedback = reviewer.review()
+            yield advisor.suggest(feedback)
 
 
 class DatasetHeaderAnalyst(BaseStaticDatasetCatalogAnalyst):

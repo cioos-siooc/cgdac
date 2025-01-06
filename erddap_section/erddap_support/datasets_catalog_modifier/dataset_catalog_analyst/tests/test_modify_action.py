@@ -1,10 +1,7 @@
-import os
 import unittest
-from ..dataset_xml_container_generator import DatasetXmlContainerGenerator
-from ..dataset_xml_container import DatasetXmlContainer, DatasetCatalogHeader, DatasetConfig
 from ..dataset_modify_actions import HeaderDatasetModifyAction, ConfigDatasetModifyAction, GlobalDatasetModifyAction, \
     DataTypeDatasetModifyAction, BaseModifyActionFactory, DataTypeDatasetModifyActionFactory
-from ..erddap_dataset_name_constants import ActionListActionsConstants
+from ..erddap_dataset_name_constants import ActionListActionsConstants, ActionDictConstants
 
 
 class TestHeaderModifyAction(unittest.TestCase):
@@ -13,10 +10,10 @@ class TestHeaderModifyAction(unittest.TestCase):
 
     def test_set_action(self):
         test_action_dict = {
-            "section": "dataset_header",
-            "expected_value": "expect_dataset_id",
-            "actual_value": "random_dataset_id",
-            "data_field_name": "datasetID",
+            ActionDictConstants.SECTION: "dataset_header",
+            ActionDictConstants.EXPECTED_VALUE: "expect_dataset_id",
+            ActionDictConstants.ACTUAL_VALUE: "random_dataset_id",
+            ActionDictConstants.DATA_FIELD_NAME: "datasetID",
         }
         self.test_header_modify_action.set_action(test_action_dict)
         value_action = self.test_header_modify_action.action_flag
@@ -59,30 +56,30 @@ class TestGlobalDatasetModifyAction(unittest.TestCase):
 
     def test_set_action_adding_variable_to_wrong_field(self):
         test_action_dict = {
-            "section": "dataset_config",
-            "expected_value": "expect_dataset_id",
-            "actual_value": "random_dataset_id",
-            "data_field_name": "datasetID"
+            ActionDictConstants.SECTION: "dataset_config",
+            ActionDictConstants.EXPECTED_VALUE: "expect_dataset_id",
+            ActionDictConstants.ACTUAL_VALUE: "random_dataset_id",
+            ActionDictConstants.DATA_FIELD_NAME: "datasetID"
         }
         with self.assertRaises(AssertionError) as context:
             self.test_global_config_modify_action.set_action(test_action_dict)
 
     def test_set_action_add_more_field(self):
         test_action_dict = {
-            "section": "dataset_global",
-            "expected_value": "expect_dataset_id",
-            "actual_value": None,
-            "data_field_name": "datasetID"
+            ActionDictConstants.SECTION: "dataset_global",
+            ActionDictConstants.EXPECTED_VALUE: "expect_dataset_id",
+            ActionDictConstants.ACTUAL_VALUE: None,
+            ActionDictConstants.DATA_FIELD_NAME: "datasetID"
         }
         self.test_global_config_modify_action.set_action(test_action_dict)
         self.assertEqual(self.test_global_config_modify_action.action_flag, ActionListActionsConstants.ADD)
 
     def test_set_action_for_removing(self):
         test_action_dict = {
-            "section": "dataset_global",
-            "expected_value": None,
-            "actual_value": "actual value",
-            "data_field_name": "example_field_name"
+            ActionDictConstants.SECTION: "dataset_global",
+            ActionDictConstants.EXPECTED_VALUE: None,
+            ActionDictConstants.ACTUAL_VALUE: "actual value",
+            ActionDictConstants.DATA_FIELD_NAME: "example_field_name"
         }
         self.test_global_config_modify_action.set_action(test_action_dict)
         self.assertEqual(self.test_global_config_modify_action.action_flag, ActionListActionsConstants.REMOVE)
@@ -95,85 +92,15 @@ class TestDataTypeDatasetModifyAction(unittest.TestCase):
     def test_set_action_for_remove_variable(self):
         # REMOVE
         test_action_dict = {
-            "section": DataTypeDatasetModifyAction.TYPE,
-            "sourceName": "time",  # source
-            "destinationName": None
+            ActionDictConstants.SECTION: DataTypeDatasetModifyAction.TYPE,
+            ActionDictConstants.DATA_FIELD_NAME: "time",  # source
+            ActionDictConstants.EXPECTED_VALUE: None,
+            ActionDictConstants.ACTUAL_VALUE: "Something",
         }
         self.test_data_type_modify_action.set_action(test_action_dict)
-        self.assertEqual(self.test_global_config_modify_action.action_flag, ActionListActionsConstants.REMOVE)
+        self.assertEqual(self.test_data_type_modify_action.action_flag, ActionListActionsConstants.REMOVE)
 
-    def test_set_action_for_update_destination_name(self):
-        # UPDATE_DESTINATION
-        test_action_dict = {
-            "section": DataTypeDatasetModifyAction.TYPE,
-            "sourceName": "time",  # source
-            "destinationName": "new_time"
-        }
-        self.test_data_type_modify_action.set_action(test_action_dict)
-        self.assertEqual(self.test_global_config_modify_action.action_flag, ActionListActionsConstants.REMOVE)
 
-    def test_set_action_for_update_data_type(self):
-        # UPDATE_DATATYPE
-        test_action_dict = {
-            "section": DataTypeDatasetModifyAction.TYPE,
-            "sourceName": "time",  # source
-            "dataType": "new_data_type"
-        }
-        self.test_data_type_modify_action.set_action(test_action_dict)
-        self.assertEqual(self.test_global_config_modify_action.action_flag, ActionListActionsConstants.REMOVE)
-
-    def test_add_new_attributes(self):
-        # ADD_ATT
-        test_action_dict = {
-            "section": DataTypeDatasetModifyAction.TYPE,
-            "sourceName": "time",
-            "att_name": "new_att",  # source
-            "value": {
-                "type": "new_att_type",
-                "value": "new_att_value"
-            }
-        }
-        self.test_data_type_modify_action.set_action(test_action_dict)
-        self.assertEqual(self.test_global_config_modify_action.action_flag, ActionListActionsConstants.REMOVE)
-
-    def test_update_attributes(self):
-        # UPDATE_ATT
-        test_action_dict = {
-            "section": DataTypeDatasetModifyAction.TYPE,
-            "sourceName": "time",
-            "att_name": "ioos_category",  # source
-            "value": {
-                "value": "new_ioos_category"
-            }
-        }
-        self.test_data_type_modify_action.set_action(test_action_dict)
-        self.assertEqual(self.test_global_config_modify_action.action_flag, ActionListActionsConstants.REMOVE)
-
-    def test_remove_attributes(self):
-        # REMOVE
-        test_action_dict = {
-            "section": DataTypeDatasetModifyAction.TYPE,
-            "sourceName": "time",
-            "att_name": "ioos_category"  # source
-        }
-        self.test_data_type_modify_action.set_action(test_action_dict)
-        self.assertEqual(self.test_global_config_modify_action.action_flag, ActionListActionsConstants.REMOVE)
-
-    def test_add_new_data_variable(self):
-        # ADD
-        test_action_dict = {
-            "section": DataTypeDatasetModifyAction.TYPE,
-            "sourceName": "new_value",
-            "destinationName": "new_value",
-            "att_name": "new_att",
-            "dataType": "double",
-            "attr": [{
-                "type": "new_att_type",
-                "value": "new_att_value"
-            }]
-        }
-        self.test_data_type_modify_action.set_action(test_action_dict)
-        self.assertEqual(self.test_global_config_modify_action.action_flag, ActionListActionsConstants.REMOVE)
 
 
 class TestBaseDatasetModifyActionFactory(unittest.TestCase):

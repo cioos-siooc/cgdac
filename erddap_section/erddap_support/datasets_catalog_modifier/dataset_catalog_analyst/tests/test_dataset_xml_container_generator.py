@@ -1,7 +1,7 @@
 import os
 import unittest
 from ..dataset_xml_container_generator import DatasetXmlContainerGenerator
-from ..dataset_xml_container import DatasetXmlContainer, DatasetCatalogHeader, DatasetConfig
+from ..dataset_xml_container import DatasetCatalogHeader, DatasetConfig
 
 
 class TestDatasetXMLContainerGenerator(unittest.TestCase):
@@ -32,7 +32,6 @@ class TestDatasetXMLContainerGenerator(unittest.TestCase):
             "fileTableInMemory": "example",
         }
         self.data_variable_list = []
-        self.data_container = DatasetXmlContainer(self.dataset_header, self.dataset_config, {} ,self.data_variable_list, None)
 
     def tearDown(self):
         ...

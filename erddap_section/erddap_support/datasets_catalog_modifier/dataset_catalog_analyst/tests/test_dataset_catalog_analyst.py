@@ -1,15 +1,18 @@
 import os
 import unittest
-from ..dataset_xml_container import DatasetXmlContainer, DatasetCatalogHeader, DatasetConfig
-from ..dataset_catalog_analyst import  DATASET_ID,  DatasetHeaderAnalyst, DatasetConfigAnalyst
-
-from ..erddap_dataset_name_constants import DATASET_HEADER, DATASET_CONFIG, DATASET_CONFIG_FILE_DIR, DATASET_CONFIG_FILE_NAME_REGEX, DATASET_CONFIG_UPDATE_EVERY_N_MILLIS, ActionDictConstants
+from ..dataset_xml_container import  DatasetCatalogHeader, DatasetConfig
+from ..dataset_catalog_analyst import DatasetHeaderAnalyst, DatasetConfigAnalyst
+from ..dataset_xml_container_generator import DatasetXmlContainerGenerator
+from ..erddap_dataset_name_constants import (DATASET_HEADER, DATASET_CONFIG, DATASET_CONFIG_FILE_DIR,
+                                             DATASET_CONFIG_FILE_NAME_REGEX, DATASET_CONFIG_UPDATE_EVERY_N_MILLIS,
+                                             ActionDictConstants, DATASET_ID)
 
 
 class TestDatasetXMLContainerGenerator(unittest.TestCase):
     def setUp(self):
         self.current_folder_path = os.path.dirname(os.path.abspath(__file__))
         self.resource_path = os.path.join(self.current_folder_path, 'resource')
+        self.draft_dataset_xml_path = os.path.join(self.resource_path, 'dataset_draft.xml')
         self.deployment_dict = {}
         self.dataset_dict = {
             DATASET_ID: "expect_dataset_id",
@@ -35,7 +38,7 @@ class TestDatasetXMLContainerGenerator(unittest.TestCase):
             "fileTableInMemory": "example",
         }
         self.data_variable_list = []
-        self.data_container = DatasetXmlContainer(self.dataset_header, self.dataset_config, {},self.data_variable_list, None)
+        self.data_container = DatasetXmlContainerGenerator(self.draft_dataset_xml_path).generate()
         self.header_analyst = DatasetHeaderAnalyst(self.data_container, self.deployment_dict, self.dataset_dict)
         self.dataset_config_analyst = DatasetConfigAnalyst(self.data_container, self.deployment_dict, self.dataset_dict)
 
@@ -46,9 +49,9 @@ class TestDatasetXMLContainerGenerator(unittest.TestCase):
         comparing_mapping_list = {
             DATASET_ID: {
                 ActionDictConstants.DATASET: {ActionDictConstants.DATA_SOURCE: ActionDictConstants.DATASET_DICT,
-                          ActionDictConstants.DATA_ID: DATASET_ID},
+                                              ActionDictConstants.DATA_ID: DATASET_ID},
                 ActionDictConstants.DATA_CONTAINER: {ActionDictConstants.DATA_SOURCE: DATASET_HEADER,
-                                 ActionDictConstants.DATA_ID: DATASET_ID}
+                                                     ActionDictConstants.DATA_ID: DATASET_ID}
             },
         }
         generator = self.analyst.data_compare_generator(comparing_mapping_list)
@@ -63,15 +66,15 @@ class TestDatasetXMLContainerGenerator(unittest.TestCase):
         comparing_mapping_list = {
             DATASET_CONFIG_FILE_DIR: {
                 ActionDictConstants.DATASET: {ActionDictConstants.DATA_SOURCE: ActionDictConstants.DATASET_DICT,
-                          ActionDictConstants.DATA_ID: DATASET_CONFIG_FILE_DIR},
+                                              ActionDictConstants.DATA_ID: DATASET_CONFIG_FILE_DIR},
                 ActionDictConstants.DATA_CONTAINER: {ActionDictConstants.DATA_SOURCE: DATASET_CONFIG,
-                                 ActionDictConstants.DATA_ID: DATASET_CONFIG_FILE_DIR}
+                                                     ActionDictConstants.DATA_ID: DATASET_CONFIG_FILE_DIR}
             },
             DATASET_CONFIG_UPDATE_EVERY_N_MILLIS: {
                 ActionDictConstants.DATASET: {ActionDictConstants.DATA_SOURCE: ActionDictConstants.DATASET_DICT,
-                          ActionDictConstants.DATA_ID: DATASET_CONFIG_UPDATE_EVERY_N_MILLIS},
+                                              ActionDictConstants.DATA_ID: DATASET_CONFIG_UPDATE_EVERY_N_MILLIS},
                 ActionDictConstants.DATA_CONTAINER: {ActionDictConstants.DATA_SOURCE: DATASET_CONFIG,
-                                 ActionDictConstants.DATA_ID: DATASET_CONFIG_UPDATE_EVERY_N_MILLIS}
+                                                     ActionDictConstants.DATA_ID: DATASET_CONFIG_UPDATE_EVERY_N_MILLIS}
             }
         }
         generator = self.analyst.data_compare_generator(comparing_mapping_list)
@@ -85,7 +88,7 @@ class TestDatasetXMLContainerGenerator(unittest.TestCase):
     def test_review_header(self):
         self.header_analyst = DatasetHeaderAnalyst(self.data_container, self.deployment_dict, self.dataset_dict)
         self.header_analyst.analyse()
-        data_container = self.analyst.get_data_xml_container()
+        data_container = self.header_analyst.dataset_xml_container
         expect_value = {ActionDictConstants.ACTUAL_VALUE: 'actual_dataset_id',
                         ActionDictConstants.DATA_FIELD_NAME: DATASET_ID,
                         ActionDictConstants.EXPECTED_VALUE: 'expect_dataset_id',

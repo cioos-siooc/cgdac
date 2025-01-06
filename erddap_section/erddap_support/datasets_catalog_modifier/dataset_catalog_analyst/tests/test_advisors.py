@@ -1,19 +1,18 @@
 import os
 import unittest
-from ..dataset_catalog_analyst import DATASET_ID, DatasetHeaderAnalyst, DatasetConfigAnalyst
-from ..format_reviewer import BaseStaticValueReviewer, HeaderReviewer
-from ..erddap_dataset_name_constants import DATASET_HEADER, DATASET_CONFIG, DATASET_CONFIG_FILE_DIR, \
-    DATASET_CONFIG_FILE_NAME_REGEX, DATASET_CONFIG_UPDATE_EVERY_N_MILLIS, ActionDictConstants, ErddapSections
+from ..erddap_dataset_name_constants import DATASET_CONFIG_FILE_DIR, \
+    DATASET_CONFIG_FILE_NAME_REGEX, DATASET_CONFIG_UPDATE_EVERY_N_MILLIS, ErddapSections, DATASET_ID
 from ..dataset_xml_container import DatasetXmlContainer, DatasetCatalogHeader, DatasetConfig
 from ..dataset_xml_container_generator import DatasetXmlContainerGenerator
-from ..format_reviewer import TrajectoryCFRoleVariableReviewer, TrajectoryCdmTrajectoryVariableReviewer
-from ..format_advisor import TrajectoryCDMTrajectoryVariableAdvisor, MetadataConventionAdvisor, CFRoleAdvisor
+
+from ..format_advisor import TrajectoryCDMTrajectoryVariableAdvisor, CFRoleAdvisor
 
 
 class TestMetadataConventionAdvisor(unittest.TestCase):
     def setUp(self):
         self.current_folder_path = os.path.dirname(os.path.abspath(__file__))
         self.resource_path = os.path.join(self.current_folder_path, 'resource')
+        self.draft_dataset_xml_path = os.path.join(self.resource_path, 'dataset_draft.xml')
         self.deployment_dict = {}
         self.dataset_dict = {
             DATASET_ID: "expect_dataset_id",
@@ -40,8 +39,7 @@ class TestMetadataConventionAdvisor(unittest.TestCase):
         }
         self.data_variable_list = []
 
-        self.data_container = DatasetXmlContainer(self.dataset_header, self.dataset_config, {}, self.data_variable_list,
-                                                  None)
+        self.data_container = DatasetXmlContainerGenerator(self.draft_dataset_xml_path).generate()
 
         self.advisor = CFRoleAdvisor(self.data_container, self.deployment_dict,
                                      self.dataset_dict)
@@ -222,6 +220,7 @@ class TestTrajectoryCDMTrajectoryVariableAdvisor(unittest.TestCase):
     def setUp(self):
         self.current_folder_path = os.path.dirname(os.path.abspath(__file__))
         self.resource_path = os.path.join(self.current_folder_path, 'resource')
+        self.draft_dataset_xml_path = os.path.join(self.resource_path, 'dataset_draft.xml')
         self.deployment_dict = {}
         self.dataset_dict = {
             DATASET_ID: "expect_dataset_id",
@@ -248,8 +247,7 @@ class TestTrajectoryCDMTrajectoryVariableAdvisor(unittest.TestCase):
         }
         self.data_variable_list = []
 
-        self.data_container = DatasetXmlContainer(self.dataset_header, self.dataset_config, {}, self.data_variable_list,
-                                                  None)
+        self.data_container = DatasetXmlContainerGenerator(self.draft_dataset_xml_path).generate()
 
         self.advisor = TrajectoryCDMTrajectoryVariableAdvisor(self.data_container, self.deployment_dict,
                                                               self.dataset_dict)

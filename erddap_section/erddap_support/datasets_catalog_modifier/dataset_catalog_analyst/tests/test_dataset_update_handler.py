@@ -1,9 +1,7 @@
 import os
 import unittest
-from ..dataset_xml_container_generator import DatasetXmlContainerGenerator
-from ..dataset_xml_container import DatasetXmlContainer, DatasetCatalogHeader, DatasetConfig
-from ..dataset_modify_actions import HeaderDatasetModifyAction, ConfigDatasetModifyAction, GlobalDatasetModifyAction, \
-    DataTypeDatasetModifyAction, DataTypeDatasetModifyActionFactory
+from ..dataset_xml_container import DatasetCatalogHeader, DatasetConfig
+from ..dataset_modify_actions import GlobalDatasetModifyAction
 from ..erddap_dataset_name_constants import DATASET_VARIABLE
 
 from ..dataset_xml_container_generator import DatasetXmlContainerGenerator
