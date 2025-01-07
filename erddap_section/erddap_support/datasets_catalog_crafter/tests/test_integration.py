@@ -1,8 +1,8 @@
 import unittest
 import os
 
-from xml_monitor.datasets_catalog_crafter.dataset_crafter import DatasetsCrafter
-from xml_monitor.datasets_catalog_crafter.data_structure import ErddapData
+from erddap_section.erddap_support.datasets_catalog_crafter.dataset_crafter import DatasetsCrafter
+from erddap_section.erddap_support.datasets_catalog_crafter.data_structure import ErddapData
 
 
 class TestDatasetsCrafter(unittest.TestCase):
@@ -10,7 +10,7 @@ class TestDatasetsCrafter(unittest.TestCase):
     def setUp(self):
         self.datasets_data = ErddapData()
         self.current_path = os.path.dirname(__file__)
-        self.individuals_datasets = 'xml_monitor/datasets_catalog_crafter/tests/resource'
+        self.individuals_datasets = 'erddap_section/erddap_support/datasets_catalog_crafter/tests/resource'
         self.output_dir = '/tmp'
         self.crafter = DatasetsCrafter(self.individuals_datasets, self.output_dir, self.datasets_data)
 

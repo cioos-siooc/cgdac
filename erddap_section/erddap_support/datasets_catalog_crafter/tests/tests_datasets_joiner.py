@@ -1,8 +1,7 @@
 import unittest
-from unittest.mock import patch, MagicMock
-import os
-from xml_monitor.datasets_catalog_crafter.datasets_joiner import DatasetCatalogJoiner
-from xml_monitor.datasets_catalog_crafter.data_structure import ErddapData
+from unittest.mock import patch
+from erddap_section.erddap_support.datasets_catalog_crafter.datasets_joiner import DatasetCatalogJoiner
+from erddap_section.erddap_support.datasets_catalog_crafter.data_structure import ErddapData
 
 
 class TestDatasetCatalogJoiner(unittest.TestCase):
@@ -13,9 +12,9 @@ class TestDatasetCatalogJoiner(unittest.TestCase):
         self.individuals_datasets_dir = '/path/to/individuals_datasets'
         self.joiner = DatasetCatalogJoiner(self.individuals_datasets_dir, self.erddap_data)
 
-    @patch('xml_monitor.datasets_catalog_crafter.datasets_joiner.join_datasets.os.path.isfile', return_value=True)
-    @patch('xml_monitor.datasets_catalog_crafter.datasets_joiner.join_datasets.os.path.getmtime', return_value=100)
-    @patch('xml_monitor.datasets_catalog_crafter.datasets_joiner.join_datasets.os.walk')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.datasets_joiner.join_datasets.os.path.isfile', return_value=True)
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.datasets_joiner.join_datasets.os.path.getmtime', return_value=100)
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.datasets_joiner.join_datasets.os.walk')
     def test_get_individual_xml(self, mock_walk, mock_getmtime, mock_isfile):
         """
         Test that get_individual_xml correctly retrieves and sorts XML files by modification time.
@@ -37,7 +36,7 @@ class TestDatasetCatalogJoiner(unittest.TestCase):
         mock_isfile.assert_any_call('/path/to/individuals_datasets/file2.xml')
         mock_walk.assert_called_once_with('/path/to/individuals_datasets')
 
-    @patch('xml_monitor.datasets_catalog_crafter.datasets_joiner.processor.ProcessorLine.process')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.datasets_joiner.processor.ProcessorLine.process')
     def test_process_invalid_file(self, mock_processor):
         """
         Test that the process method handles an invalid XML file.
@@ -54,7 +53,7 @@ class TestDatasetCatalogJoiner(unittest.TestCase):
         # Ensure that the result is None due to the exception
         self.assertIsNone(result)
 
-    @patch('xml_monitor.datasets_catalog_crafter.datasets_joiner.DatasetCatalogJoiner.join_files',
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.datasets_joiner.DatasetCatalogJoiner.join_files',
            return_value='<xml>joined_content</xml>')
     def test_join(self, mock_join_files):
         """

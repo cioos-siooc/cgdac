@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
 import lxml.etree as ET
-from xml_monitor.datasets_catalog_crafter.datasets_joiner.processor import DatasetFormatFilterProcessor, ReplaceCredentialProcessor, DatasetIDFilterProcessor, ProcessorLine
-from xml_monitor.datasets_catalog_crafter.data_structure import ErddapData
+from erddap_section.erddap_support.datasets_catalog_crafter.datasets_joiner.processor import DatasetFormatFilterProcessor, ReplaceCredentialProcessor, DatasetIDFilterProcessor, ProcessorLine
+from erddap_section.erddap_support.datasets_catalog_crafter.data_structure import ErddapData
 
 
 class TestDatasetFormatFilterProcessor(unittest.TestCase):
@@ -111,7 +111,7 @@ class TestDatasetIDFilterProcessor(unittest.TestCase):
 
 class TestProcessorLine(unittest.TestCase):
 
-    @patch('xml_monitor.datasets_catalog_crafter.datasets_joiner.processor.ET.parse')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.datasets_joiner.processor.ET.parse')
     def test_tree_loading(self, mock_parse):
         """
         Test that ProcessorLine correctly loads the XML tree.
@@ -126,7 +126,7 @@ class TestProcessorLine(unittest.TestCase):
         mock_parse.assert_called_once_with("/path/to/file.xml", processor_line.parser)
         self.assertEqual(tree, mock_tree)
 
-    @patch('xml_monitor.datasets_catalog_crafter.datasets_joiner.processor.DatasetFormatFilterProcessor.process', return_value=None)
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.datasets_joiner.processor.DatasetFormatFilterProcessor.process', return_value=None)
     def test_process(self, dataset_format_filter_process):
         """
         Test that ProcessorLine runs all processors and processes the tree.

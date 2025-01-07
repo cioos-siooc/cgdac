@@ -2,8 +2,8 @@ import unittest
 from unittest.mock import patch, mock_open, MagicMock
 import os
 
-from xml_monitor.datasets_catalog_crafter.dataset_crafter import DatasetsCrafter
-from xml_monitor.datasets_catalog_crafter.data_structure import ErddapData
+from erddap_section.erddap_support.datasets_catalog_crafter.dataset_crafter import DatasetsCrafter
+from erddap_section.erddap_support.datasets_catalog_crafter.data_structure import ErddapData
 
 
 class TestDatasetsCrafter(unittest.TestCase):
@@ -14,21 +14,21 @@ class TestDatasetsCrafter(unittest.TestCase):
         self.output_dir = '/path/to/output'
         self.crafter = DatasetsCrafter(self.individuals_datasets, self.output_dir, self.datasets_data)
 
-    @patch('xml_monitor.datasets_catalog_crafter.dataset_crafter.DatasetCatalogJoiner.join', return_value='joined datasets string')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.dataset_crafter.DatasetCatalogJoiner.join', return_value='joined datasets string')
     def test_get_join_datasets_str(self, mock_join):
         result = self.crafter._get_join_datasets_str()
         mock_join.assert_called_once()  # Ensure that join is called
         self.assertEqual(result, 'joined datasets string')
 
-    @patch('xml_monitor.datasets_catalog_crafter.dataset_crafter.HeaderCrafter.get_header_str', return_value='header string')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.dataset_crafter.HeaderCrafter.get_header_str', return_value='header string')
     def test_get_header(self, mock_header):
         result = self.crafter._get_header()
         mock_header.assert_called_once()  # Ensure that get_header_str is called
         self.assertEqual(result, 'header string')
 
-    @patch('xml_monitor.datasets_catalog_crafter.dataset_crafter.BaseTemplateCrafter.render', return_value='final datasets string')
-    @patch('xml_monitor.datasets_catalog_crafter.dataset_crafter.DatasetsCrafter._get_join_datasets_str', return_value='joined datasets string')
-    @patch('xml_monitor.datasets_catalog_crafter.dataset_crafter.DatasetsCrafter._get_header', return_value='header string')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.dataset_crafter.BaseTemplateCrafter.render', return_value='final datasets string')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.dataset_crafter.DatasetsCrafter._get_join_datasets_str', return_value='joined datasets string')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.dataset_crafter.DatasetsCrafter._get_header', return_value='header string')
     def test_get_datasets_str(self, mock_header, mock_join, mock_render):
         result = self.crafter._get_datasets_str()
         mock_header.assert_called_once()  # Ensure header is fetched

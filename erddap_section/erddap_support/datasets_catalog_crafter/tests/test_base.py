@@ -1,9 +1,7 @@
-import os
-
 import unittest
 from unittest.mock import patch, MagicMock
 
-from xml_monitor.datasets_catalog_crafter import base
+from erddap_section.erddap_support.datasets_catalog_crafter import base
 
 
 class TestBaseTemplateCrafter(unittest.TestCase):
@@ -11,8 +9,8 @@ class TestBaseTemplateCrafter(unittest.TestCase):
     def setUp(self):
         self.crafter = base.BaseTemplateCrafter()
 
-    @patch('xml_monitor.datasets_catalog_crafter.base.FileSystemLoader')
-    @patch('xml_monitor.datasets_catalog_crafter.base.Environment')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.base.FileSystemLoader')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.base.Environment')
     def test_env_initialization(self, mock_environment, mock_loader):
         """
         Test that the environment is initialized correctly and only once.
@@ -32,8 +30,8 @@ class TestBaseTemplateCrafter(unittest.TestCase):
         env_second = self.crafter.env
         mock_environment.assert_called_once()  # Ensure environment initialization is called only once
 
-    @patch('xml_monitor.datasets_catalog_crafter.base.Environment')
-    @patch('xml_monitor.datasets_catalog_crafter.base.FileSystemLoader')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.base.Environment')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.base.FileSystemLoader')
     def test_env_property(self, mock_file_loader, mock_environment):
         """
         Test the env property to ensure it creates a Jinja2 environment
@@ -64,7 +62,7 @@ class TestBaseTemplateCrafter(unittest.TestCase):
         mock_env_instance.get_template.assert_any_call('header.xml')
 
 
-    # @patch('xml_monitor.datasets_catalog_crafter.base.BaseTemplateCrafter.env')
+    # @patch('erddap_section.erddap_support.datasets_catalog_crafter.base.BaseTemplateCrafter.env')
     def test_template_loading(self):
         """
         Test that the correct template is loaded.
@@ -79,7 +77,7 @@ class TestBaseTemplateCrafter(unittest.TestCase):
         tmp1 = self.crafter.template('datasets.xml')
 
 
-    @patch('xml_monitor.datasets_catalog_crafter.base.BaseTemplateCrafter.template')
+    @patch('erddap_section.erddap_support.datasets_catalog_crafter.base.BaseTemplateCrafter.template')
     def test_rendering_template(self, mock_template):
         """
         Test that a template is rendered with the correct content.
