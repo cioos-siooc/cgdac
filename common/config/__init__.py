@@ -20,7 +20,7 @@ DOCKER_DIR = os.path.join(PROJECT_DIR, 'docker')
 DOT_ENV_PATH = os.path.join(DOCKER_DIR, '.env')
 DOT_EXAMPLE_PATH = os.path.join(DOCKER_DIR, '.env.example')
 
-if os.path.exists(DOT_EXAMPLE_PATH):
+if os.path.exists(DOT_ENV_PATH):
     load_dotenv(dotenv_path=DOT_ENV_PATH)
 
 
