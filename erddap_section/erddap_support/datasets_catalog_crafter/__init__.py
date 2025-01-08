@@ -1,4 +1,4 @@
-from .dataset_crafter import DatasetsCrafter
+from .dataset_crafter import DatasetsCrafter, BasicCatalogBuilder
 
 from .data_structure import ErddapData, Config, DatabaseConnectionProperty
 

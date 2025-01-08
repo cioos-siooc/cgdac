@@ -147,3 +147,17 @@ class DatasetsCrafter(BaseTemplateCrafter):
             self._backup_dataset()
             self._write(datasets_str)
         return self.get_update_message()
+
+class BasicCatalogBuilder:
+    def __init__(self, individuals_datasets_folder_path, output_dir):
+        self.individuals_datasets_folder_path = individuals_datasets_folder_path
+        self.output_dir = output_dir
+
+    @property
+    def datasets_data(self):
+        return ErddapData()
+
+    def build(self):
+        datasets_crafter = DatasetsCrafter(self.individuals_datasets_folder_path, self.output_dir, self.datasets_data)
+        datasets_crafter.build()
+

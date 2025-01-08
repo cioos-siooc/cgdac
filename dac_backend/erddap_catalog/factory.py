@@ -1,9 +1,12 @@
 import os
 import glob
 import logging
+from glider_dac.app import app
 from pathlib import Path
 from datetime import datetime
 from glider_dac.models import Deployment
+
+from erddap_section import BasicCatalogBuilder
 
 from .creators import CatalogGenerator, IndividualCatalogGenerator
 from common import log_formatter
@@ -16,8 +19,8 @@ logger.addHandler(ch)
 logger.setLevel(logging.INFO)
 template_dir = Path(__file__).parent.parent / "individual_erddap_dataset_catalog_creator" / "templates"
 
-
 DATASET_CHUNK_NAME = 'dataset.xml'
+
 
 def get_latest_nc_file(full_path):
     '''
@@ -32,6 +35,7 @@ def get_latest_nc_file(full_path):
     print(max(list_of_files, key=os.path.getmtime))
     print("--------------")
     return max(list_of_files, key=os.path.getmtime)
+
 
 def get_latest_yml_file(full_path):
     '''
@@ -62,14 +66,11 @@ class IndividualCatalogCreatorFactory(BaseCreatorFactory):
         self.config = config
         self.data_root = data_root
 
-
-
     def get_dataset_chunk_path(self, deployment_dir):
         dataset_chunk_path = os.path.join(self.data_root, deployment_dir, DATASET_CHUNK_NAME)
         if not os.path.exists(dataset_chunk_path):
             return None
         return dataset_chunk_path
-
 
     def get_deployment_abs_path(self, deployment_dir):
         if not deployment_dir.startswith(self.data_root):
@@ -79,8 +80,6 @@ class IndividualCatalogCreatorFactory(BaseCreatorFactory):
     def skip_dataset(self):
         # when the database is stable, we don't want to update or check it again
         ...
-
-
 
     def get_last_run(self, last_run_path):
         if os.path.exists(last_run_path):
@@ -110,7 +109,8 @@ class IndividualCatalogCreatorFactory(BaseCreatorFactory):
         return 0
 
     def get_latest_related_file_modified_time(self, deployment_dir):
-        latest_yml_config_modified_time = self.get_latest_config_modified_time(self.get_latest_yml_config_folder(deployment_dir))
+        latest_yml_config_modified_time = self.get_latest_config_modified_time(
+            self.get_latest_yml_config_folder(deployment_dir))
         latest_nc_modified_time = self.get_latest_nc_file(deployment_dir)
         return max(latest_nc_modified_time, latest_yml_config_modified_time)
 
@@ -120,7 +120,8 @@ class IndividualCatalogCreatorFactory(BaseCreatorFactory):
         return last_m_time
 
     def detect_file_changes(self, deployment_dir):
-        return self.get_dataset_chunk_modified_time(deployment_dir) < self.get_latest_related_file_modified_time(deployment_dir)
+        return self.get_dataset_chunk_modified_time(deployment_dir) < self.get_latest_related_file_modified_time(
+            deployment_dir)
 
     def get_deployments_to_update_generator(self):
         # Go through all of the deployments and decide which deployment should be updated
@@ -151,7 +152,7 @@ class IndividualCatalogCreatorFactory(BaseCreatorFactory):
                     "delayed_mode": deployment.delayed_mode,
                     "latest_file": deployment.selected_file,
                     "platform_name": deployment.glider_name,
-                    "wmo_id":deployment.wmo_id
+                    "wmo_id": deployment.wmo_id
                 }
 
                 yield update_dict
@@ -167,7 +168,8 @@ class IndividualCatalogCreatorFactory(BaseCreatorFactory):
 
 
 class CatalogCreatorFactory(BaseCreatorFactory):
-    def __init__(self, data_root, catalog_root):
+    def __init__(self, individual_dataset_folder=app.config["INDIVIDUAL_DATASET_FOLDER"],
+                 erddap_dataset_xml=app.config["ERDDAP_DATASETS_XML"]):
         """
         Initialize the CatalogCreatorFactory.
 
@@ -175,10 +177,12 @@ class CatalogCreatorFactory(BaseCreatorFactory):
             data_root (str): Root path for the data directory.
             catalog_root (str): Root path for the catalog directory.
         """
-        self.data_root = data_root
-        self.head_path = os.path.join(template_dir, 'datasets.head.xml')
-        self.tail_path = os.path.join(template_dir, 'datasets.tail.xml')
-        self.catalog_root = catalog_root
+        self.individual_dataset_folder = individual_dataset_folder
+        self.erddap_dataset_xml = erddap_dataset_xml
+
+    def create_catalog_builder(self):
+        builder = BasicCatalogBuilder(self.individual_dataset_folder, self.erddap_dataset_xml)
+        return builder
 
     def generate(self):
         """
@@ -187,16 +191,6 @@ class CatalogCreatorFactory(BaseCreatorFactory):
         Returns:
             list: List of dictionaries containing deployment information.
         """
-        deployments_dict = []
-        deployments = Deployment.query.all()
-        for deployment in deployments:
-            dataset_chunk_path = os.path.join(self.data_root, deployment.deployment_dir, DATASET_CHUNK_NAME)
-            if os.path.isfile(dataset_chunk_path):
-                deployments_dict.append(
-                    {
-                        "dataset_chunk_path": dataset_chunk_path,
-                        "activate": deployment.activate,
-                        "name": deployment.name
-                    }
-                )
-        return CatalogGenerator(self.data_root, deployments_dict, self.head_path, self.tail_path, self.catalog_root)
+        builder = self.create_catalog_builder()
+        output_path = builder.build()
+        return output_path
