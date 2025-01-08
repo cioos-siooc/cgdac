@@ -175,5 +175,5 @@ class MetadataConventionAdvisor(BaseGlobalFormatAdvisor):
         return action_dict
 
     def fix_metadata_conventions(self) -> List[ActionDict]:
-        action_dict = self.add_or_edit_global_action_dict("Metadata_Conventions", 'CF-1.6, ACDD-1.3')
+        action_dict = self.add_or_edit_global_action_dict("Conventions", 'CF-1.6, ACDD-1.3')
         return [action_dict]

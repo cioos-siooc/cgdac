@@ -32,10 +32,10 @@ class DatasetCatalogModifyManager:
 
 
 class DatasetCatalogModifyManagerGenerator:
-    def __init__(self, dataset_draftxml_path, output_path, deployment_config, deployment_dict, dataset_dict):
+    def __init__(self, dataset_draft_xml_path, output_path, config, deployment_dict, dataset_dict):
         self._data_container = None
-        self.dataset_draft_xml_path = dataset_draftxml_path
-        self.deployment_config = deployment_config
+        self.dataset_draft_xml_path = dataset_draft_xml_path
+        self.config = config
         self.deployment_dict = deployment_dict
         self.dataset_dict = dataset_dict
         self.output_path = output_path

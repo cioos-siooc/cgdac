@@ -85,10 +85,10 @@ class AnalystFactory:
         self.analyst_list = None
 
     def generate(self):
-        header_analyst = HeaderAnalystFactory(self.dataset_xml_container, self.deployment_dict, self.dataset_dict)
-        config_analyst = ConfigAnalystFactory(self.dataset_xml_container, self.deployment_dict, self.dataset_dict)
-        global_analyst = GlobalAnalystFactory(self.dataset_xml_container, self.deployment_dict, self.dataset_dict)
+        header_analyst = HeaderAnalystFactory(self.dataset_xml_container, self.deployment_dict, self.dataset_dict).generate()
+        config_analyst = ConfigAnalystFactory(self.dataset_xml_container, self.deployment_dict, self.dataset_dict).generate()
+        global_analyst = GlobalAnalystFactory(self.dataset_xml_container, self.deployment_dict, self.dataset_dict).generate()
         data_variable_analyst = DataVariableAnalystFactory(self.dataset_xml_container, self.deployment_dict,
-                                                           self.dataset_dict)
+                                                           self.dataset_dict).generate()
         self.analyst_list = [header_analyst, config_analyst, data_variable_analyst, global_analyst]
         return self.analyst_list

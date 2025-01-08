@@ -4,4 +4,4 @@ It allows you to add, edit, or remove dataset global variables and individual va
 data convention standards.
 """
 
-from .dataset_catalog_modifier_manager import DatasetCatalogModifyManager
+from .dataset_catalog_modifier_manager import DatasetCatalogModifyManagerGenerator

@@ -38,12 +38,12 @@ Root
 Assuming you are working on test_crafter.py file
 
 ```python
-from DatasetsCatalogCrafter import DatasetsCrafter, DatasetsData
+from DatasetsCatalogCrafter import DatasetsCrafter, ErddapData
 
-individuals_datasets = "individuals_datasets"
+individuals_datasets_folder_path = "individuals_datasets"
 output_dir = "output"
-datasets_data = DatasetsData() # Empty for the default ERDDAP
-datasets_crafter = DatasetsCrafter(individuals_datasets, output_dir, datasets_data)
+datasets_data = ErddapData()  # Empty for the default ERDDAP
+datasets_crafter = DatasetsCrafter(individuals_datasets_folder_path, output_dir, datasets_data)
 datasets_crafter.build()
 ```
 
